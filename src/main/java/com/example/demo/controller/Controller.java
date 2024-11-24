@@ -35,6 +35,10 @@ public class Controller implements Observer {
 			myLevel.addObserver(this);
 			Scene scene = myLevel.initializeScene();
 			stage.setScene(scene);
+			// Weird workaround, but without these lines it crashes on KDE Wayland, similar to:
+			// https://forum.snapcraft.io/t/gl-framebuffer-error-crash/27142/2
+			stage.setWidth(stage.getWidth());
+			stage.setHeight(stage.getHeight());
 			myLevel.startGame();
 
 	}
