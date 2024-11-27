@@ -138,10 +138,10 @@ public abstract class LevelParent extends Observable {
 	}
 
 	private void updateActors() {
-		friendlyUnits.forEach(plane -> plane.updateActor());
-		enemyUnits.forEach(enemy -> enemy.updateActor());
-		userProjectiles.forEach(projectile -> projectile.updateActor());
-		enemyProjectiles.forEach(projectile -> projectile.updateActor());
+		friendlyUnits.forEach(plane -> plane.updateActor(MILLISECOND_DELAY));
+		enemyUnits.forEach(enemy -> enemy.updateActor(MILLISECOND_DELAY));
+		userProjectiles.forEach(projectile -> projectile.updateActor(MILLISECOND_DELAY));
+		enemyProjectiles.forEach(projectile -> projectile.updateActor(MILLISECOND_DELAY));
 	}
 
 	private void removeAllDestroyedActors() {

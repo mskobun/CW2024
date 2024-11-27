@@ -4,20 +4,20 @@ public class UserProjectile extends Projectile {
 
 	private static final String IMAGE_NAME = "userfire.png";
 	private static final int IMAGE_HEIGHT = 125;
-	private static final int HORIZONTAL_VELOCITY = 15;
+	private static final int HORIZONTAL_VELOCITY = 300;
 
 	public UserProjectile(double initialXPos, double initialYPos) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, initialXPos, initialYPos);
 	}
 
 	@Override
-	public void updatePosition() {
-		moveHorizontally(HORIZONTAL_VELOCITY);
+	public void updatePosition(int timeDelta) {
+		moveHorizontally(calculateMovement(HORIZONTAL_VELOCITY, timeDelta));
 	}
 	
 	@Override
-	public void updateActor() {
-		updatePosition();
+	public void updateActor(int timeDelta) {
+		updatePosition(timeDelta);
 	}
 	
 }

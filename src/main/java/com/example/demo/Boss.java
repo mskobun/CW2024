@@ -8,52 +8,58 @@ public class Boss extends FighterPlane {
 	private static final double INITIAL_X_POSITION = 1000.0;
 	private static final double INITIAL_Y_POSITION = 400;
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 75.0;
-	private static final double BOSS_FIRE_RATE = .04;
-	private static final double BOSS_SHIELD_PROBABILITY = .002;
+	private static final double BOSS_FIRE_PROBABILITY = 0.8;
+	private static final double BOSS_SHIELD_PROBABILITY = .04;
 	private static final int IMAGE_HEIGHT = 300;
-	private static final int VERTICAL_VELOCITY = 8;
+	private static final int VERTICAL_VELOCITY = 160;
 	private static final int HEALTH = 100;
 	private static final int MOVE_FREQUENCY_PER_CYCLE = 5;
 	private static final int ZERO = 0;
-	private static final int MAX_FRAMES_WITH_SAME_MOVE = 10;
+	private static final int MAX_DELTA_WITH_SAME_MOVE = 500;
 	private static final int Y_POSITION_UPPER_BOUND = -100;
 	private static final int Y_POSITION_LOWER_BOUND = 475;
-	private static final int MAX_FRAMES_WITH_SHIELD = 500;
+	private static final int MAX_DELTA_WITH_SHIELD = 2500;
 	private final List<Integer> movePattern;
 	private boolean isShielded;
-	private int consecutiveMovesInSameDirection;
+	private int sameDirectionMoveDelta;
 	private int indexOfCurrentMove;
-	private int framesWithShieldActivated;
+	private int shieldActivatedDelta;
+	private boolean fireProjectileThisFrame;
 
 	public Boss() {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, HEALTH);
 		movePattern = new ArrayList<>();
-		consecutiveMovesInSameDirection = 0;
+		sameDirectionMoveDelta = 0;
 		indexOfCurrentMove = 0;
-		framesWithShieldActivated = 0;
+		shieldActivatedDelta = 0;
 		isShielded = false;
+		fireProjectileThisFrame = false;
 		initializeMovePattern();
 	}
 
 	@Override
-	public void updatePosition() {
+	public void updatePosition(int timeDelta) {
 		double initialTranslateY = getTranslateY();
-		moveVertically(getNextMove());
+		moveVertically(calculateMovement(getNextMove(timeDelta), timeDelta));
 		double currentPosition = getLayoutY() + getTranslateY();
 		if (currentPosition < Y_POSITION_UPPER_BOUND || currentPosition > Y_POSITION_LOWER_BOUND) {
 			setTranslateY(initialTranslateY);
 		}
 	}
-	
+
+	public void updateFireProjectile(int timeDelta) {
+		fireProjectileThisFrame = evaluateProbability(BOSS_FIRE_PROBABILITY, timeDelta);
+	}
 	@Override
-	public void updateActor() {
-		updatePosition();
-		updateShield();
+	public void updateActor(int timeDelta) {
+		updatePosition(timeDelta);
+		updateShield(timeDelta);
+		updateFireProjectile(timeDelta);
 	}
 
 	@Override
 	public ActiveActorDestructible fireProjectile() {
-		return bossFiresInCurrentFrame() ? new BossProjectile(getProjectileInitialPosition()) : null;
+		return fireProjectileThisFrame ? new BossProjectile(getProjectileInitialPosition()) : null;
 	}
 	
 	@Override
@@ -72,18 +78,19 @@ public class Boss extends FighterPlane {
 		Collections.shuffle(movePattern);
 	}
 
-	private void updateShield() {
-		if (isShielded) framesWithShieldActivated++;
-		else if (shieldShouldBeActivated()) activateShield();	
+	private void updateShield(int timeDelta) {
+		if (isShielded) shieldActivatedDelta += timeDelta;
+		else if (shieldShouldBeActivated(timeDelta)) activateShield();
 		if (shieldExhausted()) deactivateShield();
 	}
 
-	private int getNextMove() {
+	private int getNextMove(int timeDelta) {
 		int currentMove = movePattern.get(indexOfCurrentMove);
-		consecutiveMovesInSameDirection++;
-		if (consecutiveMovesInSameDirection == MAX_FRAMES_WITH_SAME_MOVE) {
+		sameDirectionMoveDelta += timeDelta;
+
+		if (sameDirectionMoveDelta >= MAX_DELTA_WITH_SAME_MOVE) {
 			Collections.shuffle(movePattern);
-			consecutiveMovesInSameDirection = 0;
+			sameDirectionMoveDelta = 0;
 			indexOfCurrentMove++;
 		}
 		if (indexOfCurrentMove == movePattern.size()) {
@@ -92,20 +99,16 @@ public class Boss extends FighterPlane {
 		return currentMove;
 	}
 
-	private boolean bossFiresInCurrentFrame() {
-		return Math.random() < BOSS_FIRE_RATE;
-	}
-
 	private double getProjectileInitialPosition() {
 		return getLayoutY() + getTranslateY() + PROJECTILE_Y_POSITION_OFFSET;
 	}
 
-	private boolean shieldShouldBeActivated() {
-		return Math.random() < BOSS_SHIELD_PROBABILITY;
+	private boolean shieldShouldBeActivated(int timeDelta) {
+		return evaluateProbability(BOSS_SHIELD_PROBABILITY, timeDelta);
 	}
 
 	private boolean shieldExhausted() {
-		return framesWithShieldActivated == MAX_FRAMES_WITH_SHIELD;
+		return shieldActivatedDelta >= MAX_DELTA_WITH_SHIELD;
 	}
 
 	private void activateShield() {
@@ -114,7 +117,7 @@ public class Boss extends FighterPlane {
 
 	private void deactivateShield() {
 		isShielded = false;
-		framesWithShieldActivated = 0;
+		shieldActivatedDelta = 0;
 	}
 
 }

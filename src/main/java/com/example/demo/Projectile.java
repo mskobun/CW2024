@@ -12,6 +12,6 @@ public abstract class Projectile extends ActiveActorDestructible {
 	}
 
 	@Override
-	public abstract void updatePosition();
+	public abstract void updatePosition(int timeDelta);
 
 }

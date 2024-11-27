@@ -15,7 +15,7 @@ public abstract class ActiveActor extends ImageView {
 		this.setPreserveRatio(true);
 	}
 
-	public abstract void updatePosition();
+	public abstract void updatePosition(int timeDelta);
 
 	protected void moveHorizontally(double horizontalMove) {
 		this.setTranslateX(getTranslateX() + horizontalMove);
@@ -25,4 +25,15 @@ public abstract class ActiveActor extends ImageView {
 		this.setTranslateY(getTranslateY() + verticalMove);
 	}
 
+	protected double calculateMovement(double movementPerSecond, int timeDelta) {
+		return movementPerSecond * ((double) timeDelta / 1000.0);
+	}
+	protected double calculateProbability(double probabilityPerSecond, int timeDelta) {
+		return probabilityPerSecond * ((double) timeDelta / 1000.0);
+	}
+
+	protected boolean evaluateProbability(double probabilityPerSecond, int timeDelta) {
+		double adjustedProbability = calculateProbability(probabilityPerSecond, timeDelta);
+		return Math.random() < adjustedProbability;
+	}
 }
