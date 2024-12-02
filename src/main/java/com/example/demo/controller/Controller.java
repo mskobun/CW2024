@@ -2,20 +2,18 @@ package com.example.demo.controller;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Observable;
-import java.util.Observer;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import com.example.demo.LevelParent;
+import com.example.demo.level.AbstractLevel;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
 public class Controller implements LevelNavigator {
 
-	private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.LevelOne";
+	private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.level.LevelOne";
 	private final Stage stage;
 
 	public Controller(Stage stage) {
@@ -32,7 +30,7 @@ public class Controller implements LevelNavigator {
 		try {
 			Class<?> myClass = Class.forName(className);
 			Constructor<?> constructor = myClass.getConstructor(double.class, double.class, LevelNavigator.class);
-			LevelParent myLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth(), this);
+			AbstractLevel myLevel = (AbstractLevel) constructor.newInstance(stage.getHeight(), stage.getWidth(), this);
 			Scene scene = myLevel.initializeScene();
 			stage.setScene(scene);
 			// Weird workaround, but without these lines it crashes on KDE Wayland, similar to:

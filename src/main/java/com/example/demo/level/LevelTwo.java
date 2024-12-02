@@ -1,8 +1,11 @@
-package com.example.demo;
+package com.example.demo.level;
 
+import com.example.demo.ui.LevelView;
+import com.example.demo.ui.LevelViewLevelTwo;
 import com.example.demo.controller.LevelNavigator;
+import com.example.demo.entities.Boss;
 
-public class LevelTwo extends LevelParent {
+public class LevelTwo extends AbstractLevel {
 
 	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background2.jpg";
 	private static final int PLAYER_INITIAL_HEALTH = 5;
