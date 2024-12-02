@@ -13,7 +13,7 @@ import com.example.demo.LevelParent;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-public class Controller implements Observer {
+public class Controller implements LevelNavigator {
 
 	private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.LevelOne";
 	private final Stage stage;
@@ -22,19 +22,17 @@ public class Controller implements Observer {
 		this.stage = stage;
 	}
 
-	public void launchGame() throws ClassNotFoundException, NoSuchMethodException, SecurityException,
-			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
-
+	public void launchGame() {
 			stage.show();
 			goToLevel(LEVEL_ONE_CLASS_NAME);
 	}
 
-	private void goToLevel(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
-			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	@Override
+	public void goToLevel(String className) {
+		try {
 			Class<?> myClass = Class.forName(className);
-			Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
-			LevelParent myLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth());
-			myLevel.addObserver(this);
+			Constructor<?> constructor = myClass.getConstructor(double.class, double.class, LevelNavigator.class);
+			LevelParent myLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth(), this);
 			Scene scene = myLevel.initializeScene();
 			stage.setScene(scene);
 			// Weird workaround, but without these lines it crashes on KDE Wayland, similar to:
@@ -42,7 +40,9 @@ public class Controller implements Observer {
 			stage.setWidth(stage.getWidth());
 			stage.setHeight(stage.getHeight());
 			myLevel.startGame();
-
+		} catch (Throwable e) {
+			fatalError(e);
+		}
 	}
 
 	private String getThrowableStr(Throwable e) {
@@ -70,17 +70,4 @@ public class Controller implements Observer {
 		alert.show();
 		stage.close();
 	}
-
-	// TODO: If an error occurs, it will turn into endless alert spam since the loop is not stopped.
-	// Find a way to stop the loop but also show a nice error window to the user.
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		try {
-			goToLevel((String) arg1);
-		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
-				| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			fatalError(e);
-		}
-	}
-
 }
