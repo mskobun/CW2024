@@ -1,8 +1,12 @@
-package com.example.demo;
+package com.example.demo.level;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.example.demo.entities.ActiveActorDestructible;
+import com.example.demo.entities.FighterPlane;
+import com.example.demo.ui.LevelView;
+import com.example.demo.entities.UserPlane;
 import com.example.demo.controller.LevelNavigator;
 import javafx.animation.*;
 import javafx.event.EventHandler;
@@ -12,7 +16,7 @@ import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.util.Duration;
 
-public abstract class LevelParent {
+public abstract class AbstractLevel {
 
 	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
 	private static final int MILLISECOND_DELAY = 10;
@@ -35,7 +39,7 @@ public abstract class LevelParent {
 	private int currentNumberOfEnemies;
 	private LevelView levelView;
 
-	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth, LevelNavigator levelNavigator) {
+	public AbstractLevel(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth, LevelNavigator levelNavigator) {
 		this.root = new Group();
 		this.scene = new Scene(root, screenWidth, screenHeight);
 		this.timeline = new Timeline();
