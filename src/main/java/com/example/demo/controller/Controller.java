@@ -3,6 +3,9 @@ package com.example.demo.controller;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import com.example.demo.level.LevelFactory;
+import com.example.demo.level.LevelNavigator;
+import com.example.demo.level.LevelType;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -13,24 +16,22 @@ import java.io.StringWriter;
 
 public class Controller implements LevelNavigator {
 
-	private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.level.LevelOne";
 	private final Stage stage;
-
+	private final LevelFactory levelFactory;
 	public Controller(Stage stage) {
 		this.stage = stage;
+		levelFactory = new LevelFactory(this);
 	}
 
 	public void launchGame() {
 			stage.show();
-			goToLevel(LEVEL_ONE_CLASS_NAME);
+			goToLevel(LevelType.LEVEL_ONE);
 	}
 
 	@Override
-	public void goToLevel(String className) {
+	public void goToLevel(LevelType levelType) {
 		try {
-			Class<?> myClass = Class.forName(className);
-			Constructor<?> constructor = myClass.getConstructor(double.class, double.class, LevelNavigator.class);
-			AbstractLevel myLevel = (AbstractLevel) constructor.newInstance(stage.getHeight(), stage.getWidth(), this);
+			AbstractLevel myLevel = levelFactory.createLevel(levelType, stage.getHeight(), stage.getWidth());
 			Scene scene = myLevel.initializeScene();
 			stage.setScene(scene);
 			// Weird workaround, but without these lines it crashes on KDE Wayland, similar to:
@@ -49,7 +50,7 @@ public class Controller implements LevelNavigator {
 		String exceptionString = sw.toString();
 
 		if (e instanceof InvocationTargetException) {
-			Throwable cause = ((InvocationTargetException) e).getCause();
+			Throwable cause = e.getCause();
 			exceptionString += "Caused by:\n" + getThrowableStr(cause);
 		}
 

@@ -2,7 +2,6 @@ package com.example.demo.level;
 
 import com.example.demo.ui.LevelView;
 import com.example.demo.ui.LevelViewLevelTwo;
-import com.example.demo.controller.LevelNavigator;
 import com.example.demo.entities.Boss;
 
 public class LevelTwo extends AbstractLevel {

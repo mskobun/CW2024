@@ -7,7 +7,6 @@ import com.example.demo.entities.ActiveActorDestructible;
 import com.example.demo.entities.FighterPlane;
 import com.example.demo.ui.LevelView;
 import com.example.demo.entities.UserPlane;
-import com.example.demo.controller.LevelNavigator;
 import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -80,9 +79,9 @@ public abstract class AbstractLevel {
 		timeline.play();
 	}
 
-	public void goToNextLevel(String levelName) {
+	public void goToNextLevel(LevelType levelType) {
 		timeline.stop();
-		levelNavigator.goToLevel(levelName);
+		levelNavigator.goToLevel(levelType);
 	}
 
 	private void updateScene() {
