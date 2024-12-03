@@ -8,8 +8,8 @@ public class EnemyPlane extends FighterPlane {
 	private static final double PROJECTILE_X_POSITION_OFFSET = -100.0;
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 20.0;
 	private static final int INITIAL_HEALTH = 1;
-	private static final double FIRE_PROBABILITY = .2;
 	private boolean fireProjectileThisFrame = false;
+	private final Probability fireProbability = new Probability(0.2);
 
 	public EnemyPlane(double initialXPos, double initialYPos) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, initialXPos, initialYPos, INITIAL_HEALTH);
@@ -31,7 +31,7 @@ public class EnemyPlane extends FighterPlane {
 	}
 
 	public void updateFireProjectile(int timeDelta) {
-		fireProjectileThisFrame = evaluateProbability(FIRE_PROBABILITY, timeDelta);
+		fireProjectileThisFrame = fireProbability.evaluate(timeDelta);
 	}
 	@Override
 	public void updateActor(int timeDelta) {

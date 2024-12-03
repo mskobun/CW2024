@@ -28,12 +28,4 @@ public abstract class ActiveActor extends ImageView {
 	protected double calculateMovement(double movementPerSecond, int timeDelta) {
 		return movementPerSecond * ((double) timeDelta / 1000.0);
 	}
-	protected double calculateProbability(double probabilityPerSecond, int timeDelta) {
-		return probabilityPerSecond * ((double) timeDelta / 1000.0);
-	}
-
-	protected boolean evaluateProbability(double probabilityPerSecond, int timeDelta) {
-		double adjustedProbability = calculateProbability(probabilityPerSecond, timeDelta);
-		return Math.random() < adjustedProbability;
-	}
 }

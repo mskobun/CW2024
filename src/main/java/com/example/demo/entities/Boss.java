@@ -8,8 +8,6 @@ public class Boss extends FighterPlane {
 	private static final double INITIAL_X_POSITION = 1000.0;
 	private static final double INITIAL_Y_POSITION = 400;
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 0;
-	private static final double BOSS_FIRE_PROBABILITY = 0.8;
-	private static final double BOSS_SHIELD_PROBABILITY = .04;
 	private static final int IMAGE_HEIGHT = 56;
 	private static final int VERTICAL_VELOCITY = 160;
 	private static final int HEALTH = 100;
@@ -25,6 +23,8 @@ public class Boss extends FighterPlane {
 	private int indexOfCurrentMove;
 	private int shieldActivatedDelta;
 	private boolean fireProjectileThisFrame;
+	private final Probability fireProbability = new Probability(0.8);
+	private final Probability shieldProbability = new Probability(0.04);
 
 	public Boss() {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, HEALTH);
@@ -48,7 +48,7 @@ public class Boss extends FighterPlane {
 	}
 
 	public void updateFireProjectile(int timeDelta) {
-		fireProjectileThisFrame = evaluateProbability(BOSS_FIRE_PROBABILITY, timeDelta);
+		fireProjectileThisFrame = fireProbability.evaluate(timeDelta);
 	}
 	@Override
 	public void updateActor(int timeDelta) {
@@ -104,7 +104,7 @@ public class Boss extends FighterPlane {
 	}
 
 	private boolean shieldShouldBeActivated(int timeDelta) {
-		return evaluateProbability(BOSS_SHIELD_PROBABILITY, timeDelta);
+		return shieldProbability.evaluate(timeDelta);
 	}
 
 	private boolean shieldExhausted() {
