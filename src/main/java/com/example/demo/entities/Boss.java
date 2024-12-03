@@ -7,6 +7,8 @@ public class Boss extends FighterPlane {
 	private static final String IMAGE_NAME = "bossplane.png";
 	private static final double INITIAL_X_POSITION = 1000.0;
 	private static final double INITIAL_Y_POSITION = 400;
+	private static final double SHIELD_X_OFFSET = -150;
+	private static final double SHIELD_Y_OFFSET = -50;
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 0;
 	private static final int IMAGE_HEIGHT = 56;
 	private static final int VERTICAL_VELOCITY = 160;
@@ -25,6 +27,7 @@ public class Boss extends FighterPlane {
 	private boolean fireProjectileThisFrame;
 	private final Probability fireProbability = new Probability(0.8);
 	private final Probability shieldProbability = new Probability(0.04);
+	private final ShieldImage shield;
 
 	public Boss() {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, HEALTH);
@@ -34,7 +37,12 @@ public class Boss extends FighterPlane {
 		shieldActivatedDelta = 0;
 		isShielded = false;
 		fireProjectileThisFrame = false;
+		this.shield = new ShieldImage(INITIAL_X_POSITION + SHIELD_X_OFFSET, INITIAL_Y_POSITION + SHIELD_Y_OFFSET);
 		initializeMovePattern();
+	}
+
+	public ShieldImage getShield() {
+		return shield;
 	}
 
 	@Override
@@ -44,16 +52,21 @@ public class Boss extends FighterPlane {
 		double currentPosition = getLayoutY() + getTranslateY();
 		if (currentPosition < Y_POSITION_UPPER_BOUND || currentPosition > Y_POSITION_LOWER_BOUND) {
 			setTranslateY(initialTranslateY);
+		} else {
+			updateShieldPosition(getTranslateY());
 		}
 	}
 
+	private void updateShieldPosition(double currentTranslateY) {
+		shield.setTranslateY(currentTranslateY);
+	}
 	public void updateFireProjectile(int timeDelta) {
 		fireProjectileThisFrame = fireProbability.evaluate(timeDelta);
 	}
 	@Override
 	public void updateActor(int timeDelta) {
 		updatePosition(timeDelta);
-		updateShield(timeDelta);
+		updateShieldActivation(timeDelta);
 		updateFireProjectile(timeDelta);
 	}
 
@@ -78,7 +91,7 @@ public class Boss extends FighterPlane {
 		Collections.shuffle(movePattern);
 	}
 
-	private void updateShield(int timeDelta) {
+	private void updateShieldActivation(int timeDelta) {
 		if (isShielded) shieldActivatedDelta += timeDelta;
 		else if (shieldShouldBeActivated(timeDelta)) activateShield();
 		if (shieldExhausted()) deactivateShield();
@@ -113,11 +126,12 @@ public class Boss extends FighterPlane {
 
 	private void activateShield() {
 		isShielded = true;
+		shield.showShield();
 	}
 
 	private void deactivateShield() {
+		shield.hideShield();
 		isShielded = false;
 		shieldActivatedDelta = 0;
 	}
-
 }
