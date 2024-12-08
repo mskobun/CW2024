@@ -3,6 +3,7 @@ package com.example.demo.level;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.example.demo.entities.ActiveActor;
 import com.example.demo.entities.ActiveActorDestructible;
 import com.example.demo.entities.FighterPlane;
 import com.example.demo.ui.LevelView;
@@ -10,9 +11,11 @@ import com.example.demo.entities.UserPlane;
 import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 public abstract class AbstractLevel {
@@ -23,10 +26,9 @@ public abstract class AbstractLevel {
 	private final double screenWidth;
 	private final double enemyMaximumYPosition;
 
-	private final Group root;
+	private final SceneManager sceneManager;
 	private final Timeline timeline;
 	private final UserPlane user;
-	private final Scene scene;
 	private final ImageView background;
 
 	private final List<ActiveActorDestructible> friendlyUnits;
@@ -39,8 +41,7 @@ public abstract class AbstractLevel {
 	private LevelView levelView;
 
 	public AbstractLevel(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth, LevelNavigator levelNavigator) {
-		this.root = new Group();
-		this.scene = new Scene(root, screenWidth, screenHeight);
+		this.sceneManager = new SceneManager(screenHeight, screenWidth);
 		this.timeline = new Timeline();
 		this.user = new UserPlane(playerInitialHealth);
 		this.friendlyUnits = new ArrayList<>();
@@ -71,7 +72,7 @@ public abstract class AbstractLevel {
 		initializeBackground();
 		initializeFriendlyUnits();
 		levelView.showHeartDisplay();
-		return scene;
+		return sceneManager.getScene();
 	}
 
 	public void startGame() {
@@ -82,6 +83,10 @@ public abstract class AbstractLevel {
 	public void goToNextLevel(LevelType levelType) {
 		timeline.stop();
 		levelNavigator.goToLevel(levelType);
+	}
+
+	public SceneManager getSceneManager() {
+		return sceneManager;
 	}
 
 	private void updateScene() {
@@ -127,12 +132,16 @@ public abstract class AbstractLevel {
 				if (kc == KeyCode.UP || kc == KeyCode.DOWN) user.stop();
 			}
 		});
-		root.getChildren().add(background);
+		sceneManager.getBackgroundLayer().getChildren().addAll(background);
+	}
+
+	public void addNode(Node node) {
+		sceneManager.getEntityLayer().getChildren().add(node);
 	}
 
 	private void fireProjectile() {
 		ActiveActorDestructible projectile = user.fireProjectile();
-		root.getChildren().add(projectile);
+		addNode(projectile);
 		userProjectiles.add(projectile);
 	}
 
@@ -142,7 +151,7 @@ public abstract class AbstractLevel {
 
 	private void spawnEnemyProjectile(ActiveActorDestructible projectile) {
 		if (projectile != null) {
-			root.getChildren().add(projectile);
+			addNode(projectile);
 			enemyProjectiles.add(projectile);
 		}
 	}
@@ -164,7 +173,7 @@ public abstract class AbstractLevel {
 	private void removeDestroyedActors(List<ActiveActorDestructible> actors) {
 		List<ActiveActorDestructible> destroyedActors = actors.stream().filter(actor -> actor.isDestroyed())
 				.collect(Collectors.toList());
-		root.getChildren().removeAll(destroyedActors);
+		sceneManager.getEntityLayer().getChildren().removeAll(destroyedActors);
 		actors.removeAll(destroyedActors);
 	}
 
@@ -229,17 +238,13 @@ public abstract class AbstractLevel {
 		return user;
 	}
 
-	protected Group getRoot() {
-		return root;
-	}
-
 	protected int getCurrentNumberOfEnemies() {
 		return enemyUnits.size();
 	}
 
 	protected void addEnemyUnit(ActiveActorDestructible enemy) {
 		enemyUnits.add(enemy);
-		root.getChildren().add(enemy);
+		addNode(enemy);
 	}
 
 	protected double getEnemyMaximumYPosition() {

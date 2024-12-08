@@ -28,7 +28,7 @@ public class LevelOne extends AbstractLevel {
 
 	@Override
 	protected void initializeFriendlyUnits() {
-		getRoot().getChildren().add(getUser());
+		addNode(getUser());
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class LevelOne extends AbstractLevel {
 
 	@Override
 	protected LevelView instantiateLevelView() {
-		return new LevelView(getRoot(), PLAYER_INITIAL_HEALTH);
+		return new LevelView(getSceneManager().getUILayer(), PLAYER_INITIAL_HEALTH);
 	}
 
 	private boolean userHasReachedKillTarget() {

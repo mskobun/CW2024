@@ -16,7 +16,7 @@ public class LevelTwo extends AbstractLevel {
 
 	@Override
 	protected void initializeFriendlyUnits() {
-		getRoot().getChildren().add(getUser());
+		addNode(getUser());
 	}
 
 	@Override
@@ -33,12 +33,12 @@ public class LevelTwo extends AbstractLevel {
 	protected void spawnEnemyUnits() {
 		if (getCurrentNumberOfEnemies() == 0) {
 			addEnemyUnit(boss);
-			getRoot().getChildren().add(boss.getShield());
+			addNode(boss.getShield());
 		}
 	}
 
 	@Override
 	protected LevelView instantiateLevelView() {
-		return new LevelView(getRoot(), PLAYER_INITIAL_HEALTH);
+		return new LevelView(getSceneManager().getUILayer(), PLAYER_INITIAL_HEALTH);
 	}
 }
