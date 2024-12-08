@@ -16,6 +16,11 @@ public class EnemyPlane extends FighterPlane {
 	}
 
 	@Override
+	public ActorType getActorType() {
+		return ActorType.ENEMY_UNIT;
+	}
+
+	@Override
 	public void updatePosition(int timeDelta) {
 		moveHorizontally(calculateMovement(HORIZONTAL_VELOCITY, timeDelta));
 	}

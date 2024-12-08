@@ -15,6 +15,8 @@ public abstract class ActiveActor extends ImageView {
 		this.setPreserveRatio(true);
 	}
 
+	public abstract ActorType getActorType();
+
 	public abstract void updatePosition(int timeDelta);
 
 	protected void moveHorizontally(double horizontalMove) {

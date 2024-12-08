@@ -41,6 +41,11 @@ public class Boss extends FighterPlane {
 		initializeMovePattern();
 	}
 
+	@Override
+	public ActorType getActorType() {
+		return ActorType.ENEMY_UNIT;
+	}
+
 	public ShieldImage getShield() {
 		return shield;
 	}

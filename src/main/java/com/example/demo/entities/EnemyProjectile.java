@@ -11,6 +11,11 @@ public class EnemyProjectile extends Projectile {
 	}
 
 	@Override
+	public ActorType getActorType() {
+		return ActorType.ENEMY_PROJECTILE;
+	}
+
+	@Override
 	public void updatePosition(int timeDelta) {
 		moveHorizontally(calculateMovement(HORIZONTAL_VELOCITY, timeDelta));
 	}

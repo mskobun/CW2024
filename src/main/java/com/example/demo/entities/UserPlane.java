@@ -42,6 +42,11 @@ public class UserPlane extends FighterPlane {
 		return new UserProjectile(PROJECTILE_X_POSITION, getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET));
 	}
 
+	@Override
+	public ActorType getActorType() {
+		return ActorType.FRIENDLY_UNIT;
+	}
+
 	private boolean isMoving() {
 		return velocityMultiplier != 0;
 	}
