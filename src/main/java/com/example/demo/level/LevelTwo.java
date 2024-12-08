@@ -16,7 +16,7 @@ public class LevelTwo extends AbstractLevel {
 
 	@Override
 	protected void initializeFriendlyUnits() {
-		addNode(getUser());
+		addActor(getUser());
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class LevelTwo extends AbstractLevel {
 	@Override
 	protected void spawnEnemyUnits() {
 		if (getCurrentNumberOfEnemies() == 0) {
-			addEnemyUnit(boss);
+			addActor(boss);
 			addNode(boss.getShield());
 		}
 	}

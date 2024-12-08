@@ -28,7 +28,7 @@ public class LevelOne extends AbstractLevel {
 
 	@Override
 	protected void initializeFriendlyUnits() {
-		addNode(getUser());
+		addActor(getUser());
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class LevelOne extends AbstractLevel {
 			if (Math.random() < ENEMY_SPAWN_PROBABILITY) {
 				double newEnemyInitialYPosition = Math.random() * getEnemyMaximumYPosition();
 				ActiveActorDestructible newEnemy = new EnemyPlane(getScreenWidth(), newEnemyInitialYPosition);
-				addEnemyUnit(newEnemy);
+				addActor(newEnemy);
 			}
 		}
 	}
@@ -51,5 +51,4 @@ public class LevelOne extends AbstractLevel {
 	private boolean userHasReachedKillTarget() {
 		return getUser().getNumberOfKills() >= KILLS_TO_ADVANCE;
 	}
-
 }

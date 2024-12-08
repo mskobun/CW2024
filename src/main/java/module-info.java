@@ -10,4 +10,6 @@ module com.example.demo {
     exports com.example.demo.level;
     exports com.example.demo.entities;
     exports com.example.demo.ui;
+    exports com.example.demo.level.manager;
+    opens com.example.demo.level.manager to javafx.fxml;
 }

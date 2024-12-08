@@ -1,21 +1,18 @@
 package com.example.demo.level;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
-import com.example.demo.entities.ActiveActor;
 import com.example.demo.entities.ActiveActorDestructible;
-import com.example.demo.entities.FighterPlane;
+import com.example.demo.level.manager.ActorManager;
+import com.example.demo.level.manager.SceneManager;
 import com.example.demo.ui.LevelView;
 import com.example.demo.entities.UserPlane;
 import javafx.animation.*;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
-import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 public abstract class AbstractLevel {
@@ -27,14 +24,10 @@ public abstract class AbstractLevel {
 	private final double enemyMaximumYPosition;
 
 	private final SceneManager sceneManager;
+	private final ActorManager actorManager;
 	private final Timeline timeline;
 	private final UserPlane user;
 	private final ImageView background;
-
-	private final List<ActiveActorDestructible> friendlyUnits;
-	private final List<ActiveActorDestructible> enemyUnits;
-	private final List<ActiveActorDestructible> userProjectiles;
-	private final List<ActiveActorDestructible> enemyProjectiles;
 
 	private LevelNavigator levelNavigator;
 	private int currentNumberOfEnemies;
@@ -42,13 +35,10 @@ public abstract class AbstractLevel {
 
 	public AbstractLevel(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth, LevelNavigator levelNavigator) {
 		this.sceneManager = new SceneManager(screenHeight, screenWidth);
+		this.actorManager = new ActorManager();
+		actorManager.addListener(sceneManager);
 		this.timeline = new Timeline();
 		this.user = new UserPlane(playerInitialHealth);
-		this.friendlyUnits = new ArrayList<>();
-		this.enemyUnits = new ArrayList<>();
-		this.userProjectiles = new ArrayList<>();
-		this.enemyProjectiles = new ArrayList<>();
-
 		this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
 		this.screenHeight = screenHeight;
 		this.screenWidth = screenWidth;
@@ -57,7 +47,6 @@ public abstract class AbstractLevel {
 		this.currentNumberOfEnemies = 0;
 		this.levelNavigator = levelNavigator;
 		initializeTimeline();
-		friendlyUnits.add(user);
 	}
 
 	protected abstract void initializeFriendlyUnits();
@@ -89,17 +78,15 @@ public abstract class AbstractLevel {
 		return sceneManager;
 	}
 
+	public ActorManager getActorManager() {
+		return actorManager;
+	}
 	private void updateScene() {
 		spawnEnemyUnits();
 		updateActors();
-		generateEnemyFire();
-		updateNumberOfEnemies();
 		handleEnemyPenetration();
-		handleUserProjectileCollisions();
-		handleEnemyProjectileCollisions();
-		handlePlaneCollisions();
-		removeAllDestroyedActors();
 		updateKillCount();
+		updateNumberOfEnemies();
 		updateLevelView();
 		checkIfGameOver();
 	}
@@ -135,79 +122,31 @@ public abstract class AbstractLevel {
 		sceneManager.getBackgroundLayer().getChildren().addAll(background);
 	}
 
+	public void addActor(ActiveActorDestructible actor) {
+		actorManager.addActor(actor);
+	}
+
 	public void addNode(Node node) {
 		sceneManager.getEntityLayer().getChildren().add(node);
 	}
 
 	private void fireProjectile() {
 		ActiveActorDestructible projectile = user.fireProjectile();
-		addNode(projectile);
-		userProjectiles.add(projectile);
-	}
-
-	private void generateEnemyFire() {
-		enemyUnits.forEach(enemy -> spawnEnemyProjectile(((FighterPlane) enemy).fireProjectile()));
-	}
-
-	private void spawnEnemyProjectile(ActiveActorDestructible projectile) {
-		if (projectile != null) {
-			addNode(projectile);
-			enemyProjectiles.add(projectile);
-		}
+		addActor(projectile);
 	}
 
 	private void updateActors() {
-		friendlyUnits.forEach(plane -> plane.updateActor(MILLISECOND_DELAY));
-		enemyUnits.forEach(enemy -> enemy.updateActor(MILLISECOND_DELAY));
-		userProjectiles.forEach(projectile -> projectile.updateActor(MILLISECOND_DELAY));
-		enemyProjectiles.forEach(projectile -> projectile.updateActor(MILLISECOND_DELAY));
-	}
-
-	private void removeAllDestroyedActors() {
-		removeDestroyedActors(friendlyUnits);
-		removeDestroyedActors(enemyUnits);
-		removeDestroyedActors(userProjectiles);
-		removeDestroyedActors(enemyProjectiles);
-	}
-
-	private void removeDestroyedActors(List<ActiveActorDestructible> actors) {
-		List<ActiveActorDestructible> destroyedActors = actors.stream().filter(actor -> actor.isDestroyed())
-				.collect(Collectors.toList());
-		sceneManager.getEntityLayer().getChildren().removeAll(destroyedActors);
-		actors.removeAll(destroyedActors);
-	}
-
-	private void handlePlaneCollisions() {
-		handleCollisions(friendlyUnits, enemyUnits);
-	}
-
-	private void handleUserProjectileCollisions() {
-		handleCollisions(userProjectiles, enemyUnits);
-	}
-
-	private void handleEnemyProjectileCollisions() {
-		handleCollisions(enemyProjectiles, friendlyUnits);
-	}
-
-	private void handleCollisions(List<ActiveActorDestructible> actors1,
-			List<ActiveActorDestructible> actors2) {
-		for (ActiveActorDestructible actor : actors2) {
-			for (ActiveActorDestructible otherActor : actors1) {
-				if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
-					actor.takeDamage();
-					otherActor.takeDamage();
-				}
-			}
-		}
+		actorManager.updateActors(MILLISECOND_DELAY);
 	}
 
 	private void handleEnemyPenetration() {
-		for (ActiveActorDestructible enemy : enemyUnits) {
-			if (enemyHasPenetratedDefenses(enemy)) {
-				user.takeDamage();
-				enemy.destroy();
-			}
-		}
+        for (Iterator<ActiveActorDestructible> it = actorManager.getEnemies(); it.hasNext(); ) {
+            ActiveActorDestructible enemy = it.next();
+            if (enemyHasPenetratedDefenses(enemy)) {
+                user.takeDamage();
+                enemy.destroy();
+            }
+        }
 	}
 
 	private void updateLevelView() {
@@ -215,7 +154,7 @@ public abstract class AbstractLevel {
 	}
 
 	private void updateKillCount() {
-		for (int i = 0; i < currentNumberOfEnemies - enemyUnits.size(); i++) {
+		for (int i = 0; i < currentNumberOfEnemies - actorManager.getNumberOfEnemies(); i++) {
 			user.incrementKillCount();
 		}
 	}
@@ -238,15 +177,6 @@ public abstract class AbstractLevel {
 		return user;
 	}
 
-	protected int getCurrentNumberOfEnemies() {
-		return enemyUnits.size();
-	}
-
-	protected void addEnemyUnit(ActiveActorDestructible enemy) {
-		enemyUnits.add(enemy);
-		addNode(enemy);
-	}
-
 	protected double getEnemyMaximumYPosition() {
 		return enemyMaximumYPosition;
 	}
@@ -260,7 +190,10 @@ public abstract class AbstractLevel {
 	}
 
 	private void updateNumberOfEnemies() {
-		currentNumberOfEnemies = enemyUnits.size();
+		currentNumberOfEnemies = actorManager.getNumberOfEnemies();
 	}
 
+	protected int getCurrentNumberOfEnemies() {
+		return actorManager.getNumberOfEnemies();
+	}
 }
