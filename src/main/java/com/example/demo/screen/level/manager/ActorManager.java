@@ -1,9 +1,8 @@
-package com.example.demo.level.manager;
+package com.example.demo.screen.level.manager;
 
 import com.example.demo.entities.ActiveActor;
 import com.example.demo.entities.ActiveActorDestructible;
 import com.example.demo.entities.FighterPlane;
-import javafx.scene.Group;
 
 import java.util.ArrayList;
 import java.util.Collections;

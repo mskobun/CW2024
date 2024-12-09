@@ -1,20 +1,21 @@
-package com.example.demo.level;
+package com.example.demo.screen.level;
 
 import com.example.demo.entities.ActiveActorDestructible;
 import com.example.demo.entities.EnemyPlane;
-import com.example.demo.ui.LevelView;
+import com.example.demo.screen.ScreenNavigator;
+import com.example.demo.screen.ScreenType;
 
 public class LevelOne extends AbstractLevel {
 	
 	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background1.jpg";
-	private static final LevelType NEXT_LEVEL = LevelType.LEVEL_TWO;
+	private static final ScreenType NEXT_LEVEL = ScreenType.LEVEL_TWO;
 	private static final int TOTAL_ENEMIES = 5;
 	private static final int KILLS_TO_ADVANCE = 10;
 	private static final double ENEMY_SPAWN_PROBABILITY = .20;
 	private static final int PLAYER_INITIAL_HEALTH = 5;
 
-	public LevelOne(double screenHeight, double screenWidth, LevelNavigator levelNavigator) {
-		super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, levelNavigator);
+	public LevelOne(double screenHeight, double screenWidth, ScreenNavigator screenNavigator) {
+		super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, screenNavigator);
 	}
 
 	@Override
@@ -23,7 +24,7 @@ public class LevelOne extends AbstractLevel {
 			loseGame();
 		}
 		else if (userHasReachedKillTarget())
-			goToNextLevel(NEXT_LEVEL);
+			goToScreen(NEXT_LEVEL);
 	}
 
 	@Override

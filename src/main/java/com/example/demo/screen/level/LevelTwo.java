@@ -1,5 +1,6 @@
-package com.example.demo.level;
+package com.example.demo.screen.level;
 
+import com.example.demo.screen.ScreenNavigator;
 import com.example.demo.ui.LevelView;
 import com.example.demo.entities.Boss;
 
@@ -10,8 +11,8 @@ public class LevelTwo extends AbstractLevel {
 	private final Boss boss;
 	private LevelView levelView;
 
-	public LevelTwo(double screenHeight, double screenWidth, LevelNavigator levelNavigator) {
-		super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, levelNavigator);
+	public LevelTwo(double screenHeight, double screenWidth, ScreenNavigator screenNavigator) {
+		super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, screenNavigator);
 		boss = new Boss();
 	}
 
@@ -45,7 +46,7 @@ public class LevelTwo extends AbstractLevel {
 	}
 	@Override
 	protected LevelView instantiateLevelView() {
-		this.levelView = new LevelView(getSceneManager().getUILayer());
+		this.levelView = new LevelView(getLayerManager().getUILayer());
 		return this.levelView;
 	}
 }

@@ -1,4 +1,4 @@
-package com.example.demo.level.manager;
+package com.example.demo.screen.level.manager;
 
 import com.example.demo.entities.ActiveActor;
 

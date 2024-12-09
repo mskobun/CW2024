@@ -1,20 +1,19 @@
 package com.example.demo.controller;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import com.example.demo.level.LevelFactory;
-import com.example.demo.level.LevelNavigator;
-import com.example.demo.level.LevelType;
+import com.example.demo.screen.level.LevelFactory;
+import com.example.demo.screen.ScreenNavigator;
+import com.example.demo.screen.ScreenType;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import com.example.demo.level.AbstractLevel;
+import com.example.demo.screen.level.AbstractLevel;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-public class Controller implements LevelNavigator {
+public class Controller implements ScreenNavigator {
 
 	private final Stage stage;
 	private final LevelFactory levelFactory;
@@ -25,20 +24,20 @@ public class Controller implements LevelNavigator {
 
 	public void launchGame() {
 			stage.show();
-			goToLevel(LevelType.LEVEL_ONE);
+			goToScreen(ScreenType.LEVEL_ONE);
 	}
 
 	@Override
-	public void goToLevel(LevelType levelType) {
+	public void goToScreen(ScreenType screenType) {
 		try {
-			AbstractLevel myLevel = levelFactory.createLevel(levelType, stage.getHeight(), stage.getWidth());
-			Scene scene = myLevel.initializeScene();
+			AbstractLevel myLevel = levelFactory.createLevel(screenType, Main.SCREEN_HEIGHT, Main.SCREEN_WIDTH);
+			Scene scene = myLevel.getScene();
 			stage.setScene(scene);
 			// Weird workaround, but without these lines it crashes on KDE Wayland, similar to:
 			// https://forum.snapcraft.io/t/gl-framebuffer-error-crash/27142/2
 			stage.setWidth(stage.getWidth());
 			stage.setHeight(stage.getHeight());
-			myLevel.startGame();
+			myLevel.startLoop();
 		} catch (Throwable e) {
 			fatalError(e);
 		}

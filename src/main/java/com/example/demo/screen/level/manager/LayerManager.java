@@ -1,27 +1,21 @@
-package com.example.demo.level.manager;
+package com.example.demo.screen.level.manager;
 
 import com.example.demo.entities.ActiveActor;
 import javafx.scene.Group;
-import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 
-public class SceneManager implements ActorEventListener {
+public class LayerManager implements ActorEventListener {
     private Group backgroundLayer;
     private Group entityLayer;
     private Group UILayer;
-    private Group root;
-    private Scene scene;
+    private Pane root;
 
-    public SceneManager(double height, double width) {
-        this.root = new Group();
+    public LayerManager(Pane root) {
+        this.root = root;
         this.backgroundLayer = new Group();
         this.entityLayer = new Group();
         this.UILayer = new Group();
-        this.scene = new Scene(root, height, width);
         this.root.getChildren().addAll(backgroundLayer, entityLayer, UILayer);
-    }
-
-    public Scene getScene() {
-        return scene;
     }
 
     public Group getUILayer() {

@@ -1,43 +1,39 @@
-package com.example.demo.level;
+package com.example.demo.screen.level;
 
 import java.util.*;
 
 import com.example.demo.entities.ActiveActorDestructible;
-import com.example.demo.level.manager.ActorManager;
-import com.example.demo.level.manager.SceneManager;
+import com.example.demo.screen.AbstractScreen;
+import com.example.demo.screen.ScreenNavigator;
+import com.example.demo.screen.level.manager.ActorManager;
+import com.example.demo.screen.level.manager.LayerManager;
 import com.example.demo.ui.LevelView;
 import com.example.demo.entities.UserPlane;
-import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
-import javafx.util.Duration;
 
-public abstract class AbstractLevel {
+public abstract class AbstractLevel extends AbstractScreen {
 
 	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
-	private static final int MILLISECOND_DELAY = 10;
 	private final double screenHeight;
 	private final double screenWidth;
 	private final double enemyMaximumYPosition;
 
-	private final SceneManager sceneManager;
+	private final LayerManager layerManager;
 	private final ActorManager actorManager;
-	private final Timeline timeline;
 	private final UserPlane user;
 	private final ImageView background;
 
-	private LevelNavigator levelNavigator;
 	private int currentNumberOfEnemies;
 	private LevelView levelView;
 
-	public AbstractLevel(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth, LevelNavigator levelNavigator) {
-		this.sceneManager = new SceneManager(screenHeight, screenWidth);
+	public AbstractLevel(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth, ScreenNavigator screenNavigator) {
+		super(screenHeight, screenWidth, screenNavigator);
+		this.layerManager = new LayerManager(getContentRoot());
 		this.actorManager = new ActorManager();
-		actorManager.addListener(sceneManager);
-		this.timeline = new Timeline();
+		actorManager.addListener(layerManager);
 		this.user = new UserPlane(playerInitialHealth);
 		this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
 		this.screenHeight = screenHeight;
@@ -45,8 +41,7 @@ public abstract class AbstractLevel {
 		this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
 		this.levelView = instantiateLevelView();
 		this.currentNumberOfEnemies = 0;
-		this.levelNavigator = levelNavigator;
-		initializeTimeline();
+		initializeLevel();
 	}
 
 	protected abstract void initializeFriendlyUnits();
@@ -56,51 +51,32 @@ public abstract class AbstractLevel {
 	protected abstract void spawnEnemyUnits();
 
 	protected LevelView instantiateLevelView() {
-		return new LevelView(getSceneManager().getUILayer());
+		return new LevelView(getLayerManager().getUILayer());
 	}
 
-	public Scene initializeScene() {
+	private void initializeLevel() {
 		initializeBackground();
 		initializeFriendlyUnits();
 		levelView.showHeartDisplay(user);
-		return sceneManager.getScene();
 	}
 
-	public void startGame() {
-		background.requestFocus();
-		timeline.play();
-	}
-
-	public void goToNextLevel(LevelType levelType) {
-		timeline.stop();
-		levelNavigator.goToLevel(levelType);
-	}
-
-	public SceneManager getSceneManager() {
-		return sceneManager;
+	public LayerManager getLayerManager() {
+		return layerManager;
 	}
 
 	public ActorManager getActorManager() {
 		return actorManager;
 	}
-	private void updateScene() {
+
+	@Override
+	public void updateScene(int timeDelta) {
 		spawnEnemyUnits();
-		updateActors();
+		updateActors(timeDelta);
 		handleEnemyPenetration();
 		updateKillCount();
 		updateNumberOfEnemies();
 		updateLevelView();
 		checkIfGameOver();
-	}
-
-	private void initializeTimeline() {
-		timeline.setCycleCount(Timeline.INDEFINITE);
-		KeyFrame gameLoop = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> updateScene());
-		timeline.getKeyFrames().add(gameLoop);
-	}
-
-	private void stopTimeline() {
-		timeline.stop();
 	}
 
 	private void initializeBackground() {
@@ -121,7 +97,7 @@ public abstract class AbstractLevel {
 				if (kc == KeyCode.UP || kc == KeyCode.DOWN) user.stop();
 			}
 		});
-		sceneManager.getBackgroundLayer().getChildren().addAll(background);
+		layerManager.getBackgroundLayer().getChildren().addAll(background);
 	}
 
 	public void addActor(ActiveActorDestructible actor) {
@@ -129,7 +105,7 @@ public abstract class AbstractLevel {
 	}
 
 	public void addNode(Node node) {
-		sceneManager.getEntityLayer().getChildren().add(node);
+		layerManager.getEntityLayer().getChildren().add(node);
 	}
 
 	private void fireProjectile() {
@@ -137,8 +113,8 @@ public abstract class AbstractLevel {
 		addActor(projectile);
 	}
 
-	private void updateActors() {
-		actorManager.updateActors(MILLISECOND_DELAY);
+	private void updateActors(int timeDelta) {
+		actorManager.updateActors(timeDelta);
 	}
 
 	private void handleEnemyPenetration() {
@@ -165,12 +141,12 @@ public abstract class AbstractLevel {
 	}
 
 	protected void winGame() {
-		timeline.stop();
+		stopLoop();
 		levelView.showWinImage();
 	}
 
 	protected void loseGame() {
-		timeline.stop();
+		stopLoop();
 		levelView.showGameOverImage();
 	}
 
@@ -196,5 +172,11 @@ public abstract class AbstractLevel {
 
 	protected int getCurrentNumberOfEnemies() {
 		return actorManager.getNumberOfEnemies();
+	}
+
+	@Override
+	public void startLoop() {
+		super.startLoop();
+		background.requestFocus();
 	}
 }
