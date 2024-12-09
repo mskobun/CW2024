@@ -43,11 +43,6 @@ public class LevelOne extends AbstractLevel {
 		}
 	}
 
-	@Override
-	protected LevelView instantiateLevelView() {
-		return new LevelView(getSceneManager().getUILayer(), PLAYER_INITIAL_HEALTH);
-	}
-
 	private boolean userHasReachedKillTarget() {
 		return getUser().getNumberOfKills() >= KILLS_TO_ADVANCE;
 	}

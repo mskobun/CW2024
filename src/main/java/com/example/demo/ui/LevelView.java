@@ -1,7 +1,8 @@
 package com.example.demo.ui;
 
-import com.example.demo.entities.HealthObservableActor;
+import com.example.demo.entities.HealthObservable;
 import javafx.scene.Group;
+import javafx.scene.layout.Region;
 
 public class LevelView {
 	
@@ -17,18 +18,26 @@ public class LevelView {
 	private final Group root;
 	private final WinImage winImage;
 	private final GameOverImage gameOverImage;
-	private final HeartDisplay heartDisplay;
+	private HeartDisplay heartDisplay;
 	private HealthProgressBar healthProgressBar;
 	
-	public LevelView(Group root, int heartsToDisplay) {
+	public LevelView(Group root) {
 		this.root = root;
-		this.heartDisplay = new HeartDisplay(HEART_DISPLAY_X_POSITION, HEART_DISPLAY_Y_POSITION, heartsToDisplay);
 		this.winImage = new WinImage(WIN_IMAGE_X_POSITION, WIN_IMAGE_Y_POSITION);
 		this.gameOverImage = new GameOverImage(LOSS_SCREEN_X_POSITION, LOSS_SCREEN_Y_POSISITION);
 	}
 	
-	public void showHeartDisplay() {
-		root.getChildren().add(heartDisplay.getContainer());
+	public void showHeartDisplay(HealthObservable healthObservable) {
+		heartDisplay  = new HeartDisplay(healthObservable);
+		Region view = heartDisplay.getView();
+		view.setLayoutX(HEART_DISPLAY_X_POSITION);
+		view.setLayoutY(HEART_DISPLAY_Y_POSITION);
+		root.getChildren().add(view);
+	}
+
+	public void hideHeartDisplay() {
+		root.getChildren().remove(heartDisplay.getView());
+		heartDisplay = null;
 	}
 
 	public void showWinImage() {
@@ -40,13 +49,6 @@ public class LevelView {
 		root.getChildren().add(gameOverImage);
 	}
 	
-	public void removeHearts(int heartsRemaining) {
-		int currentNumberOfHearts = heartDisplay.getContainer().getChildren().size();
-		for (int i = 0; i < currentNumberOfHearts - heartsRemaining; i++) {
-			heartDisplay.removeHeart();
-		}
-	}
-
 	public void showHealthProgressBar(HealthObservable healthObservable, String labelText) {
 		this.healthProgressBar = new HealthProgressBar(HEALTH_PROGRESS_BAR_WIDTH, healthObservable, labelText);
 		Region view = this.healthProgressBar.getView();

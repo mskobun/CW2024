@@ -45,7 +45,7 @@ public class LevelTwo extends AbstractLevel {
 	}
 	@Override
 	protected LevelView instantiateLevelView() {
-		this.levelView = new LevelView(getSceneManager().getUILayer(), PLAYER_INITIAL_HEALTH);
+		this.levelView = new LevelView(getSceneManager().getUILayer());
 		return this.levelView;
 	}
 }

@@ -55,12 +55,14 @@ public abstract class AbstractLevel {
 
 	protected abstract void spawnEnemyUnits();
 
-	protected abstract LevelView instantiateLevelView();
+	protected LevelView instantiateLevelView() {
+		return new LevelView(getSceneManager().getUILayer());
+	}
 
 	public Scene initializeScene() {
 		initializeBackground();
 		initializeFriendlyUnits();
-		levelView.showHeartDisplay();
+		levelView.showHeartDisplay(user);
 		return sceneManager.getScene();
 	}
 
@@ -150,7 +152,6 @@ public abstract class AbstractLevel {
 	}
 
 	private void updateLevelView() {
-		levelView.removeHearts(user.getHealth());
 	}
 
 	private void updateKillCount() {
