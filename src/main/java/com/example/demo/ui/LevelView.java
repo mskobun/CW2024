@@ -1,11 +1,15 @@
 package com.example.demo.ui;
 
+import com.example.demo.entities.HealthObservableActor;
 import javafx.scene.Group;
 
 public class LevelView {
 	
 	private static final double HEART_DISPLAY_X_POSITION = 5;
 	private static final double HEART_DISPLAY_Y_POSITION = 25;
+	private static final double HEALTH_PROGRESS_BAR_X_POSITION = 450;
+	private static final double HEALTH_PROGRESS_BAR_Y_POSITION = 610;
+	private static final double HEALTH_PROGRESS_BAR_WIDTH = 200;
 	private static final int WIN_IMAGE_X_POSITION = 355;
 	private static final int WIN_IMAGE_Y_POSITION = 175;
 	private static final int LOSS_SCREEN_X_POSITION = -160;
@@ -14,6 +18,7 @@ public class LevelView {
 	private final WinImage winImage;
 	private final GameOverImage gameOverImage;
 	private final HeartDisplay heartDisplay;
+	private HealthProgressBar healthProgressBar;
 	
 	public LevelView(Group root, int heartsToDisplay) {
 		this.root = root;
@@ -42,4 +47,16 @@ public class LevelView {
 		}
 	}
 
+	public void showHealthProgressBar(HealthObservable healthObservable, String labelText) {
+		this.healthProgressBar = new HealthProgressBar(HEALTH_PROGRESS_BAR_WIDTH, healthObservable, labelText);
+		Region view = this.healthProgressBar.getView();
+		view.setLayoutX(HEALTH_PROGRESS_BAR_X_POSITION);
+		view.setLayoutY(HEALTH_PROGRESS_BAR_Y_POSITION);
+		root.getChildren().add(view);
+	}
+
+	public void hideHealthProgressBar() {
+		root.getChildren().remove(this.healthProgressBar.getView());
+		this.healthProgressBar = null;
+	}
 }

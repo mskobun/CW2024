@@ -8,6 +8,7 @@ public class LevelTwo extends AbstractLevel {
 	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background2.jpg";
 	private static final int PLAYER_INITIAL_HEALTH = 5;
 	private final Boss boss;
+	private LevelView levelView;
 
 	public LevelTwo(double screenHeight, double screenWidth, LevelNavigator levelNavigator) {
 		super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, levelNavigator);
@@ -32,13 +33,19 @@ public class LevelTwo extends AbstractLevel {
 	@Override
 	protected void spawnEnemyUnits() {
 		if (getCurrentNumberOfEnemies() == 0) {
-			addActor(boss);
-			addNode(boss.getShield());
+			spawnBoss();
 		}
 	}
 
+	private void spawnBoss() {
+		addActor(boss);
+		addNode(boss.getShield());
+		levelView.showHealthProgressBar(boss, "BOSS");
+
+	}
 	@Override
 	protected LevelView instantiateLevelView() {
-		return new LevelView(getSceneManager().getUILayer(), PLAYER_INITIAL_HEALTH);
+		this.levelView = new LevelView(getSceneManager().getUILayer(), PLAYER_INITIAL_HEALTH);
+		return this.levelView;
 	}
 }

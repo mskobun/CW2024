@@ -1,19 +1,16 @@
 package com.example.demo.entities;
 
-public abstract class FighterPlane extends ActiveActorDestructible {
-
-	private int health;
+public abstract class FighterPlane extends HealthObservableActor {
 
 	public FighterPlane(String imageName, int imageHeight, double initialXPos, double initialYPos, int health) {
-		super(imageName, imageHeight, initialXPos, initialYPos);
-		this.health = health;
+		super(imageName, imageHeight, initialXPos, initialYPos, health, health);
 	}
 
 	public abstract ActiveActorDestructible fireProjectile();
 	
 	@Override
 	public void takeDamage() {
-		health--;
+		healthProperty().set(getHealth() - 1);
 		if (healthAtZero()) {
 			this.destroy();
 		}
@@ -28,11 +25,11 @@ public abstract class FighterPlane extends ActiveActorDestructible {
 	}
 
 	private boolean healthAtZero() {
-		return health == 0;
+		return getHealth() == 0;
 	}
 
 	public int getHealth() {
-		return health;
+		return healthProperty().get();
 	}
 		
 }
