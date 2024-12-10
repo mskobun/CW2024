@@ -6,7 +6,7 @@ import javafx.scene.layout.Pane;
 /**
  * Sets up the scene, manages the game loop, navigates to a different screen.
  * <p>
- * Subclasses must implement the {@link #updateScene(int)} method to define screen-specific updates.
+ * Subclasses must implement the {@link #updateScene(double)} method to define screen-specific updates.
  * {@link #dispose()} must be called before disposing of the object, due to manually-managed resources.
  */
 public abstract class AbstractScreen {
@@ -52,7 +52,7 @@ public abstract class AbstractScreen {
 
     /**
      * Starts the update loop for this screen. The loop periodically updates the screen
-     * by invoking {@link #updateScene(int)}.
+     * by invoking {@link #updateScene(double)}.
      * If this function was called, {@link #dispose()} has to be called before
      * disposing of the class. Doing otherwise will lead to a memory leak.
      */
