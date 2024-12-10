@@ -1,11 +1,9 @@
 package com.example.demo.entities;
 
+import com.example.demo.movement.LinearMovementStrategy;
 import javafx.scene.Node;
 
 public class EnemyPlane extends FighterPlane {
-
-	private static final String IMAGE_NAME = "enemyplane.png";
-	private static final int IMAGE_HEIGHT = 54;
 	private static final int HORIZONTAL_VELOCITY = -120;
 	private static final double PROJECTILE_X_POSITION_OFFSET = -100.0;
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 20.0;
@@ -17,15 +15,12 @@ public class EnemyPlane extends FighterPlane {
 	public EnemyPlane(Node view, double initialXPos, double initialYPos, ActorFactory actorFactory) {
 		super(view, initialXPos, initialYPos, INITIAL_HEALTH);
 		this.actorFactory = actorFactory;
+		setMovementStrategy(new LinearMovementStrategy(HORIZONTAL_VELOCITY, 0));
 	}
 
 	@Override
 	public ActorType getActorType() {
 		return ActorType.ENEMY_UNIT;
-	}
-
-	private void updatePosition(double timeDelta) {
-		moveHorizontally(calculateMovement(HORIZONTAL_VELOCITY, timeDelta));
 	}
 
 	@Override
@@ -42,8 +37,7 @@ public class EnemyPlane extends FighterPlane {
 		fireProjectileThisFrame = fireProbability.evaluate(timeDelta);
 	}
 	@Override
-	public void updateActor(double timeDelta) {
-		updatePosition(timeDelta);
+	public void updateActorState(double timeDelta) {
 		updateFireProjectile(timeDelta);
 	}
 

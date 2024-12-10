@@ -12,7 +12,4 @@ public abstract class Projectile extends ActiveActorDestructible {
 	public void takeDamage() {
 		this.destroy();
 	}
-
-	@Override
-	public abstract void updateActor(double timeDelta);
 }

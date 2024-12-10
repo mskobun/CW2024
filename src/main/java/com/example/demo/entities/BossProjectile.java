@@ -1,5 +1,7 @@
 package com.example.demo.entities;
 
+import com.example.demo.movement.LinearMovementStrategy;
+import com.example.demo.movement.PositionDelta;
 import javafx.scene.Node;
 
 public class BossProjectile extends Projectile {
@@ -12,20 +14,11 @@ public class BossProjectile extends Projectile {
 
 	public BossProjectile(Node view, double initialYPos) {
 		super(view, INITIAL_X_POSITION, initialYPos);
+		setMovementStrategy(new LinearMovementStrategy(HORIZONTAL_VELOCITY, 0));
 	}
 
 	@Override
 	public ActorType getActorType() {
 		return ActorType.ENEMY_PROJECTILE;
 	}
-
-	private void updatePosition(double timeDelta) {
-		moveHorizontally(calculateMovement(HORIZONTAL_VELOCITY, timeDelta));
-	}
-	
-	@Override
-	public void updateActor(double timeDelta) {
-		updatePosition(timeDelta);
-	}
-	
 }
