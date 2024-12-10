@@ -14,6 +14,9 @@ public class ScreenFactory {
    }
     public AbstractScreen createScreen(ScreenType screenType, double screenHeight, double screenWidth) {
         switch (screenType) {
+            case MAIN_MENU -> {
+                return new MainMenuScreen(screenHeight, screenWidth, navigator, assetFactory);
+            }
             case LEVEL_ONE -> {
                 return new LevelOne(screenHeight, screenWidth, navigator, assetFactory);
             }

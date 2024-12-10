@@ -29,7 +29,7 @@ public class Controller implements ScreenNavigator {
 
 	public void launchGame() {
 			stage.show();
-			goToScreen(ScreenType.LEVEL_ONE);
+			goToScreen(ScreenType.MAIN_MENU);
 	}
 
 	@Override
