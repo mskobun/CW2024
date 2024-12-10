@@ -3,6 +3,7 @@ package com.example.demo.screen;
 import com.example.demo.AssetFactory;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 /**
  * Sets up the scene, manages the game loop, navigates to a different screen.
@@ -11,7 +12,7 @@ import javafx.scene.layout.Pane;
  * {@link #dispose()} must be called before disposing of the object, due to manually-managed resources.
  */
 public abstract class AbstractScreen {
-    private final Pane contentRoot;
+    private final StackPane contentRoot;
     private final Scene scene;
     private final ScreenNavigator screenNavigator;
     private final ScreenLoop screenLoop;
@@ -26,7 +27,7 @@ public abstract class AbstractScreen {
      *
      * @return the content root pane for this screen.
      */
-    protected Pane getContentRoot() {
+    protected StackPane getContentRoot() {
         return contentRoot;
     }
 
@@ -53,7 +54,7 @@ public abstract class AbstractScreen {
     public AbstractScreen(double screenHeight, double screenWidth, ScreenNavigator screenNavigator, AssetFactory assetFactory) {
         this.screenNavigator = screenNavigator;
         this.assetFactory = assetFactory;
-        contentRoot = new Pane();
+        contentRoot = new StackPane();
         scene = LetterboxManager.letterboxScene(contentRoot, screenHeight, screenWidth);
         this.screenLoop = new ScreenLoop(this, TARGET_DELTA);
     }

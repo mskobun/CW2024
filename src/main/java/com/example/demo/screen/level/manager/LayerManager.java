@@ -3,30 +3,31 @@ package com.example.demo.screen.level.manager;
 import com.example.demo.entities.ActiveActor;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 public class LayerManager implements ActorEventListener {
-    private Group backgroundLayer;
-    private Group entityLayer;
-    private Group UILayer;
-    private Pane root;
+    private Pane backgroundLayer;
+    private Pane entityLayer;
+    private Pane UILayer;
+    private StackPane root;
 
-    public LayerManager(Pane root) {
+    public LayerManager(StackPane root) {
         this.root = root;
-        this.backgroundLayer = new Group();
-        this.entityLayer = new Group();
-        this.UILayer = new Group();
+        this.backgroundLayer = new StackPane();
+        this.entityLayer = new Pane();
+        this.UILayer = new Pane();
         this.root.getChildren().addAll(backgroundLayer, entityLayer, UILayer);
     }
 
-    public Group getUILayer() {
+    public Pane getUILayer() {
         return UILayer;
     }
 
-    public Group getEntityLayer() {
+    public Pane getEntityLayer() {
         return entityLayer;
     }
 
-    public Group getBackgroundLayer() {
+    public Pane getBackgroundLayer() {
         return backgroundLayer;
     }
 

@@ -3,6 +3,7 @@ package com.example.demo.ui;
 import com.example.demo.AssetFactory;
 import com.example.demo.entities.HealthObservable;
 import javafx.scene.Group;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 
 public class LevelView {
@@ -16,14 +17,14 @@ public class LevelView {
 	private static final int WIN_IMAGE_Y_POSITION = 175;
 	private static final int LOSS_SCREEN_X_POSITION = -160;
 	private static final int LOSS_SCREEN_Y_POSISITION = -375;
-	private final Group root;
+	private final Pane root;
 	private final WinImage winImage;
 	private final GameOverImage gameOverImage;
 	private final AssetFactory assetFactory;
 	private HeartDisplay heartDisplay;
 	private HealthProgressBar healthProgressBar;
 	
-	public LevelView(Group root, AssetFactory assetFactory) {
+	public LevelView(Pane root, AssetFactory assetFactory) {
 		this.root = root;
 		this.assetFactory = assetFactory;
 		this.winImage = new WinImage(WIN_IMAGE_X_POSITION, WIN_IMAGE_Y_POSITION, assetFactory);
