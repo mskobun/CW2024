@@ -1,15 +1,15 @@
-package com.example.demo.screen.level;
+package com.example.demo.screen;
 
-import com.example.demo.screen.ScreenNavigator;
-import com.example.demo.screen.ScreenType;
+import com.example.demo.screen.level.LevelOne;
+import com.example.demo.screen.level.LevelTwo;
 
-public class LevelFactory {
+public class ScreenFactory {
     private final ScreenNavigator navigator;
 
-   public LevelFactory(ScreenNavigator navigator) {
+   public ScreenFactory(ScreenNavigator navigator) {
        this.navigator = navigator;
    }
-    public AbstractLevel createLevel(ScreenType screenType, double screenHeight, double screenWidth) {
+    public AbstractScreen createScreen(ScreenType screenType, double screenHeight, double screenWidth) {
         switch (screenType) {
             case LEVEL_ONE -> {
                 return new LevelOne(screenHeight, screenWidth, navigator);
