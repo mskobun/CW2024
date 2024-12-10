@@ -90,7 +90,7 @@ public abstract class AbstractScreen {
      * Subclasses must override this method to define screen-specific behavior during
      * each update cycle.
      *
-     * @param timeDelta the time elapsed since the last update, in milliseconds.
+     * @param timeDelta the time elapsed since the last update, in seconds.
      */
-    public abstract void updateScene(int timeDelta);
+    public abstract void updateScene(double timeDelta);
 }

@@ -34,8 +34,8 @@ public class ScreenLoop extends AnimationTimer {
         }
 
         if (now - lastUpdate >= targetDeltaNanos) {
-            int timeDeltaMs = (int) ((now - lastUpdate) / 1_000_000);
-            screen.updateScene(timeDeltaMs);
+            double timeDelta = ((double) (now - lastUpdate) / 1_000_000_000);
+            screen.updateScene(timeDelta);
             lastUpdate = now;
         }
     }

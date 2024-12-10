@@ -1,5 +1,7 @@
 package com.example.demo.entities;
 
+import javafx.scene.Node;
+
 public class UserPlane extends FighterPlane {
 
 	private static final String IMAGE_NAME = "userplane.png";
@@ -13,33 +15,34 @@ public class UserPlane extends FighterPlane {
 	private static final int PROJECTILE_Y_POSITION_OFFSET = 25;
 	private int velocityMultiplier;
 	private int numberOfKills;
+	private final ActorFactory actorFactory;
 
-	public UserPlane(int initialHealth) {
-		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth);
+	public UserPlane(Node view, int initialHealth, ActorFactory actorFactory) {
+		super(view, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth);
+		this.actorFactory = actorFactory;
 		velocityMultiplier = 0;
 	}
 	
-	@Override
-	public void updatePosition(int timeDelta) {
+	private void updatePosition(double timeDelta) {
 		if (isMoving()) {
-			double initialTranslateY = getTranslateY();
+			double initialTranslateY = getView().getTranslateY();
 			int curVerticalVelocity = VERTICAL_VELOCITY * velocityMultiplier;
 			this.moveVertically(calculateMovement(curVerticalVelocity, timeDelta));
-			double newPosition = getLayoutY() + getTranslateY();
+			double newPosition = getView().getLayoutY() + getView().getTranslateY();
 			if (newPosition < Y_UPPER_BOUND || newPosition > Y_LOWER_BOUND) {
-				this.setTranslateY(initialTranslateY);
+				getView().setTranslateY(initialTranslateY);
 			}
 		}
 	}
 	
 	@Override
-	public void updateActor(int timeDelta) {
+	public void updateActor(double timeDelta) {
 		updatePosition(timeDelta);
 	}
 	
 	@Override
 	public ActiveActorDestructible fireProjectile() {
-		return new UserProjectile(PROJECTILE_X_POSITION, getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET));
+		return actorFactory.createUserProjetile(PROJECTILE_X_POSITION, getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET));
 	}
 
 	@Override

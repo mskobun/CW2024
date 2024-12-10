@@ -1,5 +1,6 @@
 package com.example.demo.entities;
 
+import javafx.scene.Node;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -8,8 +9,8 @@ public abstract class HealthObservableActor extends ActiveActorDestructible impl
     private final IntegerProperty health;
     private final IntegerProperty maxHealth;
 
-    public HealthObservableActor(String imageName, int imageHeight, double initialXPos, double initialYPos, int initialHealth, int maxHealth) {
-        super(imageName, imageHeight, initialXPos, initialYPos);
+    public HealthObservableActor(Node view, double initialXPos, double initialYPos, int initialHealth, int maxHealth) {
+        super(view, initialXPos, initialYPos);
         this.health = new SimpleIntegerProperty(initialHealth);
         this.maxHealth = new SimpleIntegerProperty(maxHealth);
     }

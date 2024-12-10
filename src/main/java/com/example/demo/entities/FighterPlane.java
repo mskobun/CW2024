@@ -1,9 +1,11 @@
 package com.example.demo.entities;
 
+import javafx.scene.Node;
+
 public abstract class FighterPlane extends HealthObservableActor {
 
-	public FighterPlane(String imageName, int imageHeight, double initialXPos, double initialYPos, int health) {
-		super(imageName, imageHeight, initialXPos, initialYPos, health, health);
+	public FighterPlane(Node view, double initialXPos, double initialYPos, int health) {
+		super(view, initialXPos, initialYPos, health, health);
 	}
 
 	public abstract ActiveActorDestructible fireProjectile();
@@ -17,11 +19,11 @@ public abstract class FighterPlane extends HealthObservableActor {
 	}
 
 	protected double getProjectileXPosition(double xPositionOffset) {
-		return getLayoutX() + getTranslateX() + xPositionOffset;
+		return getView().getLayoutX() + getView().getTranslateX() + xPositionOffset;
 	}
 
 	protected double getProjectileYPosition(double yPositionOffset) {
-		return getLayoutY() + getTranslateY() + yPositionOffset;
+		return getView().getLayoutY() + getView().getTranslateY() + yPositionOffset;
 	}
 
 	private boolean healthAtZero() {

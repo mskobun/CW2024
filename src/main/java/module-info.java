@@ -14,4 +14,6 @@ module com.example.demo {
     opens com.example.demo.screen.level to javafx.fxml;
     exports com.example.demo.screen.level.manager;
     opens com.example.demo.screen.level.manager to javafx.fxml;
+    exports com.example.demo;
+    opens com.example.demo to javafx.fxml;
 }

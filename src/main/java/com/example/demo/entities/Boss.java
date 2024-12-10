@@ -1,9 +1,12 @@
 package com.example.demo.entities;
 
+import javafx.scene.Group;
+import javafx.scene.Node;
+
 import java.util.*;
 
 public class Boss extends FighterPlane {
-
+	// TODO: Move to factory
 	private static final String IMAGE_NAME = "bossplane.png";
 	private static final double INITIAL_X_POSITION = 1000.0;
 	private static final double INITIAL_Y_POSITION = 400;
@@ -15,22 +18,25 @@ public class Boss extends FighterPlane {
 	private static final int HEALTH = 100;
 	private static final int MOVE_FREQUENCY_PER_CYCLE = 5;
 	private static final int ZERO = 0;
-	private static final int MAX_DELTA_WITH_SAME_MOVE = 500;
+	private static final double MAX_DELTA_WITH_SAME_MOVE = 0.5;
 	private static final int Y_POSITION_UPPER_BOUND = 0;
 	private static final int Y_POSITION_LOWER_BOUND = 695;
 	private static final int MAX_DELTA_WITH_SHIELD = 2500;
 	private final List<Integer> movePattern;
 	private boolean isShielded;
-	private int sameDirectionMoveDelta;
+	private double sameDirectionMoveDelta;
 	private int indexOfCurrentMove;
-	private int shieldActivatedDelta;
+	private double shieldActivatedDelta;
 	private boolean fireProjectileThisFrame;
 	private final Probability fireProbability = new Probability(0.8);
 	private final Probability shieldProbability = new Probability(0.04);
 	private final ShieldImage shield;
+	private final ActorFactory actorFactory;
 
-	public Boss() {
-		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, HEALTH);
+	public Boss(Group root, Node bossPlane, ActorFactory actorFactory) {
+		super(root, INITIAL_X_POSITION, INITIAL_Y_POSITION, HEALTH);
+		root.getChildren().addAll(bossPlane);
+		this.actorFactory = actorFactory;
 		movePattern = new ArrayList<>();
 		sameDirectionMoveDelta = 0;
 		indexOfCurrentMove = 0;
@@ -50,26 +56,26 @@ public class Boss extends FighterPlane {
 		return shield;
 	}
 
-	@Override
-	public void updatePosition(int timeDelta) {
-		double initialTranslateY = getTranslateY();
+	// TODO: refactor
+	public void updatePosition(double timeDelta) {
+		double initialTranslateY = getView().getTranslateY();
 		moveVertically(calculateMovement(getNextMove(timeDelta), timeDelta));
-		double currentPosition = getLayoutY() + getTranslateY();
+		double currentPosition = getView().getLayoutY() + getView().getTranslateY();
 		if (currentPosition < Y_POSITION_UPPER_BOUND || currentPosition > Y_POSITION_LOWER_BOUND) {
-			setTranslateY(initialTranslateY);
+			getView().setTranslateY(initialTranslateY);
 		} else {
-			updateShieldPosition(getTranslateY());
+			updateShieldPosition(getView().getTranslateY());
 		}
 	}
 
 	private void updateShieldPosition(double currentTranslateY) {
 		shield.setTranslateY(currentTranslateY);
 	}
-	public void updateFireProjectile(int timeDelta) {
+	public void updateFireProjectile(double timeDelta) {
 		fireProjectileThisFrame = fireProbability.evaluate(timeDelta);
 	}
 	@Override
-	public void updateActor(int timeDelta) {
+	public void updateActor(double timeDelta) {
 		updatePosition(timeDelta);
 		updateShieldActivation(timeDelta);
 		updateFireProjectile(timeDelta);
@@ -77,7 +83,7 @@ public class Boss extends FighterPlane {
 
 	@Override
 	public ActiveActorDestructible fireProjectile() {
-		return fireProjectileThisFrame ? new BossProjectile(getProjectileInitialPosition()) : null;
+		return fireProjectileThisFrame ? actorFactory.createBossProjectile(getProjectileInitialPosition()) : null;
 	}
 	
 	@Override
@@ -96,13 +102,13 @@ public class Boss extends FighterPlane {
 		Collections.shuffle(movePattern);
 	}
 
-	private void updateShieldActivation(int timeDelta) {
+	private void updateShieldActivation(double timeDelta) {
 		if (isShielded) shieldActivatedDelta += timeDelta;
 		else if (shieldShouldBeActivated(timeDelta)) activateShield();
 		if (shieldExhausted()) deactivateShield();
 	}
 
-	private int getNextMove(int timeDelta) {
+	private int getNextMove(double timeDelta) {
 		int currentMove = movePattern.get(indexOfCurrentMove);
 		sameDirectionMoveDelta += timeDelta;
 
@@ -118,10 +124,10 @@ public class Boss extends FighterPlane {
 	}
 
 	private double getProjectileInitialPosition() {
-		return getLayoutY() + getTranslateY() + PROJECTILE_Y_POSITION_OFFSET;
+		return getView().getLayoutY() + getView().getTranslateY() + PROJECTILE_Y_POSITION_OFFSET;
 	}
 
-	private boolean shieldShouldBeActivated(int timeDelta) {
+	private boolean shieldShouldBeActivated(double timeDelta) {
 		return shieldProbability.evaluate(timeDelta);
 	}
 

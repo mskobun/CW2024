@@ -1,9 +1,11 @@
 package com.example.demo.entities;
 
+import javafx.scene.Node;
+
 public abstract class Projectile extends ActiveActorDestructible {
 
-	public Projectile(String imageName, int imageHeight, double initialXPos, double initialYPos) {
-		super(imageName, imageHeight, initialXPos, initialYPos);
+	public Projectile(Node view, double initialXPos, double initialYPos) {
+		super(view, initialXPos, initialYPos);
 	}
 
 	@Override
@@ -12,6 +14,5 @@ public abstract class Projectile extends ActiveActorDestructible {
 	}
 
 	@Override
-	public abstract void updatePosition(int timeDelta);
-
+	public abstract void updateActor(double timeDelta);
 }

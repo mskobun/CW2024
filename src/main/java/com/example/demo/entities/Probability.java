@@ -6,10 +6,10 @@ public class Probability {
         this.probabilityPerSecond = probabilityPerSecond;
     }
 
-    private double calculateAdjusted(int timeDelta) {
-        return probabilityPerSecond * ((double) timeDelta / 1000.0);
+    private double calculateAdjusted(double timeDelta) {
+        return probabilityPerSecond * timeDelta;
     }
-    public boolean evaluate(int timeDelta) {
+    public boolean evaluate(double timeDelta) {
         double adjustedProbability = calculateAdjusted(timeDelta);
         return Math.random() < adjustedProbability;
     }

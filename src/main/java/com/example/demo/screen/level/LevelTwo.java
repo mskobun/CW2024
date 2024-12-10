@@ -13,7 +13,7 @@ public class LevelTwo extends AbstractLevel {
 
 	public LevelTwo(double screenHeight, double screenWidth, ScreenNavigator screenNavigator) {
 		super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, screenNavigator);
-		boss = new Boss();
+		boss = getActorFactory().createBoss();
 	}
 
 	@Override

@@ -2,7 +2,9 @@ package com.example.demo.screen.level;
 
 import java.util.*;
 
+import com.example.demo.CachedAssetFactory;
 import com.example.demo.entities.ActiveActorDestructible;
+import com.example.demo.entities.ActorFactory;
 import com.example.demo.screen.AbstractScreen;
 import com.example.demo.screen.ScreenNavigator;
 import com.example.demo.screen.level.manager.ActorManager;
@@ -21,6 +23,7 @@ public abstract class AbstractLevel extends AbstractScreen {
 	private final double screenWidth;
 	private final double enemyMaximumYPosition;
 
+	private final ActorFactory actorFactory;
 	private final LayerManager layerManager;
 	private final ActorManager actorManager;
 	private final UserPlane user;
@@ -31,10 +34,11 @@ public abstract class AbstractLevel extends AbstractScreen {
 
 	public AbstractLevel(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth, ScreenNavigator screenNavigator) {
 		super(screenHeight, screenWidth, screenNavigator);
+		this.actorFactory = new ActorFactory(new CachedAssetFactory("/com/example/demo/images/"));
 		this.layerManager = new LayerManager(getContentRoot());
 		this.actorManager = new ActorManager();
 		actorManager.addListener(layerManager);
-		this.user = new UserPlane(playerInitialHealth);
+		this.user = actorFactory.createUserPlane(playerInitialHealth);
 		this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
 		this.screenHeight = screenHeight;
 		this.screenWidth = screenWidth;
@@ -64,12 +68,15 @@ public abstract class AbstractLevel extends AbstractScreen {
 		return layerManager;
 	}
 
+	public ActorFactory getActorFactory() {
+		return actorFactory;
+	}
 	public ActorManager getActorManager() {
 		return actorManager;
 	}
 
 	@Override
-	public void updateScene(int timeDelta) {
+	public void updateScene(double timeDelta) {
 		spawnEnemyUnits();
 		updateActors(timeDelta);
 		handleEnemyPenetration();
@@ -113,7 +120,7 @@ public abstract class AbstractLevel extends AbstractScreen {
 		addActor(projectile);
 	}
 
-	private void updateActors(int timeDelta) {
+	private void updateActors(double timeDelta) {
 		actorManager.updateActors(timeDelta);
 	}
 
@@ -137,7 +144,8 @@ public abstract class AbstractLevel extends AbstractScreen {
 	}
 
 	private boolean enemyHasPenetratedDefenses(ActiveActorDestructible enemy) {
-		return Math.abs(enemy.getTranslateX()) > screenWidth;
+		// TODO: Remove direct access of view
+		return Math.abs(enemy.getView().getTranslateX()) > screenWidth;
 	}
 
 	protected void winGame() {

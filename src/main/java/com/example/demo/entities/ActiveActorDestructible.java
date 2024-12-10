@@ -1,21 +1,15 @@
 package com.example.demo.entities;
 
+import javafx.scene.Node;
+
 public abstract class ActiveActorDestructible extends ActiveActor implements Destructible {
 
 	private boolean isDestroyed;
 
-	public ActiveActorDestructible(String imageName, int imageHeight, double initialXPos, double initialYPos) {
-		super(imageName, imageHeight, initialXPos, initialYPos);
+	public ActiveActorDestructible(Node view, double initialXPos, double initialYPos) {
+		super(view, initialXPos, initialYPos);
 		isDestroyed = false;
 	}
-
-	@Override
-	public abstract void updatePosition(int timeDelta);
-
-	public abstract void updateActor(int timeDelta);
-
-	@Override
-	public abstract void takeDamage();
 
 	@Override
 	public void destroy() {
@@ -29,5 +23,4 @@ public abstract class ActiveActorDestructible extends ActiveActor implements Des
 	public boolean isDestroyed() {
 		return isDestroyed;
 	}
-	
 }

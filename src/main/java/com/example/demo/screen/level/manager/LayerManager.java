@@ -31,11 +31,11 @@ public class LayerManager implements ActorEventListener {
     }
 
     public void addActor(ActiveActor actor) {
-        getEntityLayer().getChildren().add(actor);
+        getEntityLayer().getChildren().add(actor.getView());
     }
 
     public void removeActor(ActiveActor actor) {
-       getEntityLayer().getChildren().remove(actor);
+       getEntityLayer().getChildren().remove(actor.getView());
     }
 
     @Override

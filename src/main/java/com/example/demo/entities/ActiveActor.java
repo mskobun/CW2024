@@ -1,33 +1,33 @@
 package com.example.demo.entities;
 
-import javafx.scene.image.*;
+import javafx.scene.Node;
 
-public abstract class ActiveActor extends ImageView {
-	
-	private static final String IMAGE_LOCATION = "/com/example/demo/images/";
+public abstract class ActiveActor {
+	private final Node view;
 
-	public ActiveActor(String imageName, int imageHeight, double initialXPos, double initialYPos) {
-		//this.setImage(new Image(IMAGE_LOCATION + imageName));
-		this.setImage(new Image(getClass().getResource(IMAGE_LOCATION + imageName).toExternalForm()));
-		this.setLayoutX(initialXPos);
-		this.setLayoutY(initialYPos);
-		this.setFitHeight(imageHeight);
-		this.setPreserveRatio(true);
+	public ActiveActor(Node view, double initialXPos, double initialYPos) {
+		this.view = view;
+		this.view.setLayoutX(initialXPos);
+		this.view.setLayoutY(initialYPos);
+	}
+
+	public Node getView() {
+		return view;
 	}
 
 	public abstract ActorType getActorType();
 
-	public abstract void updatePosition(int timeDelta);
+	public abstract void updateActor(double timeDelta);
 
 	protected void moveHorizontally(double horizontalMove) {
-		this.setTranslateX(getTranslateX() + horizontalMove);
+		view.setTranslateX(view.getTranslateX() + horizontalMove);
 	}
 
 	protected void moveVertically(double verticalMove) {
-		this.setTranslateY(getTranslateY() + verticalMove);
+		view.setTranslateY(view.getTranslateY() + verticalMove);
 	}
 
-	protected double calculateMovement(double movementPerSecond, int timeDelta) {
-		return movementPerSecond * ((double) timeDelta / 1000.0);
+	protected double calculateMovement(double movementPerSecond, double timeDelta) {
+		return movementPerSecond * timeDelta;
 	}
 }

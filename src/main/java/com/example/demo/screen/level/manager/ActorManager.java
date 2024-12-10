@@ -56,7 +56,7 @@ public class ActorManager {
                                   List<ActiveActorDestructible> actors2) {
         for (ActiveActorDestructible actor : actors2) {
             for (ActiveActorDestructible otherActor : actors1) {
-                if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
+                if (actor.getView().getBoundsInParent().intersects(otherActor.getView().getBoundsInParent())) {
                     actor.takeDamage();
                     otherActor.takeDamage();
                 }
@@ -82,7 +82,7 @@ public class ActorManager {
         removeDestroyedActors(enemyUnits);
         removeDestroyedActors(enemyProjectiles);
     }
-    public void updateActors(int timeDelta) {
+    public void updateActors(double timeDelta) {
         friendlyUnits.forEach(actor -> actor.updateActor(timeDelta));
         enemyUnits.forEach(actor -> actor.updateActor(timeDelta));
         enemyProjectiles.forEach(actor -> actor.updateActor(timeDelta));

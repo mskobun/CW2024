@@ -1,5 +1,7 @@
 package com.example.demo.entities;
 
+import javafx.scene.Node;
+
 public class EnemyPlane extends FighterPlane {
 
 	private static final String IMAGE_NAME = "enemyplane.png";
@@ -10,9 +12,11 @@ public class EnemyPlane extends FighterPlane {
 	private static final int INITIAL_HEALTH = 1;
 	private boolean fireProjectileThisFrame = false;
 	private final Probability fireProbability = new Probability(0.2);
+	private final ActorFactory actorFactory;
 
-	public EnemyPlane(double initialXPos, double initialYPos) {
-		super(IMAGE_NAME, IMAGE_HEIGHT, initialXPos, initialYPos, INITIAL_HEALTH);
+	public EnemyPlane(Node view, double initialXPos, double initialYPos, ActorFactory actorFactory) {
+		super(view, initialXPos, initialYPos, INITIAL_HEALTH);
+		this.actorFactory = actorFactory;
 	}
 
 	@Override
@@ -20,8 +24,7 @@ public class EnemyPlane extends FighterPlane {
 		return ActorType.ENEMY_UNIT;
 	}
 
-	@Override
-	public void updatePosition(int timeDelta) {
+	private void updatePosition(double timeDelta) {
 		moveHorizontally(calculateMovement(HORIZONTAL_VELOCITY, timeDelta));
 	}
 
@@ -30,16 +33,16 @@ public class EnemyPlane extends FighterPlane {
 		if (fireProjectileThisFrame) {
 			double projectileXPosition = getProjectileXPosition(PROJECTILE_X_POSITION_OFFSET);
 			double projectileYPostion = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
-			return new EnemyProjectile(projectileXPosition, projectileYPostion);
+			return actorFactory.createEnemyProjectile(projectileXPosition, projectileYPostion);
 		}
 		return null;
 	}
 
-	public void updateFireProjectile(int timeDelta) {
+	public void updateFireProjectile(double timeDelta) {
 		fireProjectileThisFrame = fireProbability.evaluate(timeDelta);
 	}
 	@Override
-	public void updateActor(int timeDelta) {
+	public void updateActor(double timeDelta) {
 		updatePosition(timeDelta);
 		updateFireProjectile(timeDelta);
 	}
