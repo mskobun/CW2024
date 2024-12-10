@@ -40,7 +40,6 @@ public class LevelTwo extends AbstractLevel {
 
 	private void spawnBoss() {
 		addActor(boss);
-		addNode(boss.getShield());
 		levelView.showHealthProgressBar(boss, "BOSS");
 
 	}

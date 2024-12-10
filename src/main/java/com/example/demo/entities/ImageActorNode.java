@@ -12,4 +12,13 @@ public class ImageActorNode extends ImageView {
         setFitHeight(imageHeight);
         setPreserveRatio(true);
     }
+
+    public ImageActorNode(AssetFactory assetFactory, String imageName, double imageHeight, double imageWidth) {
+        super();
+        Image image = assetFactory.createImage(imageName);
+        setImage(image);
+        setFitHeight(imageHeight);
+        setFitWidth(imageWidth);
+    }
+
 }
