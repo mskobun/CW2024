@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import java.lang.reflect.InvocationTargetException;
 
+import com.example.demo.AssetFactory;
+import com.example.demo.CachedAssetFactory;
 import com.example.demo.screen.AbstractScreen;
 import com.example.demo.screen.ScreenFactory;
 import com.example.demo.screen.ScreenNavigator;
@@ -20,7 +22,9 @@ public class Controller implements ScreenNavigator {
 	private final ScreenFactory screenFactory;
 	public Controller(Stage stage) {
 		this.stage = stage;
-		screenFactory = new ScreenFactory(this);
+		final String ASSET_BASE_PATH = "/com/example/demo/images/";
+		AssetFactory assetFactory = new CachedAssetFactory(ASSET_BASE_PATH);
+		screenFactory = new ScreenFactory(this, assetFactory);
 	}
 
 	public void launchGame() {

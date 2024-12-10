@@ -1,5 +1,6 @@
 package com.example.demo.ui;
 
+import com.example.demo.AssetFactory;
 import com.example.demo.entities.HealthObservable;
 import javafx.scene.Group;
 import javafx.scene.layout.Region;
@@ -18,13 +19,15 @@ public class LevelView {
 	private final Group root;
 	private final WinImage winImage;
 	private final GameOverImage gameOverImage;
+	private final AssetFactory assetFactory;
 	private HeartDisplay heartDisplay;
 	private HealthProgressBar healthProgressBar;
 	
-	public LevelView(Group root) {
+	public LevelView(Group root, AssetFactory assetFactory) {
 		this.root = root;
-		this.winImage = new WinImage(WIN_IMAGE_X_POSITION, WIN_IMAGE_Y_POSITION);
-		this.gameOverImage = new GameOverImage(LOSS_SCREEN_X_POSITION, LOSS_SCREEN_Y_POSISITION);
+		this.assetFactory = assetFactory;
+		this.winImage = new WinImage(WIN_IMAGE_X_POSITION, WIN_IMAGE_Y_POSITION, assetFactory);
+		this.gameOverImage = new GameOverImage(LOSS_SCREEN_X_POSITION, LOSS_SCREEN_Y_POSISITION, assetFactory);
 	}
 	
 	public void showHeartDisplay(HealthObservable healthObservable) {

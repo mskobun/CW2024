@@ -1,18 +1,18 @@
 package com.example.demo.screen.level;
 
+import com.example.demo.AssetFactory;
 import com.example.demo.screen.ScreenNavigator;
 import com.example.demo.ui.LevelView;
 import com.example.demo.entities.Boss;
 
 public class LevelTwo extends AbstractLevel {
 
-	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background2.jpg";
+	private static final String BACKGROUND_IMAGE_NAME = "background2.jpg";
 	private static final int PLAYER_INITIAL_HEALTH = 5;
 	private final Boss boss;
-	private LevelView levelView;
 
-	public LevelTwo(double screenHeight, double screenWidth, ScreenNavigator screenNavigator) {
-		super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, screenNavigator);
+	public LevelTwo(double screenHeight, double screenWidth, ScreenNavigator screenNavigator, AssetFactory assetFactory) {
+		super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, screenNavigator, assetFactory);
 		boss = getActorFactory().createBoss();
 	}
 
@@ -40,12 +40,6 @@ public class LevelTwo extends AbstractLevel {
 
 	private void spawnBoss() {
 		addActor(boss);
-		levelView.showHealthProgressBar(boss, "BOSS");
-
-	}
-	@Override
-	protected LevelView instantiateLevelView() {
-		this.levelView = new LevelView(getLayerManager().getUILayer());
-		return this.levelView;
+		getLevelView().showHealthProgressBar(boss, "BOSS");
 	}
 }

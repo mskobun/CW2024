@@ -1,15 +1,15 @@
 package com.example.demo.ui;
 
+import com.example.demo.AssetFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class GameOverImage extends ImageView {
 	
-	private static final String IMAGE_NAME = "/com/example/demo/images/gameover.png";
+	private static final String IMAGE_NAME = "gameover.png";
 
-	public GameOverImage(double xPosition, double yPosition) {
-		setImage(new Image(getClass().getResource(IMAGE_NAME).toExternalForm()) );
-//		setImage(ImageSetUp.getImageList().get(ImageSetUp.getGameOver()));
+	public GameOverImage(double xPosition, double yPosition, AssetFactory assetFactory) {
+		setImage(assetFactory.createImage(IMAGE_NAME));
 		setLayoutX(xPosition);
 		setLayoutY(yPosition);
 	}

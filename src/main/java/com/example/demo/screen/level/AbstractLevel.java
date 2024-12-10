@@ -2,6 +2,7 @@ package com.example.demo.screen.level;
 
 import java.util.*;
 
+import com.example.demo.AssetFactory;
 import com.example.demo.CachedAssetFactory;
 import com.example.demo.entities.ActiveActorDestructible;
 import com.example.demo.entities.ActorFactory;
@@ -32,14 +33,14 @@ public abstract class AbstractLevel extends AbstractScreen {
 	private int currentNumberOfEnemies;
 	private LevelView levelView;
 
-	public AbstractLevel(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth, ScreenNavigator screenNavigator) {
-		super(screenHeight, screenWidth, screenNavigator);
-		this.actorFactory = new ActorFactory(new CachedAssetFactory("/com/example/demo/images/"));
+	public AbstractLevel(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth, ScreenNavigator screenNavigator, AssetFactory assetFactory) {
+		super(screenHeight, screenWidth, screenNavigator, assetFactory);
+		this.actorFactory = new ActorFactory(assetFactory);
 		this.layerManager = new LayerManager(getContentRoot());
 		this.actorManager = new ActorManager();
 		actorManager.addListener(layerManager);
 		this.user = actorFactory.createUserPlane(playerInitialHealth);
-		this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
+		this.background = new ImageView(assetFactory.createImage(backgroundImageName));
 		this.screenHeight = screenHeight;
 		this.screenWidth = screenWidth;
 		this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
@@ -55,7 +56,7 @@ public abstract class AbstractLevel extends AbstractScreen {
 	protected abstract void spawnEnemyUnits();
 
 	protected LevelView instantiateLevelView() {
-		return new LevelView(getLayerManager().getUILayer());
+		return new LevelView(getLayerManager().getUILayer(), getAssetFactory());
 	}
 
 	private void initializeLevel() {
@@ -73,6 +74,10 @@ public abstract class AbstractLevel extends AbstractScreen {
 	}
 	public ActorManager getActorManager() {
 		return actorManager;
+	}
+
+	protected LevelView getLevelView() {
+		return levelView;
 	}
 
 	@Override

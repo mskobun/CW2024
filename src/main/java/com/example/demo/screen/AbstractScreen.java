@@ -1,5 +1,6 @@
 package com.example.demo.screen;
 
+import com.example.demo.AssetFactory;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
@@ -14,6 +15,7 @@ public abstract class AbstractScreen {
     private final Scene scene;
     private final ScreenNavigator screenNavigator;
     private final ScreenLoop screenLoop;
+    private final AssetFactory assetFactory;
     // Call updateScene every targetDelta seconds
     private static final double TARGET_DELTA = 0.016;
 
@@ -32,6 +34,10 @@ public abstract class AbstractScreen {
         return scene;
     }
 
+    public AssetFactory getAssetFactory() {
+        return assetFactory;
+    }
+
     /**
      * Constructs a new {@code AbstractScreen}.
      * <p>
@@ -42,9 +48,11 @@ public abstract class AbstractScreen {
      * @param screenHeight    the height of the screen's visible content area.
      * @param screenWidth     the width of the screen's visible content area.
      * @param screenNavigator the {@link ScreenNavigator} to handle screen transitions.
+     * @param assetFactory    the {@link AssetFactory}.
      */
-    public AbstractScreen(double screenHeight, double screenWidth, ScreenNavigator screenNavigator) {
+    public AbstractScreen(double screenHeight, double screenWidth, ScreenNavigator screenNavigator, AssetFactory assetFactory) {
         this.screenNavigator = screenNavigator;
+        this.assetFactory = assetFactory;
         contentRoot = new Pane();
         scene = LetterboxManager.letterboxScene(contentRoot, screenHeight, screenWidth);
         this.screenLoop = new ScreenLoop(this, TARGET_DELTA);
