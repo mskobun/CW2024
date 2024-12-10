@@ -1,10 +1,7 @@
 package com.example.demo.screen;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.util.Duration;
 
 /**
  * Sets up the scene, manages the game loop, navigates to a different screen.
@@ -15,10 +12,10 @@ import javafx.util.Duration;
 public abstract class AbstractScreen {
     private final Pane contentRoot;
     private final Scene scene;
-    private final Timeline timeline;
     private final ScreenNavigator screenNavigator;
-    // Call updateScene every X milliseconds
-    private static final int UPDATE_FREQUENCY_MS = 10;
+    private final ScreenLoop screenLoop;
+    // Call updateScene every targetDelta seconds
+    private static final double TARGET_DELTA = 0.016;
 
     /**
      * Gets the content root {@link Pane} for this screen. This is where all the content of the screen
@@ -50,19 +47,7 @@ public abstract class AbstractScreen {
         this.screenNavigator = screenNavigator;
         contentRoot = new Pane();
         scene = LetterboxManager.letterboxScene(contentRoot, screenHeight, screenWidth);
-
-        timeline = new Timeline();
-        initializeTimeline();
-    }
-
-    /**
-     * Initializes the game loop using a {@link Timeline}. The loop periodically calls
-     * {@link #updateScene(int)} at a fixed interval.
-     */
-    private void initializeTimeline() {
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        KeyFrame gameLoop = new KeyFrame(Duration.millis(UPDATE_FREQUENCY_MS), e -> updateScene(UPDATE_FREQUENCY_MS));
-        timeline.getKeyFrames().add(gameLoop);
+        this.screenLoop = new ScreenLoop(this, TARGET_DELTA);
     }
 
     /**
@@ -72,14 +57,14 @@ public abstract class AbstractScreen {
      * disposing of the class. Doing otherwise will lead to a memory leak.
      */
     public void startLoop() {
-        timeline.play();
+        screenLoop.start();
     }
 
     /**
      * Stops the update loop for this screen, pausing periodic updates.
      */
     public void stopLoop() {
-        timeline.stop();
+        screenLoop.stop();
     }
 
     /**
