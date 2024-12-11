@@ -3,12 +3,16 @@ package com.example.demo.entities;
 import javafx.scene.Node;
 
 public abstract class FighterPlane extends HealthObservableActor {
+	private ProjectileListener projectileListener;
 
-	public FighterPlane(Node view, double initialXPos, double initialYPos, int health) {
+	public FighterPlane(Node view, double initialXPos, double initialYPos, int health, ProjectileListener projectileListener) {
 		super(view, initialXPos, initialYPos, health, health);
+		this.projectileListener = projectileListener;
 	}
 
-	public abstract ActiveActorDestructible fireProjectile();
+	public void spawnProjectile(ActiveActorDestructible projectile) {
+		projectileListener.spawnProjectile(projectile);
+	}
 	
 	@Override
 	public void takeDamage() {

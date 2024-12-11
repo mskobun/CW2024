@@ -3,13 +3,14 @@ package com.example.demo.screen.level.manager;
 import com.example.demo.entities.ActiveActor;
 import com.example.demo.entities.ActiveActorDestructible;
 import com.example.demo.entities.FighterPlane;
+import com.example.demo.entities.ProjectileListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class ActorManager {
+public class ActorManager implements ProjectileListener {
     private final List<ActiveActorDestructible> friendlyUnits;
     private final List<ActiveActorDestructible> enemyUnits;
     private final List<ActiveActorDestructible> enemyProjectiles;
@@ -38,18 +39,6 @@ public class ActorManager {
 
     private void notifyRemoveActor(ActiveActor actor) {
         listeners.forEach(listener -> listener.actorRemoved(actor));
-    }
-
-    // FIXME: Replace with event-based alternative
-    private void generateEnemyFire() {
-        enemyUnits.forEach(enemy -> {
-            // FIXME: unsafe cast to FighterPlane, like in the OG code. Not fixing, since
-            // event-based alternative will replace this later anyway.
-            ActiveActorDestructible projectile = ((FighterPlane) enemy).fireProjectile();
-            if (projectile != null) {
-                addActor(projectile);
-            }
-        });
     }
 
     private void handleCollisions(List<ActiveActorDestructible> actors1,
@@ -87,7 +76,6 @@ public class ActorManager {
         enemyUnits.forEach(actor -> actor.updateActor(timeDelta));
         enemyProjectiles.forEach(actor -> actor.updateActor(timeDelta));
         friendlyProjectiles.forEach(actor -> actor.updateActor(timeDelta));
-        generateEnemyFire();
         handleAllCollisions();
         removeAllDestroyedActors();
     }
@@ -109,5 +97,10 @@ public class ActorManager {
     // FIXME: Not ideal ,but needed for handleEnemyPenetration of Level
     public Iterator<ActiveActorDestructible> getEnemies() {
         return Collections.unmodifiableList(enemyUnits).iterator();
+    }
+
+    @Override
+    public void spawnProjectile(ActiveActorDestructible projectile) {
+        addActor(projectile);
     }
 }

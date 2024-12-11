@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.example.demo.AssetFactory;
 import com.example.demo.CachedAssetFactory;
+import com.example.demo.controller.KeyAction;
 import com.example.demo.entities.ActiveActorDestructible;
 import com.example.demo.entities.ActorFactory;
 import com.example.demo.screen.AbstractScreen;
@@ -35,11 +36,11 @@ public abstract class AbstractLevel extends AbstractScreen {
 
 	public AbstractLevel(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth, ScreenNavigator screenNavigator, AssetFactory assetFactory) {
 		super(screenHeight, screenWidth, screenNavigator, assetFactory);
-		this.actorFactory = new ActorFactory(assetFactory);
 		this.layerManager = new LayerManager(getContentRoot());
 		this.actorManager = new ActorManager();
+		this.actorFactory = new ActorFactory(assetFactory, actorManager);
 		actorManager.addListener(layerManager);
-		this.user = actorFactory.createUserPlane(playerInitialHealth);
+		this.user = actorFactory.createUserPlane(playerInitialHealth, getKeyInputHandler());
 		this.background = new ImageView(assetFactory.createImage(backgroundImageName));
 		this.screenHeight = screenHeight;
 		this.screenWidth = screenWidth;
@@ -95,20 +96,6 @@ public abstract class AbstractLevel extends AbstractScreen {
 		background.setFocusTraversable(true);
 		background.setFitHeight(screenHeight);
 		background.setFitWidth(screenWidth);
-		background.setOnKeyPressed(new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent e) {
-				KeyCode kc = e.getCode();
-				if (kc == KeyCode.UP) user.moveUp();
-				if (kc == KeyCode.DOWN) user.moveDown();
-				if (kc == KeyCode.SPACE) fireProjectile();
-			}
-		});
-		background.setOnKeyReleased(new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent e) {
-				KeyCode kc = e.getCode();
-				if (kc == KeyCode.UP || kc == KeyCode.DOWN) user.stop();
-			}
-		});
 		layerManager.getBackgroundLayer().getChildren().addAll(background);
 	}
 
@@ -118,11 +105,6 @@ public abstract class AbstractLevel extends AbstractScreen {
 
 	public void addNode(Node node) {
 		layerManager.getEntityLayer().getChildren().add(node);
-	}
-
-	private void fireProjectile() {
-		ActiveActorDestructible projectile = user.fireProjectile();
-		addActor(projectile);
 	}
 
 	private void updateActors(double timeDelta) {

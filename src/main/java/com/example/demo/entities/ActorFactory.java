@@ -1,14 +1,18 @@
 package com.example.demo.entities;
 
 import com.example.demo.AssetFactory;
+import com.example.demo.controller.KeyActionHandler;
+import com.example.demo.controller.KeyInputHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
 public class ActorFactory {
     private final AssetFactory assetFactory;
+    private final ProjectileListener projectileListener;
 
-    public ActorFactory(AssetFactory assetFactory) {
+    public ActorFactory(AssetFactory assetFactory, ProjectileListener projectileListener) {
         this.assetFactory = assetFactory;
+        this.projectileListener = projectileListener;
     }
 
     private Node createImageActorNode(String imageName, double imageHeight) {
@@ -24,10 +28,10 @@ public class ActorFactory {
     }
 
     public EnemyPlane createEnemyPlane(double initialXPos, double initialYPos) {
-        return new EnemyPlane(createImageActorNode("enemyplane.png", 54), initialXPos, initialYPos, this);
+        return new EnemyPlane(createImageActorNode("enemyplane.png", 54), initialXPos, initialYPos, this, projectileListener);
     }
-    public UserPlane createUserPlane(int initialHealth) {
-        return new UserPlane(createImageActorNode("userplane.png", 39), initialHealth, this);
+    public UserPlane createUserPlane(int initialHealth, KeyInputHandler keyInputHandler) {
+        return new UserPlane(createImageActorNode("userplane.png", 39), initialHealth, this, keyInputHandler, projectileListener);
     }
 
     public BossProjectile createBossProjectile(double initialYPos) {
@@ -38,7 +42,7 @@ public class ActorFactory {
         Group bossRoot = new Group();
         Node shieldImageNode = createImageActorNode("shield.png", 200, 200);
         Node bossImageNode = createImageActorNode("bossplane.png", 56);
-        return new Boss(bossRoot, bossImageNode, shieldImageNode, this);
+        return new Boss(bossRoot, bossImageNode, shieldImageNode, this, projectileListener);
     }
 
     public UserProjectile createUserProjetile(double initialXPos, double initialYPos) {

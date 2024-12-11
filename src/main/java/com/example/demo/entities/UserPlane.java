@@ -1,5 +1,7 @@
 package com.example.demo.entities;
 
+import com.example.demo.controller.KeyAction;
+import com.example.demo.controller.KeyInputHandler;
 import com.example.demo.movement.DirectionalMovementStrategy;
 import javafx.scene.Node;
 
@@ -13,17 +15,18 @@ public class UserPlane extends FighterPlane {
 	private final ActorFactory actorFactory;
 	private final DirectionalMovementStrategy directionalMovementStrategy;
 
-	public UserPlane(Node view, int initialHealth, ActorFactory actorFactory) {
-		super(view, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth);
+	public UserPlane(Node view, int initialHealth, ActorFactory actorFactory, KeyInputHandler keyInputHandler, ProjectileListener projectileListener) {
+		super(view, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth, projectileListener);
 		this.actorFactory = actorFactory;
 		directionalMovementStrategy = new DirectionalMovementStrategy(VERTICAL_VELOCITY);
 		setMovementStrategy(directionalMovementStrategy);
+		registerKeyActions(keyInputHandler);
 		setClampBounds(true, true);
 	}
 	
-	@Override
-	public ActiveActorDestructible fireProjectile() {
-		return actorFactory.createUserProjetile(PROJECTILE_X_POSITION, getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET));
+	private void fireProjectile() {
+		ActiveActorDestructible projectile = actorFactory.createUserProjetile(PROJECTILE_X_POSITION, getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET));
+		spawnProjectile(projectile);
 	}
 
 	@Override
@@ -31,18 +34,25 @@ public class UserPlane extends FighterPlane {
 		return ActorType.FRIENDLY_UNIT;
 	}
 
-	public void moveUp() {
-		directionalMovementStrategy.setMovingUp(true);
+	private void registerKeyActions(KeyInputHandler keyInputHandler) {
+		keyInputHandler.addListener(KeyAction.MOVE_UP, this::handleKeyAction);
+		keyInputHandler.addListener(KeyAction.MOVE_DOWN, this::handleKeyAction);
+		keyInputHandler.addListener(KeyAction.MOVE_RIGHT, this::handleKeyAction);
+		keyInputHandler.addListener(KeyAction.MOVE_LEFT, this::handleKeyAction);
+		keyInputHandler.addListener(KeyAction.FIRE_PROJECTILE, this::handleKeyAction);
 	}
 
-	public void moveDown() {
-		directionalMovementStrategy.setMovingDown(true);
-	}
-
-	public void stop() {
-		// TODO: Stop function not granular enough, like in the original code. Fix later
-		directionalMovementStrategy.setMovingUp(false);
-		directionalMovementStrategy.setMovingDown(false);
+	private void handleKeyAction(KeyAction action, boolean active) {
+		switch (action) {
+			case MOVE_UP -> directionalMovementStrategy.setMovingUp(active);
+			case MOVE_DOWN -> directionalMovementStrategy.setMovingDown(active);
+			case MOVE_RIGHT -> directionalMovementStrategy.setMovingRight(active);
+			case MOVE_LEFT -> directionalMovementStrategy.setMovingLeft(active);
+			case FIRE_PROJECTILE -> {
+				if (active)
+					fireProjectile();
+			}
+		}
 	}
 
 	public int getNumberOfKills() {

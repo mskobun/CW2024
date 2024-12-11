@@ -1,6 +1,7 @@
 package com.example.demo.screen;
 
 import com.example.demo.AssetFactory;
+import com.example.demo.controller.KeyInputHandler;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -15,6 +16,7 @@ public abstract class AbstractScreen {
     private final StackPane contentRoot;
     private final Scene scene;
     private final ScreenNavigator screenNavigator;
+    private final KeyInputHandler keyInputHandler;
     private final ScreenLoop screenLoop;
     private final AssetFactory assetFactory;
     // Call updateScene every targetDelta seconds
@@ -39,6 +41,10 @@ public abstract class AbstractScreen {
         return assetFactory;
     }
 
+    public KeyInputHandler getKeyInputHandler() {
+        return keyInputHandler;
+    }
+
     /**
      * Constructs a new {@code AbstractScreen}.
      * <p>
@@ -56,6 +62,8 @@ public abstract class AbstractScreen {
         this.assetFactory = assetFactory;
         contentRoot = new StackPane();
         scene = LetterboxManager.letterboxScene(contentRoot, screenHeight, screenWidth);
+        keyInputHandler = new KeyInputHandler();
+        keyInputHandler.attachToScene(scene);
         this.screenLoop = new ScreenLoop(this, TARGET_DELTA);
     }
 

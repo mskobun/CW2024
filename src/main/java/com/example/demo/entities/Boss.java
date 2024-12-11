@@ -13,20 +13,18 @@ public class Boss extends FighterPlane {
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 0;
 	private static final int HEALTH = 100;
 	private static final double MAX_DELTA_WITH_SHIELD = 2.5;
-	private boolean fireProjectileThisFrame;
 	private final Probability fireProbability = new Probability(0.8);
 	private final Probability shieldProbability = new Probability(0.04);
 	private final ProbabilisticShield shield;
 	private final ActorFactory actorFactory;
 
-	public Boss(Group root, Node bossPlane, Node shieldView, ActorFactory actorFactory) {
-		super(root, INITIAL_X_POSITION, INITIAL_Y_POSITION, HEALTH);
+	public Boss(Group root, Node bossPlane, Node shieldView, ActorFactory actorFactory, ProjectileListener projectileListener) {
+		super(root, INITIAL_X_POSITION, INITIAL_Y_POSITION, HEALTH, projectileListener);
 		this.shield = new ProbabilisticShield(shieldView, SHIELD_X_OFFSET, SHIELD_Y_OFFSET, shieldProbability, MAX_DELTA_WITH_SHIELD);
 		root.getChildren().addAll(bossPlane, shieldView);
 		setMovementStrategy(new BossMovementStrategy());
 		setClampBounds(true, true);
 		this.actorFactory = actorFactory;
-		fireProjectileThisFrame = false;
 	}
 
 	@Override
@@ -34,22 +32,23 @@ public class Boss extends FighterPlane {
 		return ActorType.ENEMY_UNIT;
 	}
 
-	public void updateFireProjectile(double timeDelta) {
-		fireProjectileThisFrame = fireProbability.evaluate(timeDelta);
+	public void maybeFireProjectile(double timeDelta) {
+		if (fireProbability.evaluate(timeDelta)) {
+			fireProjectile();
+		}
 	}
 	@Override
 	public void updateActorState(double timeDelta) {
 		shield.updateShield(timeDelta);
-		updateFireProjectile(timeDelta);
+		maybeFireProjectile(timeDelta);
 	}
 
 	private boolean isShielded() {
 		return shield.isActive();
 	}
 
-	@Override
-	public ActiveActorDestructible fireProjectile() {
-		return fireProjectileThisFrame ? actorFactory.createBossProjectile(getProjectileInitialPosition()) : null;
+	private void fireProjectile() {
+		spawnProjectile(actorFactory.createBossProjectile(getProjectileInitialPosition()));
 	}
 	
 	@Override
