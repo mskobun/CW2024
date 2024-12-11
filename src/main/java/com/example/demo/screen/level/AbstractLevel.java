@@ -8,6 +8,7 @@ import com.example.demo.entities.ActiveActorDestructible;
 import com.example.demo.entities.ActorFactory;
 import com.example.demo.screen.AbstractScreen;
 import com.example.demo.screen.ScreenNavigator;
+import com.example.demo.screen.ScreenType;
 import com.example.demo.screen.level.manager.ActorManager;
 import com.example.demo.screen.level.manager.LayerManager;
 import com.example.demo.screen.level.hud.LevelHUD;
@@ -69,12 +70,18 @@ public abstract class AbstractLevel extends AbstractScreen {
 	}
 
 	private void togglePaused() {
-		if (isPaused) {
-			startLoop();
-		} else {
+		if (!isPaused) {
 			stopLoop();
+			levelHUD.showPauseOverlay(this::togglePaused, this::goToMainMenu);
+		} else {
+			startLoop();
+			levelHUD.hidePauseOverlay();
 		}
 		isPaused = !isPaused;
+	}
+
+	private void goToMainMenu() {
+		goToScreen(ScreenType.MAIN_MENU);
 	}
 
 	private void initializeLevel() {

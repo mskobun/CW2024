@@ -15,6 +15,7 @@ public class LevelHUD {
 	private final AssetFactory assetFactory;
 	private HeartDisplay heartDisplay;
 	private HealthProgressBar healthProgressBar;
+	private PauseOverlay pauseOverlay;
 	
 	public LevelHUD(StackPane root, AssetFactory assetFactory) {
 		this.root = root;
@@ -55,5 +56,16 @@ public class LevelHUD {
 	public void hideHealthProgressBar() {
 		root.getChildren().remove(this.healthProgressBar.getView());
 		this.healthProgressBar = null;
+	}
+
+	public void showPauseOverlay(Runnable onResume, Runnable onMainMenu) {
+		pauseOverlay = new PauseOverlay(onResume, onMainMenu);
+		StackPane.setAlignment(pauseOverlay.getView(), Pos.CENTER);
+		root.getChildren().add(pauseOverlay.getView());
+	}
+
+	public void hidePauseOverlay() {
+		root.getChildren().remove(pauseOverlay.getView());
+		pauseOverlay = null;
 	}
 }
