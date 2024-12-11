@@ -9,8 +9,8 @@ public class UserPlane extends FighterPlane {
 	private static final double INITIAL_X_POSITION = 5.0;
 	private static final double INITIAL_Y_POSITION = 300.0;
 	private static final int VERTICAL_VELOCITY = 160;
-	private static final int PROJECTILE_X_POSITION = 161;
-	private static final int PROJECTILE_Y_POSITION_OFFSET = 25;
+	private static final double PROJECTILE_X_POSITION_OFFSET = INITIAL_X_POSITION + 156;
+	private static final double PROJECTILE_Y_POSITION_OFFSET = 25;
 	private int numberOfKills;
 	private final ActorFactory actorFactory;
 	private final DirectionalMovementStrategy directionalMovementStrategy;
@@ -25,7 +25,10 @@ public class UserPlane extends FighterPlane {
 	}
 	
 	private void fireProjectile() {
-		ActiveActorDestructible projectile = actorFactory.createUserProjetile(PROJECTILE_X_POSITION, getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET));
+		ActiveActorDestructible projectile = actorFactory.createUserProjetile(
+				getProjectileXPosition(PROJECTILE_X_POSITION_OFFSET),
+				getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET)
+		);
 		spawnProjectile(projectile);
 	}
 
