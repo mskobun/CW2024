@@ -1,4 +1,4 @@
-package com.example.demo.ui;
+package com.example.demo.screen.level.hud;
 
 import com.example.demo.entities.HealthObservable;
 import javafx.beans.binding.DoubleBinding;

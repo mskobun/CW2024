@@ -9,7 +9,7 @@ import com.example.demo.screen.AbstractScreen;
 import com.example.demo.screen.ScreenNavigator;
 import com.example.demo.screen.level.manager.ActorManager;
 import com.example.demo.screen.level.manager.LayerManager;
-import com.example.demo.ui.LevelView;
+import com.example.demo.screen.level.hud.LevelHUD;
 import com.example.demo.entities.UserPlane;
 import javafx.scene.image.*;
 
@@ -27,7 +27,7 @@ public abstract class AbstractLevel extends AbstractScreen {
 	private final ImageView background;
 
 	private int currentNumberOfEnemies;
-	private LevelView levelView;
+	private LevelHUD levelHUD;
 
 	public AbstractLevel(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth, ScreenNavigator screenNavigator, AssetFactory assetFactory) {
 		super(screenHeight, screenWidth, screenNavigator, assetFactory);
@@ -40,7 +40,7 @@ public abstract class AbstractLevel extends AbstractScreen {
 		this.screenHeight = screenHeight;
 		this.screenWidth = screenWidth;
 		this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
-		this.levelView = instantiateLevelView();
+		this.levelHUD = instantiateLevelView();
 		this.currentNumberOfEnemies = 0;
 		initializeLevel();
 	}
@@ -51,14 +51,14 @@ public abstract class AbstractLevel extends AbstractScreen {
 
 	protected abstract void spawnEnemyUnits();
 
-	protected LevelView instantiateLevelView() {
-		return new LevelView(getLayerManager().getUILayer(), getAssetFactory());
+	protected LevelHUD instantiateLevelView() {
+		return new LevelHUD(getLayerManager().getUILayer(), getAssetFactory());
 	}
 
 	private void initializeLevel() {
 		initializeBackground();
 		initializeFriendlyUnits();
-		levelView.showHeartDisplay(user);
+		levelHUD.showHeartDisplay(user);
 	}
 
 	public LayerManager getLayerManager() {
@@ -73,8 +73,8 @@ public abstract class AbstractLevel extends AbstractScreen {
 		return actorManager;
 	}
 
-	protected LevelView getLevelView() {
-		return levelView;
+	protected LevelHUD getLevelView() {
+		return levelHUD;
 	}
 
 	@Override
@@ -129,12 +129,12 @@ public abstract class AbstractLevel extends AbstractScreen {
 
 	protected void winGame() {
 		stopLoop();
-		levelView.showWinImage();
+		levelHUD.showWinImage();
 	}
 
 	protected void loseGame() {
 		stopLoop();
-		levelView.showGameOverImage();
+		levelHUD.showGameOverImage();
 	}
 
 	protected UserPlane getUser() {

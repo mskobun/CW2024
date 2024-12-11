@@ -1,19 +1,13 @@
-package com.example.demo.ui;
+package com.example.demo.screen.level.hud;
 
 import com.example.demo.AssetFactory;
-import com.example.demo.controller.Main;
 import com.example.demo.entities.HealthObservable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 
-import java.util.Stack;
-
-public class LevelView {
+public class LevelHUD {
 	private static final double HEALTH_PROGRESS_BAR_WIDTH = 200;
 	private final StackPane root;
 	private final WinImage winImage;
@@ -22,7 +16,7 @@ public class LevelView {
 	private HeartDisplay heartDisplay;
 	private HealthProgressBar healthProgressBar;
 	
-	public LevelView(StackPane root, AssetFactory assetFactory) {
+	public LevelHUD(StackPane root, AssetFactory assetFactory) {
 		this.root = root;
 		this.assetFactory = assetFactory;
 		this.winImage = new WinImage(assetFactory);

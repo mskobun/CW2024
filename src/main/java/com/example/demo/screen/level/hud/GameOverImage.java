@@ -1,8 +1,7 @@
-package com.example.demo.ui;
+package com.example.demo.screen.level.hud;
 
 import com.example.demo.AssetFactory;
 import com.example.demo.controller.Main;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class GameOverImage extends ImageView {
