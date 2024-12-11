@@ -8,5 +8,6 @@ public enum KeyAction {
     MOVE_DOWN,
     MOVE_LEFT,
     MOVE_RIGHT,
-    FIRE_PROJECTILE
+    FIRE_PROJECTILE,
+    TOGGLE_PAUSE
 }

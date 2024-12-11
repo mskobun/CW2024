@@ -3,6 +3,7 @@ package com.example.demo.screen.level;
 import java.util.*;
 
 import com.example.demo.AssetFactory;
+import com.example.demo.controller.KeyAction;
 import com.example.demo.entities.ActiveActorDestructible;
 import com.example.demo.entities.ActorFactory;
 import com.example.demo.screen.AbstractScreen;
@@ -28,6 +29,7 @@ public abstract class AbstractLevel extends AbstractScreen {
 
 	private int currentNumberOfEnemies;
 	private LevelHUD levelHUD;
+	private boolean isPaused;
 
 	public AbstractLevel(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth, ScreenNavigator screenNavigator, AssetFactory assetFactory) {
 		super(screenHeight, screenWidth, screenNavigator, assetFactory);
@@ -42,6 +44,8 @@ public abstract class AbstractLevel extends AbstractScreen {
 		this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
 		this.levelHUD = instantiateLevelView();
 		this.currentNumberOfEnemies = 0;
+		this.isPaused = false;
+		initializePauseHandler();
 		initializeLevel();
 	}
 
@@ -53,6 +57,24 @@ public abstract class AbstractLevel extends AbstractScreen {
 
 	protected LevelHUD instantiateLevelView() {
 		return new LevelHUD(getLayerManager().getUILayer(), getAssetFactory());
+	}
+
+	private void initializePauseHandler() {
+		getKeyInputHandler().addListener(KeyAction.TOGGLE_PAUSE, ((keyAction, active) -> {
+			// Only care when the key is pressed
+			if (active) {
+				togglePaused();
+			}
+		}));
+	}
+
+	private void togglePaused() {
+		if (isPaused) {
+			startLoop();
+		} else {
+			stopLoop();
+		}
+		isPaused = !isPaused;
 	}
 
 	private void initializeLevel() {

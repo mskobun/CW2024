@@ -68,6 +68,7 @@ public class KeyInputHandler implements EventHandler<KeyEvent> {
         codeActionMap.put(KeyCode.RIGHT, KeyAction.MOVE_RIGHT);
         codeActionMap.put(KeyCode.LEFT, KeyAction.MOVE_LEFT);
         codeActionMap.put(KeyCode.SPACE, KeyAction.FIRE_PROJECTILE);
+        codeActionMap.put(KeyCode.ESCAPE, KeyAction.TOGGLE_PAUSE);
     }
 
     /**
