@@ -37,11 +37,14 @@ public class DirectionalMovementStrategy implements MovementStrategy {
         double yDelta = 0;
         if (movingUp && !movingDown) {
             yDelta = timeDelta * -speed;
-        } else if (movingDown && !movingUp) {
+        }
+        if (movingDown && !movingUp) {
             yDelta = timeDelta * speed;
-        } else if (movingRight && !movingLeft) {
+        }
+        if (movingRight && !movingLeft) {
             xDelta = timeDelta * speed;
-        } else if (movingLeft && !movingRight) {
+        }
+        if (movingLeft && !movingRight) {
             xDelta = timeDelta * -speed;
         }
         return new PositionDelta(xDelta, yDelta);
