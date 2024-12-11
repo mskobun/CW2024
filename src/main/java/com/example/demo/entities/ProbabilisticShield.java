@@ -1,5 +1,6 @@
 package com.example.demo.entities;
 
+import com.example.demo.util.Probability;
 import javafx.scene.Node;
 
 

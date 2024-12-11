@@ -1,6 +1,7 @@
 package com.example.demo.entities;
 
 import com.example.demo.movement.LinearMovementStrategy;
+import com.example.demo.util.Probability;
 import javafx.scene.Node;
 
 public class EnemyPlane extends FighterPlane {

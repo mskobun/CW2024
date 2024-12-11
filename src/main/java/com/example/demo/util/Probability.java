@@ -1,4 +1,4 @@
-package com.example.demo.entities;
+package com.example.demo.util;
 
 public class Probability {
     double probabilityPerSecond;

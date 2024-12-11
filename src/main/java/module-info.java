@@ -17,4 +17,6 @@ module com.example.demo {
     opens com.example.demo.controller to javafx.fxml;
     exports com.example.demo.screen.level.hud;
     opens com.example.demo.screen.level.hud to javafx.fxml;
+    exports com.example.demo.util;
+    opens com.example.demo.util to javafx.fxml;
 }
