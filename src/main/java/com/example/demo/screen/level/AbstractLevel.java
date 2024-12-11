@@ -3,8 +3,6 @@ package com.example.demo.screen.level;
 import java.util.*;
 
 import com.example.demo.AssetFactory;
-import com.example.demo.CachedAssetFactory;
-import com.example.demo.controller.KeyAction;
 import com.example.demo.entities.ActiveActorDestructible;
 import com.example.demo.entities.ActorFactory;
 import com.example.demo.screen.AbstractScreen;
@@ -13,10 +11,7 @@ import com.example.demo.screen.level.manager.ActorManager;
 import com.example.demo.screen.level.manager.LayerManager;
 import com.example.demo.ui.LevelView;
 import com.example.demo.entities.UserPlane;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.image.*;
-import javafx.scene.input.*;
 
 public abstract class AbstractLevel extends AbstractScreen {
 
@@ -73,6 +68,7 @@ public abstract class AbstractLevel extends AbstractScreen {
 	public ActorFactory getActorFactory() {
 		return actorFactory;
 	}
+
 	public ActorManager getActorManager() {
 		return actorManager;
 	}
@@ -101,10 +97,6 @@ public abstract class AbstractLevel extends AbstractScreen {
 
 	public void addActor(ActiveActorDestructible actor) {
 		actorManager.addActor(actor);
-	}
-
-	public void addNode(Node node) {
-		layerManager.getEntityLayer().getChildren().add(node);
 	}
 
 	private void updateActors(double timeDelta) {
