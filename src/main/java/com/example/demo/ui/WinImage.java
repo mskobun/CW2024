@@ -10,12 +10,9 @@ public class WinImage extends ImageView {
 	private static final int HEIGHT = 500;
 	private static final int WIDTH = 600;
 	
-	public WinImage(double xPosition, double yPosition, AssetFactory assetFactory) {
+	public WinImage(AssetFactory assetFactory) {
 		this.setImage(assetFactory.createImage(IMAGE_NAME));
-		this.setVisible(false);
 		this.setFitHeight(HEIGHT);
 		this.setFitWidth(WIDTH);
-		this.setLayoutX(xPosition);
-		this.setLayoutY(yPosition);
 	}
 }

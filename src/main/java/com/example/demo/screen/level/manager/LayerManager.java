@@ -8,18 +8,18 @@ import javafx.scene.layout.StackPane;
 public class LayerManager implements ActorEventListener {
     private Pane backgroundLayer;
     private Pane entityLayer;
-    private Pane UILayer;
+    private StackPane UILayer;
     private StackPane root;
 
     public LayerManager(StackPane root) {
         this.root = root;
         this.backgroundLayer = new StackPane();
         this.entityLayer = new Pane();
-        this.UILayer = new Pane();
+        this.UILayer = new StackPane();
         this.root.getChildren().addAll(backgroundLayer, entityLayer, UILayer);
     }
 
-    public Pane getUILayer() {
+    public StackPane getUILayer() {
         return UILayer;
     }
 

@@ -36,6 +36,8 @@ public class HealthProgressBar {
         container = new VBox();
         container.setSpacing(SPACING);
         container.setAlignment(Pos.CENTER);
+        // Do not let the container be resized beyond size of it's children
+        container.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
     }
 
     private void initializeBar(HealthObservable actor, double width) {
