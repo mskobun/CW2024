@@ -1,10 +1,10 @@
 package com.example.demo.entities;
 
-import javafx.scene.Node;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.Node;
 
-public abstract class HealthObservableActor extends ActiveActorDestructible implements HealthObservable{
+public abstract class HealthObservableActor extends ActiveActorDestructible implements HealthObservable {
 
     private final IntegerProperty health;
     private final IntegerProperty maxHealth;

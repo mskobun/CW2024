@@ -14,8 +14,9 @@ public class ScreenLoop extends AnimationTimer {
     /**
      * Constructs a new {@code ScreenLoop}.
      * <p>
-     * @param screen    The screen to update
-     * @param targetDelta   How often to update the screen, in seconds.
+     *
+     * @param screen      The screen to update
+     * @param targetDelta How often to update the screen, in seconds.
      */
     public ScreenLoop(AbstractScreen screen, double targetDelta) {
         this.screen = screen;

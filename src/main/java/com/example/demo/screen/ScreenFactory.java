@@ -8,10 +8,11 @@ public class ScreenFactory {
     private final ScreenNavigator navigator;
     private final AssetFactory assetFactory;
 
-   public ScreenFactory(ScreenNavigator navigator, AssetFactory assetFactory) {
-       this.navigator = navigator;
-       this.assetFactory = assetFactory;
-   }
+    public ScreenFactory(ScreenNavigator navigator, AssetFactory assetFactory) {
+        this.navigator = navigator;
+        this.assetFactory = assetFactory;
+    }
+
     public AbstractScreen createScreen(ScreenType screenType, double screenHeight, double screenWidth) {
         switch (screenType) {
             case MAIN_MENU -> {

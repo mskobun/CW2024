@@ -1,15 +1,14 @@
 package com.example.demo.screen.level.manager;
 
 import com.example.demo.entities.ActiveActor;
-import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 public class LayerManager implements ActorEventListener {
-    private Pane backgroundLayer;
-    private Pane entityLayer;
-    private StackPane UILayer;
-    private StackPane root;
+    private final Pane backgroundLayer;
+    private final Pane entityLayer;
+    private final StackPane UILayer;
+    private final StackPane root;
 
     public LayerManager(StackPane root) {
         this.root = root;
@@ -36,7 +35,7 @@ public class LayerManager implements ActorEventListener {
     }
 
     public void removeActor(ActiveActor actor) {
-       getEntityLayer().getChildren().remove(actor.getView());
+        getEntityLayer().getChildren().remove(actor.getView());
     }
 
     @Override

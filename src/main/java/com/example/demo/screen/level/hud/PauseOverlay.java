@@ -16,7 +16,7 @@ public class PauseOverlay {
     /**
      * Creates a new {@code PauseOverlay} instance.
      *
-     * @param onResume  the action to perform when the "Resume" button is clicked
+     * @param onResume   the action to perform when the "Resume" button is clicked
      * @param onMainMenu the action to perform when the "Main Menu" button is clicked
      */
     public PauseOverlay(Runnable onResume, Runnable onMainMenu) {

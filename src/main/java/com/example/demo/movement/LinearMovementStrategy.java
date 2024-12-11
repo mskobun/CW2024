@@ -9,6 +9,7 @@ public class LinearMovementStrategy implements MovementStrategy {
 
     /**
      * Creates new {@code LinearMovementStrategy}
+     *
      * @param velocityX velocity on the X axis, per second.
      * @param velocityY velocity on the Y axis, per second.
      */

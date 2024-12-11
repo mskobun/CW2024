@@ -2,7 +2,6 @@ package com.example.demo.screen.level.manager;
 
 import com.example.demo.entities.ActiveActor;
 import com.example.demo.entities.ActiveActorDestructible;
-import com.example.demo.entities.FighterPlane;
 import com.example.demo.entities.ProjectileListener;
 
 import java.util.ArrayList;
@@ -65,12 +64,14 @@ public class ActorManager implements ProjectileListener {
         actors.removeAll(destroyedActors);
         destroyedActors.forEach(this::notifyRemoveActor);
     }
+
     private void removeAllDestroyedActors() {
         removeDestroyedActors(friendlyUnits);
         removeDestroyedActors(friendlyProjectiles);
         removeDestroyedActors(enemyUnits);
         removeDestroyedActors(enemyProjectiles);
     }
+
     public void updateActors(double timeDelta) {
         friendlyUnits.forEach(actor -> actor.updateActor(timeDelta));
         enemyUnits.forEach(actor -> actor.updateActor(timeDelta));

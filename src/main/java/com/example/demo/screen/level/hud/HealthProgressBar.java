@@ -4,11 +4,11 @@ import com.example.demo.entities.HealthObservable;
 import javafx.beans.binding.DoubleBinding;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.control.Label;
 
 
 public class HealthProgressBar {
@@ -25,11 +25,11 @@ public class HealthProgressBar {
     private static final Color BAR_PROGRESS_COLOR = Color.RED;
 
     public HealthProgressBar(double width, HealthObservable actor, String labelText) {
-       initializeContainer();
-       initializeBar(actor, width);
-       if (labelText != null) {
-           initializeLabel(labelText);
-       }
+        initializeContainer();
+        initializeBar(actor, width);
+        if (labelText != null) {
+            initializeLabel(labelText);
+        }
     }
 
     private void initializeContainer() {
@@ -62,6 +62,7 @@ public class HealthProgressBar {
         label.setStyle(LABEL_STYLE);
         container.getChildren().add(0, label);
     }
+
     public Region getView() {
         return container;
     }

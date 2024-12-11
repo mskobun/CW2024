@@ -4,15 +4,15 @@ import com.example.demo.movement.LinearMovementStrategy;
 import javafx.scene.Node;
 
 public class UserProjectile extends Projectile {
-	private static final int HORIZONTAL_VELOCITY = 300;
+    private static final int HORIZONTAL_VELOCITY = 300;
 
-	public UserProjectile(Node view, double initialXPos, double initialYPos) {
-		super(view, initialXPos, initialYPos);
-		setMovementStrategy(new LinearMovementStrategy(HORIZONTAL_VELOCITY, 0));
-	}
+    public UserProjectile(Node view, double initialXPos, double initialYPos) {
+        super(view, initialXPos, initialYPos);
+        setMovementStrategy(new LinearMovementStrategy(HORIZONTAL_VELOCITY, 0));
+    }
 
-	@Override
-	public ActorType getActorType() {
-		return ActorType.FRIENDLY_PROJECTILE;
-	}
+    @Override
+    public ActorType getActorType() {
+        return ActorType.FRIENDLY_PROJECTILE;
+    }
 }

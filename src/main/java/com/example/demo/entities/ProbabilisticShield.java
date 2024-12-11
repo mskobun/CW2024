@@ -30,6 +30,7 @@ public class ProbabilisticShield extends Shield {
     /**
      * Updates the shield's state based on the elapsed time.
      * <p>
+     *
      * @param timeDelta The time elapsed since the last update (in seconds).
      */
     public void updateShield(double timeDelta) {
@@ -39,7 +40,7 @@ public class ProbabilisticShield extends Shield {
                 hideShield();
             }
         } else if (activationProbability.evaluate(timeDelta)) {
-                showShield();
+            showShield();
         }
     }
 

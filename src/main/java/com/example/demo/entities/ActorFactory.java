@@ -1,7 +1,6 @@
 package com.example.demo.entities;
 
 import com.example.demo.AssetFactory;
-import com.example.demo.controller.KeyActionHandler;
 import com.example.demo.controller.KeyInputHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -30,6 +29,7 @@ public class ActorFactory {
     public EnemyPlane createEnemyPlane(double initialXPos, double initialYPos) {
         return new EnemyPlane(createImageActorNode("enemyplane.png", 54), initialXPos, initialYPos, this, projectileListener);
     }
+
     public UserPlane createUserPlane(int initialHealth, KeyInputHandler keyInputHandler) {
         return new UserPlane(createImageActorNode("userplane.png", 39), initialHealth, this, keyInputHandler, projectileListener);
     }

@@ -22,7 +22,7 @@ public class CachedAssetFactory implements AssetFactory {
      * @param imagePrefix the prefix to prepend to image names when locating resources.
      */
     public CachedAssetFactory(String imagePrefix) {
-       this.imagePrefix = imagePrefix;
+        this.imagePrefix = imagePrefix;
     }
 
     /**

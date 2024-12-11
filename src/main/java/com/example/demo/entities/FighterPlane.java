@@ -3,39 +3,39 @@ package com.example.demo.entities;
 import javafx.scene.Node;
 
 public abstract class FighterPlane extends HealthObservableActor {
-	private ProjectileListener projectileListener;
+    private final ProjectileListener projectileListener;
 
-	public FighterPlane(Node view, double initialXPos, double initialYPos, int health, ProjectileListener projectileListener) {
-		super(view, initialXPos, initialYPos, health, health);
-		this.projectileListener = projectileListener;
-	}
+    public FighterPlane(Node view, double initialXPos, double initialYPos, int health, ProjectileListener projectileListener) {
+        super(view, initialXPos, initialYPos, health, health);
+        this.projectileListener = projectileListener;
+    }
 
-	public void spawnProjectile(ActiveActorDestructible projectile) {
-		projectileListener.spawnProjectile(projectile);
-	}
-	
-	@Override
-	public void takeDamage() {
-		healthProperty().set(getHealth() - 1);
-		if (healthAtZero()) {
-			this.destroy();
-		}
-	}
+    public void spawnProjectile(ActiveActorDestructible projectile) {
+        projectileListener.spawnProjectile(projectile);
+    }
 
-	protected double getProjectileXPosition(double xPositionOffset) {
-		return getView().getLayoutX() + getView().getTranslateX() + xPositionOffset;
-	}
+    @Override
+    public void takeDamage() {
+        healthProperty().set(getHealth() - 1);
+        if (healthAtZero()) {
+            this.destroy();
+        }
+    }
 
-	protected double getProjectileYPosition(double yPositionOffset) {
-		return getView().getLayoutY() + getView().getTranslateY() + yPositionOffset;
-	}
+    protected double getProjectileXPosition(double xPositionOffset) {
+        return getView().getLayoutX() + getView().getTranslateX() + xPositionOffset;
+    }
 
-	private boolean healthAtZero() {
-		return getHealth() == 0;
-	}
+    protected double getProjectileYPosition(double yPositionOffset) {
+        return getView().getLayoutY() + getView().getTranslateY() + yPositionOffset;
+    }
 
-	public int getHealth() {
-		return healthProperty().get();
-	}
-		
+    private boolean healthAtZero() {
+        return getHealth() == 0;
+    }
+
+    public int getHealth() {
+        return healthProperty().get();
+    }
+
 }

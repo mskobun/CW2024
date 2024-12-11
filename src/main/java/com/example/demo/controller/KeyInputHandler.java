@@ -15,8 +15,8 @@ import java.util.Map;
  * It allows listeners to register for specific actions.
  */
 public class KeyInputHandler implements EventHandler<KeyEvent> {
-    private Map<KeyCode, KeyAction> codeActionMap;
-    private Map<KeyAction, List<KeyActionHandler>> listeners;
+    private final Map<KeyCode, KeyAction> codeActionMap;
+    private final Map<KeyAction, List<KeyActionHandler>> listeners;
 
     /**
      * Constructs a new KeyInputHandler with predefined key-action mappings.

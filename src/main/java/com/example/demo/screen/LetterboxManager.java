@@ -100,6 +100,6 @@ public class LetterboxManager implements ChangeListener<Number> {
      */
     @Override
     public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
-       updateScale();
+        updateScale();
     }
 }
