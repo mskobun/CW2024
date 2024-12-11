@@ -1,5 +1,7 @@
-package com.example.demo.entities;
+package com.example.demo.entities.planes;
 
+import com.example.demo.entities.ActiveActorDestructible;
+import com.example.demo.entities.HealthObservableActor;
 import javafx.scene.Node;
 
 public abstract class FighterPlane extends HealthObservableActor {

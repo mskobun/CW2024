@@ -1,5 +1,6 @@
-package com.example.demo.entities;
+package com.example.demo.entities.projectiles;
 
+import com.example.demo.entities.ActiveActorDestructible;
 import javafx.scene.Node;
 
 public abstract class Projectile extends ActiveActorDestructible {

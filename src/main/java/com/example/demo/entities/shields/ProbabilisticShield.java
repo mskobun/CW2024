@@ -1,4 +1,4 @@
-package com.example.demo.entities;
+package com.example.demo.entities.shields;
 
 import com.example.demo.util.Probability;
 import javafx.scene.Node;

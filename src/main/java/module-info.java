@@ -19,4 +19,10 @@ module com.example.demo {
     opens com.example.demo.screen.level.hud to javafx.fxml;
     exports com.example.demo.util;
     opens com.example.demo.util to javafx.fxml;
+    exports com.example.demo.entities.projectiles;
+    opens com.example.demo.entities.projectiles to javafx.fxml;
+    exports com.example.demo.entities.planes;
+    opens com.example.demo.entities.planes to javafx.fxml;
+    exports com.example.demo.entities.shields;
+    opens com.example.demo.entities.shields to javafx.fxml;
 }

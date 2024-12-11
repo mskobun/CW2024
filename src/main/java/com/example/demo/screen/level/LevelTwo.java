@@ -1,7 +1,7 @@
 package com.example.demo.screen.level;
 
 import com.example.demo.AssetFactory;
-import com.example.demo.entities.Boss;
+import com.example.demo.entities.planes.Boss;
 import com.example.demo.screen.ScreenNavigator;
 
 public class LevelTwo extends AbstractLevel {

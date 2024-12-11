@@ -2,6 +2,13 @@ package com.example.demo.entities;
 
 import com.example.demo.AssetFactory;
 import com.example.demo.controller.KeyInputHandler;
+import com.example.demo.entities.planes.Boss;
+import com.example.demo.entities.planes.EnemyPlane;
+import com.example.demo.entities.planes.ProjectileListener;
+import com.example.demo.entities.planes.UserPlane;
+import com.example.demo.entities.projectiles.BossProjectile;
+import com.example.demo.entities.projectiles.EnemyProjectile;
+import com.example.demo.entities.projectiles.UserProjectile;
 import javafx.scene.Group;
 import javafx.scene.Node;
 

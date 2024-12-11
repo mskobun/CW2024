@@ -2,7 +2,7 @@ package com.example.demo.screen.level.manager;
 
 import com.example.demo.entities.ActiveActor;
 import com.example.demo.entities.ActiveActorDestructible;
-import com.example.demo.entities.ProjectileListener;
+import com.example.demo.entities.planes.ProjectileListener;
 
 import java.util.ArrayList;
 import java.util.Collections;

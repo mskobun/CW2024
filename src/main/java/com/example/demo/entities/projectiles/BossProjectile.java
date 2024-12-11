@@ -1,5 +1,6 @@
-package com.example.demo.entities;
+package com.example.demo.entities.projectiles;
 
+import com.example.demo.entities.ActorType;
 import com.example.demo.movement.LinearMovementStrategy;
 import javafx.scene.Node;
 

@@ -1,5 +1,7 @@
-package com.example.demo.entities;
+package com.example.demo.entities.planes;
 
+import com.example.demo.entities.ActorFactory;
+import com.example.demo.entities.ActorType;
 import com.example.demo.movement.LinearMovementStrategy;
 import com.example.demo.util.Probability;
 import javafx.scene.Node;

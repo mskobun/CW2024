@@ -1,7 +1,10 @@
-package com.example.demo.entities;
+package com.example.demo.entities.planes;
 
 import com.example.demo.controller.KeyAction;
 import com.example.demo.controller.KeyInputHandler;
+import com.example.demo.entities.ActiveActorDestructible;
+import com.example.demo.entities.ActorFactory;
+import com.example.demo.entities.ActorType;
 import com.example.demo.movement.DirectionalMovementStrategy;
 import javafx.scene.Node;
 

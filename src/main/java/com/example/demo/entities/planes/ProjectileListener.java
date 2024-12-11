@@ -1,4 +1,6 @@
-package com.example.demo.entities;
+package com.example.demo.entities.planes;
+
+import com.example.demo.entities.ActiveActorDestructible;
 
 /**
  * Interface for handling projectile-related events.

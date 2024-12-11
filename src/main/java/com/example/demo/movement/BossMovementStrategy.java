@@ -1,11 +1,13 @@
 package com.example.demo.movement;
 
+import com.example.demo.entities.planes.Boss;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * Movement strategy for {@link com.example.demo.entities.Boss}.
+ * Movement strategy for {@link Boss}.
  */
 public class BossMovementStrategy implements MovementStrategy {
     private static final int MOVE_FREQUENCY_PER_CYCLE = 5;

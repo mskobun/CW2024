@@ -4,7 +4,7 @@ import com.example.demo.AssetFactory;
 import com.example.demo.controller.KeyAction;
 import com.example.demo.entities.ActiveActorDestructible;
 import com.example.demo.entities.ActorFactory;
-import com.example.demo.entities.UserPlane;
+import com.example.demo.entities.planes.UserPlane;
 import com.example.demo.screen.AbstractScreen;
 import com.example.demo.screen.ScreenNavigator;
 import com.example.demo.screen.ScreenType;
