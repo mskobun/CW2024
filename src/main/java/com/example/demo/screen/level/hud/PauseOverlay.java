@@ -5,11 +5,20 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+/**
+ * Overlay shown when the game is paused.
+ */
 public class PauseOverlay {
     private final StackPane view;
     private final Runnable onResume;
     private final Runnable onMainMenu;
 
+    /**
+     * Creates a new {@code PauseOverlay} instance.
+     *
+     * @param onResume  the action to perform when the "Resume" button is clicked
+     * @param onMainMenu the action to perform when the "Main Menu" button is clicked
+     */
     public PauseOverlay(Runnable onResume, Runnable onMainMenu) {
         view = new StackPane();
         this.onResume = onResume;
@@ -21,6 +30,9 @@ public class PauseOverlay {
         return view;
     }
 
+    /**
+     * Initializes the visual structure of the pause overlay, including its layout and buttons.
+     */
     private void initializeView() {
         // Half-transparent black background
         view.setBackground(new Background(new BackgroundFill(Color.rgb(0, 0, 0, 0.5), CornerRadii.EMPTY, null)));
