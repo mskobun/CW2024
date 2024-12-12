@@ -1,6 +1,7 @@
 package com.example.demo.screen;
 
 import com.example.demo.AssetFactory;
+import com.example.demo.screen.level.EndlessModeLevel;
 import com.example.demo.screen.level.LevelOne;
 import com.example.demo.screen.level.LevelTwo;
 
@@ -23,6 +24,9 @@ public class ScreenFactory {
             }
             case LEVEL_TWO -> {
                 return new LevelTwo(screenHeight, screenWidth, navigator, assetFactory);
+            }
+            case LEVEL_ENDLESS_MODE -> {
+                return new EndlessModeLevel(screenHeight, screenWidth, navigator, assetFactory);
             }
         }
         return null;

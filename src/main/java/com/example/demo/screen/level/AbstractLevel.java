@@ -31,6 +31,15 @@ public abstract class AbstractLevel extends AbstractScreen {
     private final LevelHUD levelHUD;
     private boolean isPaused;
 
+    /**
+     * Constructs a new level.
+     *
+     * @param screenHeight the height of the screen.
+     * @param screenWidth the width of the screen.
+     * @param playerInitialHealth the initial health of the player.
+     * @param screenNavigator the {@link ScreenNavigator} used to manage screen transitions.
+     * @param assetFactory the {@link AssetFactory} used to create game assets.
+     */
     public AbstractLevel(double screenHeight, double screenWidth, int playerInitialHealth, ScreenNavigator screenNavigator, AssetFactory assetFactory) {
         super(screenHeight, screenWidth, screenNavigator, assetFactory);
         this.layerManager = new LayerManager(getContentRoot());
@@ -49,12 +58,25 @@ public abstract class AbstractLevel extends AbstractScreen {
         initializeLevel();
     }
 
+    /**
+     * @return the {@link Background} for this level.
+     */
     protected abstract Background createBackground();
 
+    /**
+     * Initialize friendly units. Ran once on level initialization.
+     */
     protected abstract void initializeFriendlyUnits();
 
+    /**
+     * Check if game is over and perform appropriate actions. Ran every frame.
+     */
     protected abstract void checkIfGameOver();
 
+    /**
+     * Spawn enemy units. Ran every frame
+     * @param timeDelta time since last frame, in seconds.
+     */
     protected abstract void spawnEnemyUnits(double timeDelta);
 
     protected LevelHUD instantiateLevelView() {
@@ -85,6 +107,9 @@ public abstract class AbstractLevel extends AbstractScreen {
         goToScreen(ScreenType.MAIN_MENU);
     }
 
+    /**
+     * Restart the game by going to the first level.
+     */
     protected void restartGame() {
        goToScreen(ScreenType.LEVEL_ONE);
     }

@@ -35,11 +35,13 @@ public class MainMenuScreen extends AbstractScreen {
         logo.setPreserveRatio(true);
 
         Button startButton = new Button("Start Game");
+        Button endlessModeButton = new Button("Endless mode");
         // Set button actions
         startButton.setOnAction(e -> startGame());
+        endlessModeButton.setOnAction(e -> goToScreen(ScreenType.LEVEL_ENDLESS_MODE));
 
         // Create a VBox layout to arrange buttons vertically
-        VBox layout = new VBox(10, logo, startButton);
+        VBox layout = new VBox(10, logo, startButton, endlessModeButton);
         layout.setAlignment(Pos.CENTER);
         // Do not let root stretch the layout beyond children's size
         layout.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
