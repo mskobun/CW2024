@@ -12,17 +12,27 @@ import com.example.demo.screen.ScreenType;
  * with enemies spawning more frequently over time.
  */
 public class EndlessModeLevel extends AbstractLevel {
+    private static final int PLAYER_INITIAL_HEALTH = 5;
     private final int MAX_ENEMIES_ON_SCREEN = 10;
     private final double BASE_SPAWN_INTERVAL = 1; // Base interval between spawns (in seconds)
     private final double MIN_SPAWN_INTERVAL = 0.5; // Minimum interval for faster spawning as time progresses
-    private static final int PLAYER_INITIAL_HEALTH = 5;
     private double totalElapsedTime;
     private double elapsedTimeSinceLastSpawn;
 
     /**
-     * {@inheritDoc}
+     * Constructs endless mode level.
+     *
+     * @param screenHeight    the height of the screen.
+     * @param screenWidth     the width of the screen.
+     * @param screenNavigator the {@link ScreenNavigator} used to manage screen transitions.
+     * @param assetFactory    the {@link AssetFactory} used to create game assets.
      */
-    public EndlessModeLevel(double screenHeight, double screenWidth, ScreenNavigator screenNavigator, AssetFactory assetFactory) {
+    public EndlessModeLevel(
+            final double screenHeight,
+            final double screenWidth,
+            final ScreenNavigator screenNavigator,
+            final AssetFactory assetFactory
+    ) {
         super(screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, screenNavigator, assetFactory);
         this.totalElapsedTime = 0;
     }
@@ -55,10 +65,11 @@ public class EndlessModeLevel extends AbstractLevel {
 
     /**
      * Spawns enemy units, with spawn interval increasing as time passes.
+     *
      * @see AbstractLevel#spawnEnemyUnits(double)
      */
     @Override
-    protected void spawnEnemyUnits(double timeDelta) {
+    protected void spawnEnemyUnits(final double timeDelta) {
         increaseElapsedTime(timeDelta);
         // The more time passes, the lower spawnInterval becomes,
         // until it hits MIN_SPAWN_INTERVAL
@@ -72,7 +83,7 @@ public class EndlessModeLevel extends AbstractLevel {
     }
 
     /**
-     * Restart the level.
+     * Restarts the level.
      */
     @Override
     protected void restartGame() {
@@ -88,7 +99,7 @@ public class EndlessModeLevel extends AbstractLevel {
         addActor(newEnemy);
     }
 
-    private boolean shouldSpawnEnemy(double spawnInterval) {
+    private boolean shouldSpawnEnemy(final double spawnInterval) {
         if (elapsedTimeSinceLastSpawn >= spawnInterval) {
             resetElapsedSpawnTime();
             return true;
@@ -96,7 +107,7 @@ public class EndlessModeLevel extends AbstractLevel {
         return false;
     }
 
-    private void increaseElapsedTime(double timeDelta) {
+    private void increaseElapsedTime(final double timeDelta) {
         elapsedTimeSinceLastSpawn += timeDelta;
         totalElapsedTime += timeDelta;
     }

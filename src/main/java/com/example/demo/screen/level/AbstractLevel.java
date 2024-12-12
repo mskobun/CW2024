@@ -12,8 +12,16 @@ import com.example.demo.screen.ScreenType;
 import com.example.demo.screen.level.hud.LevelHUD;
 import com.example.demo.screen.level.manager.ActorManager;
 import com.example.demo.screen.level.manager.LayerManager;
+
 import java.util.Iterator;
 
+
+/**
+ * Abstract class representing a level in the game. It manages the initialization,
+ * updates, and game state transitions such as pausing, winning, or losing the game.
+ * Subclasses must implement level-specific logic for creating backgrounds, spawning
+ * enemies, and handling the game over conditions.
+ */
 public abstract class AbstractLevel extends AbstractScreen {
 
     private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
@@ -26,19 +34,18 @@ public abstract class AbstractLevel extends AbstractScreen {
     private final ActorManager actorManager;
     private final UserPlane user;
     private final Background background;
-
-    private int currentNumberOfEnemies;
     private final LevelHUD levelHUD;
+    private int currentNumberOfEnemies;
     private boolean isPaused;
 
     /**
      * Constructs a new level.
      *
-     * @param screenHeight the height of the screen.
-     * @param screenWidth the width of the screen.
+     * @param screenHeight        the height of the screen.
+     * @param screenWidth         the width of the screen.
      * @param playerInitialHealth the initial health of the player.
-     * @param screenNavigator the {@link ScreenNavigator} used to manage screen transitions.
-     * @param assetFactory the {@link AssetFactory} used to create game assets.
+     * @param screenNavigator     the {@link ScreenNavigator} used to manage screen transitions.
+     * @param assetFactory        the {@link AssetFactory} used to create game assets.
      */
     public AbstractLevel(double screenHeight, double screenWidth, int playerInitialHealth, ScreenNavigator screenNavigator, AssetFactory assetFactory) {
         super(screenHeight, screenWidth, screenNavigator, assetFactory);
@@ -75,6 +82,7 @@ public abstract class AbstractLevel extends AbstractScreen {
 
     /**
      * Spawn enemy units. Ran every frame
+     *
      * @param timeDelta time since last frame, in seconds.
      */
     protected abstract void spawnEnemyUnits(double timeDelta);
@@ -111,7 +119,7 @@ public abstract class AbstractLevel extends AbstractScreen {
      * Restart the game by going to the first level.
      */
     protected void restartGame() {
-       goToScreen(ScreenType.LEVEL_ONE);
+        goToScreen(ScreenType.LEVEL_ONE);
     }
 
     private void initializeLevel() {
@@ -120,24 +128,42 @@ public abstract class AbstractLevel extends AbstractScreen {
         levelHUD.showHeartDisplay(user);
     }
 
-    public LayerManager getLayerManager() {
+    /**
+     * Gets the {@link LayerManager} for managing the layers in the level.
+     *
+     * @return the {@link LayerManager} instance
+     */
+    protected LayerManager getLayerManager() {
         return layerManager;
     }
 
-    public ActorFactory getActorFactory() {
+    /**
+     * Gets the {@link ActorFactory} used to create game actors in the level.
+     *
+     * @return the {@link ActorFactory} instance
+     */
+    protected ActorFactory getActorFactory() {
         return actorFactory;
     }
 
-    public ActorManager getActorManager() {
-        return actorManager;
-    }
 
-    protected LevelHUD getLevelView() {
+    /**
+     * Gets the {@link LevelHUD} for displaying the Heads-Up Display (HUD) in the level.
+     *
+     * @return the {@link LevelHUD} instance
+     */
+    protected LevelHUD getLevelHUD() {
         return levelHUD;
     }
 
+    /**
+     * Updates level state on every frame.
+     *
+     * @param timeDelta the time elapsed since the last update, in seconds.
+     * @see AbstractScreen#updateScene(double)
+     */
     @Override
-    public void updateScene(double timeDelta) {
+    public void updateScene(final double timeDelta) {
         background.update(timeDelta);
         spawnEnemyUnits(timeDelta);
         updateActors(timeDelta);
@@ -152,11 +178,16 @@ public abstract class AbstractLevel extends AbstractScreen {
         layerManager.getBackgroundLayer().getChildren().addAll(background.getView());
     }
 
-    public void addActor(ActiveActorDestructible actor) {
+    /**
+     * Adds an actor
+     *
+     * @param actor the {@link ActiveActorDestructible} to be added
+     */
+    protected void addActor(final ActiveActorDestructible actor) {
         actorManager.addActor(actor);
     }
 
-    private void updateActors(double timeDelta) {
+    private void updateActors(final double timeDelta) {
         actorManager.updateActors(timeDelta);
     }
 
@@ -184,41 +215,79 @@ public abstract class AbstractLevel extends AbstractScreen {
         return Math.abs(enemy.getView().getTranslateX()) > screenWidth;
     }
 
+    /**
+     * Triggers the game win state.
+     * Stops the game loop and displays the win overlay with options to restart the game or return to the main menu.
+     */
     protected void winGame() {
         stopLoop();
         levelHUD.showWinOverlay(this::restartGame, this::goToMainMenu);
     }
 
+    /**
+     * Triggers the game lose state.
+     * Stops the game loop and displays the lose overlay with options to restart the game or return to the main menu.
+     */
     protected void loseGame() {
         stopLoop();
         levelHUD.showLoseOverlay(this::restartGame, this::goToMainMenu);
     }
 
+
+    /**
+     * Gets the user's plane actor for the current level.
+     *
+     * @return the {@link UserPlane} representing the user's plane.
+     */
     protected UserPlane getUser() {
         return user;
     }
 
+
+    /**
+     * Gets the maximum Y-coordinate an enemy can occupy before being considered off the screen.
+     *
+     * @return the maximum Y-coordinate for enemies.
+     */
     protected double getEnemyMaximumYPosition() {
         return enemyMaximumYPosition;
     }
 
+    /**
+     * @return the width of the screen
+     */
     protected double getScreenWidth() {
         return screenWidth;
     }
 
+    /**
+     * @return the height of the screen
+     */
     protected double getScreenHeight() {
         return screenHeight;
     }
 
+
+    /**
+     * Checks whether the player's user plane has been destroyed.
+     *
+     * @return {@code true} if the user plane is destroyed; {@code false} otherwise.
+     */
     protected boolean userIsDestroyed() {
         return user.isDestroyed();
     }
 
-    private void updateNumberOfEnemies() {
-        currentNumberOfEnemies = actorManager.getNumberOfEnemies();
-    }
 
+    /**
+     * Retrieves the current number of enemies in the level.
+     *
+     * @return the current number of enemies
+     */
     protected int getCurrentNumberOfEnemies() {
         return actorManager.getNumberOfEnemies();
+    }
+
+    private void updateNumberOfEnemies() {
+        currentNumberOfEnemies = actorManager.getNumberOfEnemies();
     }
 }

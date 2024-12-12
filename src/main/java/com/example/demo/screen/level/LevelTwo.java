@@ -12,32 +12,60 @@ public class LevelTwo extends AbstractLevel {
     private static final int PLAYER_INITIAL_HEALTH = 5;
     private final Boss boss;
 
-    public LevelTwo(double screenHeight, double screenWidth, ScreenNavigator screenNavigator, AssetFactory assetFactory) {
+    /**
+     * Constructs the second level of the game.
+     *
+     * @param screenHeight    the height of the screen
+     * @param screenWidth     the width of the screen
+     * @param screenNavigator the {@link ScreenNavigator} used to manage screen transitions
+     * @param assetFactory    the {@link AssetFactory} used to create game assets
+     */
+    public LevelTwo(
+            final double screenHeight,
+            final double screenWidth,
+            final ScreenNavigator screenNavigator,
+            final AssetFactory assetFactory
+    ) {
         super(screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, screenNavigator, assetFactory);
         boss = getActorFactory().createBoss();
     }
 
+    /**
+     * Creates static background for this level.
+     *
+     * @return static background
+     */
     @Override
     protected Background createBackground() {
         return new StaticImageBackground(getAssetFactory().createImage(BACKGROUND_IMAGE_NAME), getScreenHeight(), getScreenWidth());
     }
 
+    /**
+     * Initializes user plane.
+     */
     @Override
     protected void initializeFriendlyUnits() {
         addActor(getUser());
     }
 
+    /**
+     * @see AbstractLevel#checkIfGameOver()
+     */
     @Override
     protected void checkIfGameOver() {
         if (userIsDestroyed()) {
             loseGame();
         } else if (boss.isDestroyed()) {
+            getLevelHUD().hideHealthProgressBar();
             winGame();
         }
     }
 
+    /**
+     * Spawns the boss if there are no enemies on the screen.
+     */
     @Override
-    protected void spawnEnemyUnits(double timeDelta) {
+    protected void spawnEnemyUnits(final double timeDelta) {
         if (getCurrentNumberOfEnemies() == 0) {
             spawnBoss();
         }
@@ -45,6 +73,6 @@ public class LevelTwo extends AbstractLevel {
 
     private void spawnBoss() {
         addActor(boss);
-        getLevelView().showHealthProgressBar(boss, "BOSS");
+        getLevelHUD().showHealthProgressBar(boss, "BOSS");
     }
 }
