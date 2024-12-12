@@ -28,16 +28,17 @@ public class KeyInputHandler implements EventHandler<KeyEvent> {
     }
 
     /**
-     * Attaches this KeyInputHandler to the specified scene, registering it for key press and release events.
+     * Attaches this KeyInputHandler to the specified scene,
+     * registering it for key press and release events.
      *
      * @param scene the scene to attach this handler to
      */
-    public void attachToScene(Scene scene) {
+    public void attachToScene(final Scene scene) {
         scene.setOnKeyPressed(this);
         scene.setOnKeyReleased(this);
     }
 
-    private List<KeyActionHandler> getOrCreateListeners(KeyAction action) {
+    private List<KeyActionHandler> getOrCreateListeners(final KeyAction action) {
         return listeners.computeIfAbsent(action, k -> new ArrayList<>());
     }
 
@@ -47,7 +48,8 @@ public class KeyInputHandler implements EventHandler<KeyEvent> {
      * @param action  the action to listen for
      * @param handler the handler to notify when the action occurs
      */
-    public void addListener(KeyAction action, KeyActionHandler handler) {
+    public void addListener(final KeyAction action,
+                            final KeyActionHandler handler) {
         getOrCreateListeners(action).add(handler);
     }
 
@@ -58,7 +60,7 @@ public class KeyInputHandler implements EventHandler<KeyEvent> {
      * @param action  the action to stop listening for
      * @param handler the handler to remove
      */
-    public void removeListener(KeyAction action, KeyActionHandler handler) {
+    public void removeListener(final KeyAction action, final KeyActionHandler handler) {
         getOrCreateListeners(action).remove(handler);
     }
 
@@ -77,7 +79,7 @@ public class KeyInputHandler implements EventHandler<KeyEvent> {
      * @param keyEvent the key event to handle
      */
     @Override
-    public void handle(KeyEvent keyEvent) {
+    public void handle(final KeyEvent keyEvent) {
         boolean active;
 
         if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {

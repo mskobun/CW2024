@@ -15,25 +15,42 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 
+/**
+ * Manages the navigation between different screens of the game
+ * and handles the game lifecycle.
+ * Responsible for initializing the application, showing the main menu,
+ * and switching between screens.
+ */
 public class Controller implements ScreenNavigator {
 
     private final Stage stage;
     private final ScreenFactory screenFactory;
 
-    public Controller(Stage stage) {
+    /**
+     * Constructs a new instance with the provided stage.
+     *
+     * @param stage The primary stage for this application.
+     */
+    public Controller(final Stage stage) {
         this.stage = stage;
         final String ASSET_BASE_PATH = "/com/example/demo/images/";
         AssetFactory assetFactory = new CachedAssetFactory(ASSET_BASE_PATH);
         screenFactory = new ScreenFactory(this, assetFactory);
     }
 
+    /**
+     * Launches the game and opens the main menu.
+     */
     public void launchGame() {
         stage.show();
         goToScreen(ScreenType.MAIN_MENU);
     }
 
+    /**
+     * @see ScreenNavigator#goToScreen(ScreenType)
+     */
     @Override
-    public void goToScreen(ScreenType screenType) {
+    public void goToScreen(final ScreenType screenType) {
         try {
             AbstractScreen myScreen = screenFactory.createScreen(screenType, Main.SCREEN_HEIGHT, Main.SCREEN_WIDTH);
             Scene scene = myScreen.getScene();
@@ -48,7 +65,14 @@ public class Controller implements ScreenNavigator {
         }
     }
 
-    private String getThrowableStr(Throwable e) {
+    /**
+     * Converts a {@link Throwable} into a string,
+     * including the stack trace and the cause of the exception if applicable.
+     *
+     * @param e The throwable to convert.
+     * @return A string representation of the stack trace and cause.
+     */
+    private String getThrowableStr(final Throwable e) {
         StringWriter sw = new StringWriter();
         e.printStackTrace(new PrintWriter(sw));
         String exceptionString = sw.toString();
@@ -66,7 +90,7 @@ public class Controller implements ScreenNavigator {
      *
      * @param e the unrecoverable error
      */
-    private void fatalError(Throwable e) {
+    private void fatalError(final Throwable e) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setHeaderText(e.getClass().toString());
         String exceptionString = getThrowableStr(e);
