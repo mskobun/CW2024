@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class ScrollingImageBackground extends Background {
     // XXX: This HAS to be negative due to the way repeating logic is implemented
-    private final double SLIDE_VELOCITY = -300;
+    private final double SLIDE_VELOCITY = -100;
     private final Pane root;
     private final Image image;
     private final double screenHeight;
