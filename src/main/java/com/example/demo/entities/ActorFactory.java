@@ -47,7 +47,7 @@ public class ActorFactory {
 
     public Boss createBoss() {
         Group bossRoot = new Group();
-        Node shieldImageNode = createImageActorNode("shield.png", 200, 200);
+        Node shieldImageNode = createImageActorNode("shield.png", 125);
         Node bossImageNode = createImageActorNode("bossplane.png", 56);
         return new Boss(bossRoot, bossImageNode, shieldImageNode, this, projectileListener);
     }

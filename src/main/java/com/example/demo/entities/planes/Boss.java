@@ -12,8 +12,8 @@ public class Boss extends FighterPlane {
     // TODO: Move to factory
     private static final double INITIAL_X_POSITION = 1000.0;
     private static final double INITIAL_Y_POSITION = 400;
-    private static final double SHIELD_X_OFFSET = -150;
-    private static final double SHIELD_Y_OFFSET = -50;
+    private static final double SHIELD_X_OFFSET = -100;
+    private static final double SHIELD_Y_OFFSET = -15;
     private static final double PROJECTILE_Y_POSITION_OFFSET = 0;
     private static final int HEALTH = 100;
     private static final double MAX_DELTA_WITH_SHIELD = 2.5;
