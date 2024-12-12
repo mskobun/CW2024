@@ -16,11 +16,11 @@ public abstract class ActiveActorDestructible extends ActiveActor implements Des
         setDestroyed(true);
     }
 
-    protected void setDestroyed(boolean isDestroyed) {
-        this.isDestroyed = isDestroyed;
-    }
-
     public boolean isDestroyed() {
         return isDestroyed;
+    }
+
+    protected void setDestroyed(boolean isDestroyed) {
+        this.isDestroyed = isDestroyed;
     }
 }

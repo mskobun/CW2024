@@ -14,9 +14,9 @@ public class UserPlane extends FighterPlane {
     private static final int VERTICAL_VELOCITY = 160;
     private static final double PROJECTILE_X_POSITION_OFFSET = INITIAL_X_POSITION + 156;
     private static final double PROJECTILE_Y_POSITION_OFFSET = 25;
-    private int numberOfKills;
     private final ActorFactory actorFactory;
     private final DirectionalMovementStrategy directionalMovementStrategy;
+    private int numberOfKills;
 
     public UserPlane(Node view, int initialHealth, ActorFactory actorFactory, KeyInputHandler keyInputHandler, ProjectileListener projectileListener) {
         super(view, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth, projectileListener);

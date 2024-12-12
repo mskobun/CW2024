@@ -4,8 +4,8 @@ import com.example.demo.AssetFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class ImageActorNode extends ImageView {
-    public ImageActorNode(AssetFactory assetFactory, String imageName, double imageHeight) {
+public class ScaledImageView extends ImageView {
+    public ScaledImageView(AssetFactory assetFactory, String imageName, double imageHeight) {
         super();
         Image image = assetFactory.createImage(imageName);
         setImage(image);
@@ -13,7 +13,7 @@ public class ImageActorNode extends ImageView {
         setPreserveRatio(true);
     }
 
-    public ImageActorNode(AssetFactory assetFactory, String imageName, double imageHeight, double imageWidth) {
+    public ScaledImageView(AssetFactory assetFactory, String imageName, double imageHeight, double imageWidth) {
         super();
         Image image = assetFactory.createImage(imageName);
         setImage(image);

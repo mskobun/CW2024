@@ -6,13 +6,24 @@ import com.example.demo.movement.NoMovementStrategy;
 import com.example.demo.movement.PositionDelta;
 import javafx.scene.Node;
 
+/**
+ * Abstract class representing an active actor in the game that can be updated over time.
+ * It manages the actor's view, movement strategy, and clamping of coordinates within screen bounds.
+ */
 public abstract class ActiveActor implements UpdatableEntity {
     private final Node view;
     private MovementStrategy movementStrategy;
     private boolean clampX;
     private boolean clampY;
 
-    public ActiveActor(Node view, double initialXPos, double initialYPos) {
+    /**
+     * Constructs an ActiveActor with the given view and initial position.
+     *
+     * @param view the graphical representation of the actor
+     * @param initialXPos the initial X position of the actor
+     * @param initialYPos the initial Y position of the actor
+     */
+    public ActiveActor(final Node view, final double initialXPos, final double initialYPos) {
         this.view = view;
         this.view.setLayoutX(initialXPos);
         this.view.setLayoutY(initialYPos);
@@ -21,7 +32,12 @@ public abstract class ActiveActor implements UpdatableEntity {
         this.clampX = false;
     }
 
-    protected void setMovementStrategy(MovementStrategy movementStrategy) {
+    /**
+     * Sets the movement strategy for the actor.
+     *
+     * @param movementStrategy the movement strategy
+     */
+    protected void setMovementStrategy(final MovementStrategy movementStrategy) {
         this.movementStrategy = movementStrategy;
     }
 
@@ -32,18 +48,29 @@ public abstract class ActiveActor implements UpdatableEntity {
      * @param clampX clamp X coordinate
      * @param clampY clamp Y coordinate
      */
-    protected void setClampBounds(boolean clampX, boolean clampY) {
+    protected void setClampBounds(final boolean clampX, final boolean clampY) {
         this.clampX = clampX;
         this.clampY = clampY;
     }
 
+    /**
+     * @see UpdatableEntity#getView()
+     */
     public Node getView() {
         return view;
     }
 
+    /**
+     * Gets the type of the actor.
+     *
+     * @return the actor type
+     */
     public abstract ActorType getActorType();
 
-    private double clampDimensionDelta(double oldValue, double maxValue, double length, double delta) {
+    private double clampDimensionDelta(final double oldValue,
+                                       final double maxValue,
+                                       final double length,
+                                       final double delta) {
         double minDelta = -oldValue;
         double maxDelta = maxValue - length - oldValue;
         return Math.min(maxDelta, Math.max(minDelta, delta));
@@ -56,7 +83,7 @@ public abstract class ActiveActor implements UpdatableEntity {
      * @param delta
      * @return a {@link PositionDelta} of either the original movement, or maximum allowable movement
      */
-    protected PositionDelta clampDelta(PositionDelta delta) {
+    protected PositionDelta clampDelta(final PositionDelta delta) {
         double clampedDeltaX = delta.x();
         double clampedDeltaY = delta.y();
         if (clampX) {
@@ -74,26 +101,35 @@ public abstract class ActiveActor implements UpdatableEntity {
         return new PositionDelta(clampedDeltaX, clampedDeltaY);
     }
 
-    private void updateMovement(double timeDelta) {
+    private void updateMovement(final double timeDelta) {
         PositionDelta delta = movementStrategy.getPositionDelta(timeDelta);
         PositionDelta clampedDelta = clampDelta(delta);
         moveHorizontally(clampedDelta.x());
         moveVertically(clampedDelta.y());
     }
 
-    public void update(double timeDelta) {
+    /**
+     * Updates actor. This method can not be overriden, subclasses
+     * should instead override {@link #updateState(double)}.
+     * @param timeDelta the time passed since the last update, in seconds
+     */
+    public final void update(final double timeDelta) {
         updateMovement(timeDelta);
         updateState(timeDelta);
     }
 
-    public void updateState(double timeDelta) {
+    /**
+     * Update actor's state.
+     * @param timeDelta the time passed since the last update, in seconds
+     */
+    protected void updateState(final double timeDelta) {
     }
 
-    private void moveHorizontally(double horizontalMove) {
+    private void moveHorizontally(final double horizontalMove) {
         view.setTranslateX(view.getTranslateX() + horizontalMove);
     }
 
-    private void moveVertically(double verticalMove) {
+    private void moveVertically(final double verticalMove) {
         view.setTranslateY(view.getTranslateY() + verticalMove);
     }
 }
