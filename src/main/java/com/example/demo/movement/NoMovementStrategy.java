@@ -7,8 +7,11 @@ package com.example.demo.movement;
 public class NoMovementStrategy implements MovementStrategy {
     private static final PositionDelta NO_OP_MOVEMENT = new PositionDelta(0, 0);
 
+    /**
+     * @see MovementStrategy#getPositionDelta(double)
+     */
     @Override
-    public PositionDelta getPositionDelta(double timeDelta) {
+    public PositionDelta getPositionDelta(final double timeDelta) {
         return NO_OP_MOVEMENT;
     }
 }

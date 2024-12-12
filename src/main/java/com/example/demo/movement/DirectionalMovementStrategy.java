@@ -7,32 +7,39 @@ public class DirectionalMovementStrategy implements MovementStrategy {
     private boolean movingLeft;
     private double speed;
 
-    public void setMovingUp(boolean movingUp) {
+    public void setMovingUp(final boolean movingUp) {
         this.movingUp = movingUp;
     }
 
-    public void setMovingDown(boolean movingDown) {
+    public void setMovingDown(final boolean movingDown) {
         this.movingDown = movingDown;
     }
 
-    public void setMovingRight(boolean movingRight) {
+    public void setMovingRight(final boolean movingRight) {
         this.movingRight = movingRight;
     }
 
-    public void setMovingLeft(boolean movingLeft) {
+    public void setMovingLeft(final boolean movingLeft) {
         this.movingLeft = movingLeft;
     }
 
-    public void setSpeed(double speed) {
+    public void setSpeed(final double speed) {
         this.speed = speed;
     }
 
-    public DirectionalMovementStrategy(double speed) {
+    /**
+     * Constructs a {@code DirectionalMovementStrategy}.
+     * @param speed movement speed, per second
+     */
+    public DirectionalMovementStrategy(final double speed) {
         this.speed = speed;
     }
 
+    /**
+     * @see MovementStrategy#getPositionDelta(double)
+     */
     @Override
-    public PositionDelta getPositionDelta(double timeDelta) {
+    public PositionDelta getPositionDelta(final double timeDelta) {
         double xDelta = 0;
         double yDelta = 0;
         if (movingUp && !movingDown) {

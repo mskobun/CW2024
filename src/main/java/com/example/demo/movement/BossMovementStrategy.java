@@ -14,11 +14,13 @@ public class BossMovementStrategy implements MovementStrategy {
     private static final double ZERO = 0;
     private static final double VERTICAL_VELOCITY = 160;
     private static final double MAX_DELTA_WITH_SAME_MOVE = 0.5;
-    private static final double MAX_DELTA_WITH_SHIELD = 2.5;
     private final List<Double> movePattern;
     private double sameDirectionMoveDelta;
     private int indexOfCurrentMove;
 
+    /**
+     * Constructs {@code BossMovementStrategy}.
+     */
     public BossMovementStrategy() {
         movePattern = new ArrayList<>();
         sameDirectionMoveDelta = 0;
@@ -35,7 +37,7 @@ public class BossMovementStrategy implements MovementStrategy {
         Collections.shuffle(movePattern);
     }
 
-    private double getNextMove(double timeDelta) {
+    private double getNextMove(final double timeDelta) {
         double currentMove = movePattern.get(indexOfCurrentMove);
         sameDirectionMoveDelta += timeDelta;
 
@@ -50,8 +52,11 @@ public class BossMovementStrategy implements MovementStrategy {
         return currentMove * timeDelta;
     }
 
+    /**
+     * @see MovementStrategy#getPositionDelta(double)
+     */
     @Override
-    public PositionDelta getPositionDelta(double timeDelta) {
+    public PositionDelta getPositionDelta(final double timeDelta) {
         return new PositionDelta(0, getNextMove(timeDelta));
     }
 }
