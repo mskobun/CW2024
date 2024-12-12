@@ -6,5 +6,4 @@ package com.example.demo.movement;
  * to an object's position during movement updates.
  */
 public record PositionDelta(double x, double y) {
-    public static double NO_MOVEMENT_IN_DIRECTION = 0;
 }
