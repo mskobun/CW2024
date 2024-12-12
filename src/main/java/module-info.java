@@ -7,6 +7,7 @@ module com.example.demo {
 
     exports com.example.demo.controller;
     exports com.example.demo.screen;
+    exports com.example.demo.movement;
     exports com.example.demo.entities;
     exports com.example.demo.entities.backgrounds;
     exports com.example.demo.screen.level;
