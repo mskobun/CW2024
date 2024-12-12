@@ -16,11 +16,11 @@ public class StaticImageBackground extends Background {
      * Constructs a {@link StaticImageBackground} with the given image and screen dimensions.
      * The image will be resized to fit the specified width and height of the screen.
      *
-     * @param image       the image to be displayed as the background
+     * @param image        the image to be displayed as the background
      * @param screenHeight the height of the screen to which the background should be scaled
-     * @param screenWidth the width of the screen to which the background should be scaled
+     * @param screenWidth  the width of the screen to which the background should be scaled
      */
-    public StaticImageBackground(Image image, double screenHeight, double screenWidth) {
+    public StaticImageBackground(final Image image, final double screenHeight, final double screenWidth) {
         ImageView view = new ImageView(image);
         view.setFitHeight(screenHeight);
         view.setFitWidth(screenWidth);
@@ -36,7 +36,7 @@ public class StaticImageBackground extends Background {
      * @param timeDelta the time elapsed since the last update
      */
     @Override
-    public void update(double timeDelta) {
-       // Do nothing
+    public void update(final double timeDelta) {
+        // Do nothing
     }
 }

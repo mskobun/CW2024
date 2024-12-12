@@ -31,7 +31,7 @@ public abstract class Background implements UpdatableEntity {
      *
      * @param view the Node representing the new view of the background
      */
-    protected void setView(Node view) {
+    protected void setView(final Node view) {
         this.view = view;
     }
 }
