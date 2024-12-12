@@ -9,7 +9,7 @@ import com.example.demo.screen.ScreenType;
 
 public class LevelOne extends AbstractLevel {
 
-    private static final String BACKGROUND_IMAGE_NAME = "backgroundq.jpg";
+    private static final String BACKGROUND_IMAGE_NAME = "background1.jpg";
     private static final ScreenType NEXT_LEVEL = ScreenType.LEVEL_TWO;
     private static final int TOTAL_ENEMIES = 5;
     private static final int KILLS_TO_ADVANCE = 10;
