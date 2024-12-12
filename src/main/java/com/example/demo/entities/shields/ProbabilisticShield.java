@@ -21,7 +21,12 @@ public class ProbabilisticShield extends Shield {
      * @param activationProbability The probability object determining the chance of shield activation.
      * @param maxActivatedDelta     The maximum time (in seconds) the shield can remain active before deactivating.
      */
-    public ProbabilisticShield(Node view, double initialX, double initialY, Probability activationProbability, double maxActivatedDelta) {
+    public ProbabilisticShield(
+            final Node view,
+            final double initialX,
+            final double initialY,
+            final Probability activationProbability,
+            final double maxActivatedDelta) {
         super(view, initialX, initialY);
         this.maxActivatedDelta = maxActivatedDelta;
         this.activationProbability = activationProbability;
@@ -33,7 +38,7 @@ public class ProbabilisticShield extends Shield {
      *
      * @param timeDelta The time elapsed since the last update (in seconds).
      */
-    public void updateShield(double timeDelta) {
+    public void updateShield(final double timeDelta) {
         if (isActive()) {
             activatedDelta += timeDelta;
             if (activatedDelta >= maxActivatedDelta) {

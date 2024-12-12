@@ -17,7 +17,7 @@ public class Shield {
      * @param xPosition The initial x-coordinate of the shield.
      * @param yPosition The initial y-coordinate of the shield.
      */
-    public Shield(Node view, double xPosition, double yPosition) {
+    public Shield(final Node view, final double xPosition, final double yPosition) {
         this.view = view;
         view.setLayoutX(xPosition);
         view.setLayoutY(yPosition);
