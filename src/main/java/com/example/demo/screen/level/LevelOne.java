@@ -3,6 +3,7 @@ package com.example.demo.screen.level;
 import com.example.demo.AssetFactory;
 import com.example.demo.entities.ActiveActorDestructible;
 import com.example.demo.entities.backgrounds.Background;
+import com.example.demo.entities.backgrounds.ScrollingImageBackground;
 import com.example.demo.entities.backgrounds.StaticImageBackground;
 import com.example.demo.screen.ScreenNavigator;
 import com.example.demo.screen.ScreenType;
@@ -10,7 +11,7 @@ import com.example.demo.util.Probability;
 
 public class LevelOne extends AbstractLevel {
 
-    private static final String BACKGROUND_IMAGE_NAME = "background1.jpg";
+    private static final String BACKGROUND_IMAGE_NAME = "blueSkyBackground.png";
     private static final ScreenType NEXT_LEVEL = ScreenType.LEVEL_TWO;
     private static final int TOTAL_ENEMIES = 5;
     private static final int KILLS_TO_ADVANCE = 10;
@@ -31,7 +32,7 @@ public class LevelOne extends AbstractLevel {
 
     @Override
     protected Background createBackground() {
-        return new StaticImageBackground(getAssetFactory().createImage(BACKGROUND_IMAGE_NAME), getScreenHeight(), getScreenWidth());
+        return new ScrollingImageBackground(getAssetFactory().createImage(BACKGROUND_IMAGE_NAME), getScreenHeight(), getScreenWidth());
     }
 
     @Override
