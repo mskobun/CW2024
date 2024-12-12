@@ -5,6 +5,7 @@ import com.example.demo.entities.backgrounds.Background;
 import com.example.demo.entities.backgrounds.StaticImageBackground;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
@@ -14,13 +15,20 @@ import javafx.scene.layout.VBox;
 public class MainMenuScreen extends AbstractScreen {
     private Background background;
 
-    public MainMenuScreen(double screenHeight, double screenWidth, ScreenNavigator screenNavigator, AssetFactory assetFactory) {
+    public MainMenuScreen(
+            final double screenHeight,
+            final double screenWidth,
+            final ScreenNavigator screenNavigator,
+            final AssetFactory assetFactory
+    ) {
         super(screenHeight, screenWidth, screenNavigator, assetFactory);
         initalizeBackground(screenHeight, screenWidth);
         initializeMenu();
     }
 
-    private void initalizeBackground(double screenHeight, double screenWidth) {
+    private void initalizeBackground(
+            final double screenHeight,
+            final double screenWidth) {
         background = new StaticImageBackground(
                 getAssetFactory().createImage("sunsetBackground2.png"),
                 screenHeight,
@@ -30,8 +38,21 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     private void initializeMenu() {
+        final Insets LAYOUT_MARGIN = new Insets(-150, 0, 0, 0);
+
+        Node layout = initializeLayout();
+        // Center buttonLayout in root
+        StackPane.setAlignment(layout, Pos.CENTER);
+        StackPane.setMargin(layout, LAYOUT_MARGIN);
+        getContentRoot().getChildren().add(layout);
+    }
+
+    private Node initializeLayout() {
+        final double LOGO_HEIGHT = 400;
+        final double LAYOUT_SPACING = 10;
+
         ImageView logo = new ImageView(getAssetFactory().createImage("logo.png"));
-        logo.setFitHeight(400);
+        logo.setFitHeight(LOGO_HEIGHT);
         logo.setPreserveRatio(true);
 
         Button startButton = new Button("Start Game");
@@ -41,13 +62,11 @@ public class MainMenuScreen extends AbstractScreen {
         endlessModeButton.setOnAction(e -> goToScreen(ScreenType.LEVEL_ENDLESS_MODE));
 
         // Create a VBox layout to arrange buttons vertically
-        VBox layout = new VBox(10, logo, startButton, endlessModeButton);
+        VBox layout = new VBox(LAYOUT_SPACING, logo, startButton, endlessModeButton);
         layout.setAlignment(Pos.CENTER);
         // Do not let root stretch the layout beyond children's size
         layout.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
-        StackPane.setAlignment(layout, Pos.CENTER); // Center buttonLayout in root
-        StackPane.setMargin(layout, new Insets(-150, 0, 0, 0));
-        getContentRoot().getChildren().add(layout);
+        return layout;
     }
 
     private void startGame() {
@@ -55,7 +74,7 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     @Override
-    public void updateScene(double timeDelta) {
+    public void updateScene(final double timeDelta) {
         background.update(timeDelta);
     }
 }

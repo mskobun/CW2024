@@ -3,7 +3,6 @@ package com.example.demo.screen;
 import com.example.demo.AssetFactory;
 import com.example.demo.controller.KeyInputHandler;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -19,11 +18,13 @@ public abstract class AbstractScreen {
     private final KeyInputHandler keyInputHandler;
     private final ScreenLoop screenLoop;
     private final AssetFactory assetFactory;
-    // Call updateScene every targetDelta seconds
+    /**
+     * Call updateScene roughly every targetDelta seconds.
+     */
     private static final double TARGET_DELTA = 0.016;
 
     /**
-     * Gets the content root {@link Pane} for this screen. This is where all the content of the screen
+     * Gets the content root {@link StackPane} for this screen. This is where all the content of the screen
      * should be added. The root pane is part of a letterboxed layout that ensures the aspect
      * ratio is maintained regardless of the window size.
      *
@@ -33,15 +34,32 @@ public abstract class AbstractScreen {
         return contentRoot;
     }
 
+    /**
+     * Gets the {@link Scene} associated with this screen.
+     *
+     * @return the {@link Scene} for this screen.
+     */
     public Scene getScene() {
         return scene;
     }
 
-    public AssetFactory getAssetFactory() {
+
+    /**
+     * Gets the {@link AssetFactory} used to load assets for this screen.
+     *
+     * @return the {@link AssetFactory} for this screen.
+     */
+    protected AssetFactory getAssetFactory() {
         return assetFactory;
     }
 
-    public KeyInputHandler getKeyInputHandler() {
+
+    /**
+     * Gets the {@link KeyInputHandler} associated with this screen.
+     *
+     * @return the {@link KeyInputHandler} for this screen.
+     */
+    protected KeyInputHandler getKeyInputHandler() {
         return keyInputHandler;
     }
 
@@ -57,7 +75,10 @@ public abstract class AbstractScreen {
      * @param screenNavigator the {@link ScreenNavigator} to handle screen transitions.
      * @param assetFactory    the {@link AssetFactory}.
      */
-    public AbstractScreen(double screenHeight, double screenWidth, ScreenNavigator screenNavigator, AssetFactory assetFactory) {
+    public AbstractScreen(final double screenHeight,
+                          final double screenWidth,
+                          final ScreenNavigator screenNavigator,
+                          final AssetFactory assetFactory) {
         this.screenNavigator = screenNavigator;
         this.assetFactory = assetFactory;
         contentRoot = new StackPane();
@@ -97,7 +118,7 @@ public abstract class AbstractScreen {
      *
      * @param screen the {@link ScreenType} representing the target screen.
      */
-    public void goToScreen(ScreenType screen) {
+    protected void goToScreen(final ScreenType screen) {
         dispose();
         screenNavigator.goToScreen(screen);
     }

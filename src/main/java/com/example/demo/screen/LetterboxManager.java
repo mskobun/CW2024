@@ -14,7 +14,7 @@ import javafx.scene.transform.Scale;
  * Ensures that the content of the scene maintains a specified aspect ratio by dynamically
  * adjusting its scaling and padding when the scene's dimensions change.
  * <p>
- * The code has been adapted from: https://stackoverflow.com/questions/16606162/javafx-fullscreen-resizing-elements-based-upon-screen-size
+ * The code has been adapted from:<a href="https://stackoverflow.com/questions/16606162/javafx-fullscreen-resizing-elements-based-upon-screen-size">this StackOverflow answer</a>.
  */
 public class LetterboxManager implements ChangeListener<Number> {
     private final Scene scene;
@@ -33,7 +33,13 @@ public class LetterboxManager implements ChangeListener<Number> {
      * @param initWidth     the initial width of the content area.
      * @param letterboxPane the {@link StackPane} serving as the content container with letterbox styling.
      */
-    public LetterboxManager(Scene scene, double ratio, double initHeight, double initWidth, StackPane letterboxPane) {
+    public LetterboxManager(
+            final Scene scene,
+            final double ratio,
+            final double initHeight,
+            final double initWidth,
+            final StackPane letterboxPane
+    ) {
         this.scene = scene;
         this.ratio = ratio;
         this.initHeight = initHeight;
@@ -49,7 +55,7 @@ public class LetterboxManager implements ChangeListener<Number> {
      * @param initWidth  the initial width of the content area.
      * @return a {@link Scene} with letterboxing applied.
      */
-    public static Scene letterboxScene(Pane root, double initHeight, double initWidth) {
+    public static Scene letterboxScene(final Pane root, final double initHeight, final double initWidth) {
         root.setMaxHeight(initHeight);
         root.setMaxWidth(initWidth);
         // Clip root so out of bounds nodes won't be rendered on letterbox edges
@@ -99,7 +105,7 @@ public class LetterboxManager implements ChangeListener<Number> {
      * @param newValue        the new value.
      */
     @Override
-    public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+    public void changed(final ObservableValue<? extends Number> observableValue, final Number oldValue, final Number newValue) {
         updateScale();
     }
 }
