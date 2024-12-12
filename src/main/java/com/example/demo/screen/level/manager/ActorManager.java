@@ -73,10 +73,10 @@ public class ActorManager implements ProjectileListener {
     }
 
     public void updateActors(double timeDelta) {
-        friendlyUnits.forEach(actor -> actor.updateActor(timeDelta));
-        enemyUnits.forEach(actor -> actor.updateActor(timeDelta));
-        enemyProjectiles.forEach(actor -> actor.updateActor(timeDelta));
-        friendlyProjectiles.forEach(actor -> actor.updateActor(timeDelta));
+        friendlyUnits.forEach(actor -> actor.update(timeDelta));
+        enemyUnits.forEach(actor -> actor.update(timeDelta));
+        enemyProjectiles.forEach(actor -> actor.update(timeDelta));
+        friendlyProjectiles.forEach(actor -> actor.update(timeDelta));
         handleAllCollisions();
         removeAllDestroyedActors();
     }

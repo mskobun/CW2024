@@ -4,6 +4,7 @@ import com.example.demo.AssetFactory;
 import com.example.demo.controller.KeyAction;
 import com.example.demo.entities.ActiveActorDestructible;
 import com.example.demo.entities.ActorFactory;
+import com.example.demo.entities.backgrounds.Background;
 import com.example.demo.entities.planes.UserPlane;
 import com.example.demo.screen.AbstractScreen;
 import com.example.demo.screen.ScreenNavigator;
@@ -11,8 +12,6 @@ import com.example.demo.screen.ScreenType;
 import com.example.demo.screen.level.hud.LevelHUD;
 import com.example.demo.screen.level.manager.ActorManager;
 import com.example.demo.screen.level.manager.LayerManager;
-import javafx.scene.image.ImageView;
-
 import java.util.Iterator;
 
 public abstract class AbstractLevel extends AbstractScreen {
@@ -26,29 +25,31 @@ public abstract class AbstractLevel extends AbstractScreen {
     private final LayerManager layerManager;
     private final ActorManager actorManager;
     private final UserPlane user;
-    private final ImageView background;
+    private final Background background;
 
     private int currentNumberOfEnemies;
     private final LevelHUD levelHUD;
     private boolean isPaused;
 
-    public AbstractLevel(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth, ScreenNavigator screenNavigator, AssetFactory assetFactory) {
+    public AbstractLevel(double screenHeight, double screenWidth, int playerInitialHealth, ScreenNavigator screenNavigator, AssetFactory assetFactory) {
         super(screenHeight, screenWidth, screenNavigator, assetFactory);
         this.layerManager = new LayerManager(getContentRoot());
         this.actorManager = new ActorManager();
         this.actorFactory = new ActorFactory(assetFactory, actorManager);
         actorManager.addListener(layerManager);
         this.user = actorFactory.createUserPlane(playerInitialHealth, getKeyInputHandler());
-        this.background = new ImageView(assetFactory.createImage(backgroundImageName));
         this.screenHeight = screenHeight;
         this.screenWidth = screenWidth;
         this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
         this.levelHUD = instantiateLevelView();
         this.currentNumberOfEnemies = 0;
         this.isPaused = false;
+        this.background = createBackground();
         initializePauseHandler();
         initializeLevel();
     }
+
+    protected abstract Background createBackground();
 
     protected abstract void initializeFriendlyUnits();
 
@@ -108,6 +109,7 @@ public abstract class AbstractLevel extends AbstractScreen {
 
     @Override
     public void updateScene(double timeDelta) {
+        background.update(timeDelta);
         spawnEnemyUnits();
         updateActors(timeDelta);
         handleEnemyPenetration();
@@ -118,10 +120,7 @@ public abstract class AbstractLevel extends AbstractScreen {
     }
 
     private void initializeBackground() {
-        background.setFocusTraversable(true);
-        background.setFitHeight(screenHeight);
-        background.setFitWidth(screenWidth);
-        layerManager.getBackgroundLayer().getChildren().addAll(background);
+        layerManager.getBackgroundLayer().getChildren().addAll(background.getView());
     }
 
     public void addActor(ActiveActorDestructible actor) {
@@ -178,6 +177,10 @@ public abstract class AbstractLevel extends AbstractScreen {
         return screenWidth;
     }
 
+    protected double getScreenHeight() {
+        return screenHeight;
+    }
+
     protected boolean userIsDestroyed() {
         return user.isDestroyed();
     }
@@ -188,11 +191,5 @@ public abstract class AbstractLevel extends AbstractScreen {
 
     protected int getCurrentNumberOfEnemies() {
         return actorManager.getNumberOfEnemies();
-    }
-
-    @Override
-    public void startLoop() {
-        super.startLoop();
-        background.requestFocus();
     }
 }

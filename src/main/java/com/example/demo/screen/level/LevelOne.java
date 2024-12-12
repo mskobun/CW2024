@@ -2,12 +2,14 @@ package com.example.demo.screen.level;
 
 import com.example.demo.AssetFactory;
 import com.example.demo.entities.ActiveActorDestructible;
+import com.example.demo.entities.backgrounds.Background;
+import com.example.demo.entities.backgrounds.StaticImageBackground;
 import com.example.demo.screen.ScreenNavigator;
 import com.example.demo.screen.ScreenType;
 
 public class LevelOne extends AbstractLevel {
 
-    private static final String BACKGROUND_IMAGE_NAME = "background1.jpg";
+    private static final String BACKGROUND_IMAGE_NAME = "backgroundq.jpg";
     private static final ScreenType NEXT_LEVEL = ScreenType.LEVEL_TWO;
     private static final int TOTAL_ENEMIES = 5;
     private static final int KILLS_TO_ADVANCE = 10;
@@ -15,7 +17,7 @@ public class LevelOne extends AbstractLevel {
     private static final int PLAYER_INITIAL_HEALTH = 5;
 
     public LevelOne(double screenHeight, double screenWidth, ScreenNavigator screenNavigator, AssetFactory assetFactory) {
-        super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, screenNavigator, assetFactory);
+        super(screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, screenNavigator, assetFactory);
     }
 
     @Override
@@ -24,6 +26,11 @@ public class LevelOne extends AbstractLevel {
             loseGame();
         } else if (userHasReachedKillTarget())
             goToScreen(NEXT_LEVEL);
+    }
+
+    @Override
+    protected Background createBackground() {
+        return new StaticImageBackground(getAssetFactory().createImage(BACKGROUND_IMAGE_NAME), getScreenHeight(), getScreenWidth());
     }
 
     @Override

@@ -8,6 +8,7 @@ module com.example.demo {
     exports com.example.demo.controller;
     exports com.example.demo.screen;
     exports com.example.demo.entities;
+    exports com.example.demo.entities.backgrounds;
     exports com.example.demo.screen.level;
     opens com.example.demo.screen.level to javafx.fxml;
     exports com.example.demo.screen.level.manager;

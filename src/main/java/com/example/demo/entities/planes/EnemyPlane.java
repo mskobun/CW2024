@@ -39,7 +39,7 @@ public class EnemyPlane extends FighterPlane {
     }
 
     @Override
-    public void updateActorState(double timeDelta) {
+    public void updateState(double timeDelta) {
         maybeFireProjectile(timeDelta);
     }
 

@@ -6,7 +6,7 @@ import com.example.demo.movement.NoMovementStrategy;
 import com.example.demo.movement.PositionDelta;
 import javafx.scene.Node;
 
-public abstract class ActiveActor {
+public abstract class ActiveActor implements UpdatableEntity {
     private final Node view;
     private MovementStrategy movementStrategy;
     private boolean clampX;
@@ -81,12 +81,12 @@ public abstract class ActiveActor {
         moveVertically(clampedDelta.y());
     }
 
-    public void updateActor(double timeDelta) {
+    public void update(double timeDelta) {
         updateMovement(timeDelta);
-        updateActorState(timeDelta);
+        updateState(timeDelta);
     }
 
-    public void updateActorState(double timeDelta) {
+    public void updateState(double timeDelta) {
     }
 
     private void moveHorizontally(double horizontalMove) {

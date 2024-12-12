@@ -43,7 +43,7 @@ public class Boss extends FighterPlane {
     }
 
     @Override
-    public void updateActorState(double timeDelta) {
+    public void updateState(double timeDelta) {
         shield.updateShield(timeDelta);
         maybeFireProjectile(timeDelta);
     }
