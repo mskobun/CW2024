@@ -10,8 +10,8 @@ import javafx.scene.layout.StackPane;
 public class LevelHUD {
     private static final double HEALTH_PROGRESS_BAR_WIDTH = 200;
     private final StackPane root;
-    private final WinImage winImage;
-    private final GameOverImage gameOverImage;
+    private WinOverlay winOverlay;
+    private LoseOverlay loseOverlay;
     private final AssetFactory assetFactory;
     private HeartDisplay heartDisplay;
     private HealthProgressBar healthProgressBar;
@@ -20,8 +20,6 @@ public class LevelHUD {
     public LevelHUD(StackPane root, AssetFactory assetFactory) {
         this.root = root;
         this.assetFactory = assetFactory;
-        this.winImage = new WinImage(assetFactory);
-        this.gameOverImage = new GameOverImage(assetFactory);
     }
 
     public void showHeartDisplay(HealthObservable healthObservable) {
@@ -37,12 +35,14 @@ public class LevelHUD {
         heartDisplay = null;
     }
 
-    public void showWinImage() {
-        root.getChildren().add(winImage);
+    public void showWinOverlay(Runnable onRestart, Runnable onMainMenu) {
+        winOverlay = new WinOverlay(assetFactory, onRestart, onMainMenu);
+        root.getChildren().add(winOverlay.getView());
     }
 
-    public void showGameOverImage() {
-        root.getChildren().add(gameOverImage);
+    public void showLoseOverlay(Runnable onRestart, Runnable onMainMenu) {
+        loseOverlay = new LoseOverlay(assetFactory, onRestart, onMainMenu);
+        root.getChildren().add(loseOverlay.getView());
     }
 
     public void showHealthProgressBar(HealthObservable healthObservable, String labelText) {

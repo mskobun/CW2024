@@ -85,6 +85,10 @@ public abstract class AbstractLevel extends AbstractScreen {
         goToScreen(ScreenType.MAIN_MENU);
     }
 
+    protected void restartGame() {
+       goToScreen(ScreenType.LEVEL_ONE);
+    }
+
     private void initializeLevel() {
         initializeBackground();
         initializeFriendlyUnits();
@@ -157,12 +161,12 @@ public abstract class AbstractLevel extends AbstractScreen {
 
     protected void winGame() {
         stopLoop();
-        levelHUD.showWinImage();
+        levelHUD.showWinOverlay(this::restartGame, this::goToMainMenu);
     }
 
     protected void loseGame() {
         stopLoop();
-        levelHUD.showGameOverImage();
+        levelHUD.showLoseOverlay(this::restartGame, this::goToMainMenu);
     }
 
     protected UserPlane getUser() {
