@@ -6,6 +6,7 @@ import com.example.demo.entities.backgrounds.Background;
 import com.example.demo.entities.backgrounds.StaticImageBackground;
 import com.example.demo.screen.ScreenNavigator;
 import com.example.demo.screen.ScreenType;
+import com.example.demo.util.Probability;
 
 public class LevelOne extends AbstractLevel {
 
@@ -13,7 +14,7 @@ public class LevelOne extends AbstractLevel {
     private static final ScreenType NEXT_LEVEL = ScreenType.LEVEL_TWO;
     private static final int TOTAL_ENEMIES = 5;
     private static final int KILLS_TO_ADVANCE = 10;
-    private static final double ENEMY_SPAWN_PROBABILITY = .20;
+    private static final Probability ENEMY_SPAWN_PROBABILITY = new Probability(1);
     private static final int PLAYER_INITIAL_HEALTH = 5;
 
     public LevelOne(double screenHeight, double screenWidth, ScreenNavigator screenNavigator, AssetFactory assetFactory) {
@@ -39,10 +40,10 @@ public class LevelOne extends AbstractLevel {
     }
 
     @Override
-    protected void spawnEnemyUnits() {
+    protected void spawnEnemyUnits(double timeDelta) {
         int currentNumberOfEnemies = getCurrentNumberOfEnemies();
         for (int i = 0; i < TOTAL_ENEMIES - currentNumberOfEnemies; i++) {
-            if (Math.random() < ENEMY_SPAWN_PROBABILITY) {
+            if (ENEMY_SPAWN_PROBABILITY.evaluate(timeDelta)) {
                 double newEnemyInitialYPosition = Math.random() * getEnemyMaximumYPosition();
                 ActiveActorDestructible newEnemy = getActorFactory().createEnemyPlane(getScreenWidth(), newEnemyInitialYPosition);
                 addActor(newEnemy);

@@ -37,7 +37,7 @@ public class LevelTwo extends AbstractLevel {
     }
 
     @Override
-    protected void spawnEnemyUnits() {
+    protected void spawnEnemyUnits(double timeDelta) {
         if (getCurrentNumberOfEnemies() == 0) {
             spawnBoss();
         }

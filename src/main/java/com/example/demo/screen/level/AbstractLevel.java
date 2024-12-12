@@ -55,7 +55,7 @@ public abstract class AbstractLevel extends AbstractScreen {
 
     protected abstract void checkIfGameOver();
 
-    protected abstract void spawnEnemyUnits();
+    protected abstract void spawnEnemyUnits(double timeDelta);
 
     protected LevelHUD instantiateLevelView() {
         return new LevelHUD(getLayerManager().getUILayer(), getAssetFactory());
@@ -110,7 +110,7 @@ public abstract class AbstractLevel extends AbstractScreen {
     @Override
     public void updateScene(double timeDelta) {
         background.update(timeDelta);
-        spawnEnemyUnits();
+        spawnEnemyUnits(timeDelta);
         updateActors(timeDelta);
         handleEnemyPenetration();
         updateKillCount();
