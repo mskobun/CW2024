@@ -1,7 +1,31 @@
 ## Github
 <https://github.com/mskobun/CW2024>
 ## Compilation Instructions
-TODO
+These instructions are for Linux, since this is what the author is most familiar with.
+
+This program needs JDK 21 to be built. It uses the maven build system.
+
+If your system has the required JDK, but not Maven, the provided Maven wrapper (`./mvnw`) can be used. Just substitute `mvn` in commands below for `./mvnw`.
+
+### Compiling into .jar
+Output will be in `target`
+```sh
+mvn compile
+```
+### Compiling into a standalone executable
+Output will be in `target`
+```sh
+mvn javafx:jlink
+```
+### Running from Maven
+```sh
+mvn javafx:run
+```
+### Running the tests
+```sh
+mvn test
+```
+##
 ## Implemented and Working Properly
 TODO
 ## Implemented but Not Working Properly
