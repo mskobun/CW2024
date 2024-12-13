@@ -16,7 +16,7 @@ public class LevelOne extends AbstractLevel {
 
     private static final String BACKGROUND_IMAGE_NAME = "blueSkyBackground.png";
     private static final ScreenType NEXT_LEVEL = ScreenType.LEVEL_TWO;
-    private static final int TOTAL_ENEMIES = 5;
+    private static final int MAX_ENEMIES_ON_SCREEN = 5;
     private static final int KILLS_TO_ADVANCE = 40;
     private static final Probability ENEMY_SPAWN_PROBABILITY = new Probability(1);
     private static final int PLAYER_INITIAL_HEALTH = 5;
@@ -83,7 +83,7 @@ public class LevelOne extends AbstractLevel {
     @Override
     protected void spawnEnemyUnits(final double timeDelta) {
         int currentNumberOfEnemies = getCurrentNumberOfEnemies();
-        for (int i = 0; i < TOTAL_ENEMIES - currentNumberOfEnemies; i++) {
+        for (int i = 0; i < MAX_ENEMIES_ON_SCREEN - currentNumberOfEnemies; i++) {
             if (ENEMY_SPAWN_PROBABILITY.evaluate(timeDelta)) {
                 double newEnemyInitialYPosition = Math.random() * getEnemyMaximumYPosition();
                 ActiveActorDestructible newEnemy = getActorFactory().createEnemyPlane(getScreenWidth(), newEnemyInitialYPosition);
