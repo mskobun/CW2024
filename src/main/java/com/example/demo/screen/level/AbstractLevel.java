@@ -37,6 +37,7 @@ public abstract class AbstractLevel extends AbstractScreen {
     private final LevelHUD levelHUD;
     private int currentNumberOfEnemies;
     private boolean isPaused;
+    private boolean isGameOver;
 
     /**
      * Constructs a new level.
@@ -60,6 +61,7 @@ public abstract class AbstractLevel extends AbstractScreen {
         this.levelHUD = instantiateLevelView();
         this.currentNumberOfEnemies = 0;
         this.isPaused = false;
+        this.isGameOver = false;
         this.background = createBackground();
         initializePauseHandler();
         initializeLevel();
@@ -101,6 +103,10 @@ public abstract class AbstractLevel extends AbstractScreen {
     }
 
     private void togglePaused() {
+        if (isGameOver) {
+            return;
+        }
+
         if (!isPaused) {
             stopLoop();
             levelHUD.showPauseOverlay(this::togglePaused, this::goToMainMenu);
@@ -221,6 +227,7 @@ public abstract class AbstractLevel extends AbstractScreen {
      */
     protected void winGame() {
         stopLoop();
+        isGameOver = true;
         levelHUD.showWinOverlay(this::restartGame, this::goToMainMenu);
     }
 
@@ -230,6 +237,7 @@ public abstract class AbstractLevel extends AbstractScreen {
      */
     protected void loseGame() {
         stopLoop();
+        isGameOver = true;
         levelHUD.showLoseOverlay(this::restartGame, this::goToMainMenu);
     }
 
