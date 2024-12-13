@@ -1,4 +1,4 @@
-package com.example.demo.screen.level.hud;
+package com.example.demo.screen.level.hud.component;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
  * Represents an overlay displayed at the end of the game, offering options
  * to restart the game or return to the main menu.
  */
-public abstract class GameEndOverlay {
+public abstract class GameEndOverlay implements HUDComponent {
     private final Runnable onRestart;
     private final Runnable onMainMenu;
     private final VBox view;
@@ -32,8 +32,9 @@ public abstract class GameEndOverlay {
 
 
     /**
-     * @return a {@code Region} representing the overlay.
+     * {@inheritDoc}
      */
+    @Override
     public Region getView() {
         return view;
     }

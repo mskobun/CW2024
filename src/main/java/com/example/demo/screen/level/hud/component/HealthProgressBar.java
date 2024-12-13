@@ -1,4 +1,4 @@
-package com.example.demo.screen.level.hud;
+package com.example.demo.screen.level.hud.component;
 
 import com.example.demo.entities.HealthObservable;
 import javafx.beans.binding.DoubleBinding;
@@ -14,7 +14,7 @@ import javafx.scene.shape.Rectangle;
  * A health progress bar UI component that displays the health
  * of a {@link HealthObservable}.
  */
-public class HealthProgressBar {
+public class HealthProgressBar implements HUDComponent {
     private VBox container;
     private Rectangle backgroundBar;
     private Rectangle progressBar;
@@ -78,8 +78,9 @@ public class HealthProgressBar {
     }
 
     /**
-     * @return a {@code Region} representing the health bar.
+     * {@inheritDoc}
      */
+    @Override
     public Region getView() {
         return container;
     }

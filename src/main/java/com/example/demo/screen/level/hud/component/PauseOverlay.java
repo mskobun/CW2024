@@ -1,4 +1,4 @@
-package com.example.demo.screen.level.hud;
+package com.example.demo.screen.level.hud.component;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
 /**
  * Overlay shown when the game is paused.
  */
-public class PauseOverlay {
+public class PauseOverlay implements HUDComponent {
     private final StackPane view;
     private final Runnable onResume;
     private final Runnable onMainMenu;
@@ -26,6 +26,10 @@ public class PauseOverlay {
         initializeView();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Region getView() {
         return view;
     }

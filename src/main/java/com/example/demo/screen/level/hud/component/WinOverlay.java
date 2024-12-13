@@ -1,4 +1,4 @@
-package com.example.demo.screen.level.hud;
+package com.example.demo.screen.level.hud.component;
 
 import com.example.demo.AssetFactory;
 

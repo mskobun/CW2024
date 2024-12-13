@@ -1,4 +1,4 @@
-package com.example.demo.screen.level.hud;
+package com.example.demo.screen.level.hud.component;
 
 import com.example.demo.entities.HealthObservable;
 import javafx.scene.image.Image;
@@ -11,7 +11,7 @@ import javafx.scene.layout.Region;
  * A UI component that visually represents the health of an actor using a series of heart icons.
  * The number of hearts dynamically updates when the actor's health changes.
  */
-public class HeartDisplay {
+public class HeartDisplay implements HUDComponent {
 
     private static final String HEART_IMAGE_NAME = "/com/example/demo/images/heart.png";
     private static final int HEART_HEIGHT = 50;
@@ -96,8 +96,9 @@ public class HeartDisplay {
     }
 
     /**
-     * @return the {@link Region} containing the heart icons
+     * {@inheritDoc}
      */
+    @Override
     public Region getView() {
         return container;
     }

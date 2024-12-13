@@ -27,4 +27,6 @@ module com.example.demo {
     opens com.example.demo.entities.planes to javafx.fxml;
     exports com.example.demo.entities.shields;
     opens com.example.demo.entities.shields to javafx.fxml;
+    exports com.example.demo.screen.level.hud.component;
+    opens com.example.demo.screen.level.hud.component to javafx.fxml;
 }
