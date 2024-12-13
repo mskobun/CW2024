@@ -23,7 +23,7 @@ public abstract class GameEndOverlay {
      * @param onRestart a {@link Runnable} to execute when the restart button is clicked.
      * @param onMainMenu a {@link Runnable} to execute when the main menu button is clicked.
      */
-    public GameEndOverlay(Image statusImage, Runnable onRestart, Runnable onMainMenu) {
+    public GameEndOverlay(final Image statusImage, final Runnable onRestart, final Runnable onMainMenu) {
         this.onRestart = onRestart;
         this.onMainMenu = onMainMenu;
         this.view = new VBox();
@@ -44,12 +44,14 @@ public abstract class GameEndOverlay {
      *
      * @param statusImage an {@code Image} to display in the overlay.
      */
-    private void initializeView(Image statusImage) {
+    private void initializeView(final Image statusImage) {
+        final double VIEW_SPACING = 5;
+        final double STATUS_IMAGE_HEIGHT = 500;
         view.setAlignment(Pos.CENTER);
-        view.setSpacing(5);
+        view.setSpacing(VIEW_SPACING);
 
         ImageView statusImageView = new ImageView(statusImage);
-        statusImageView.setFitHeight(500);
+        statusImageView.setFitHeight(STATUS_IMAGE_HEIGHT);
         statusImageView.setPreserveRatio(true);
 
         Button restartButton = new Button("Restart");

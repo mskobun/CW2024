@@ -15,7 +15,11 @@ public class LoseOverlay extends GameEndOverlay {
      * @param onRestart a {@code Runnable} to execute when the restart button is clicked.
      * @param onMainMenu a {@code Runnable} to execute when the main menu button is clicked.
      */
-    public LoseOverlay(AssetFactory assetFactory, Runnable onRestart, Runnable onMainMenu) {
+    public LoseOverlay(
+            final AssetFactory assetFactory,
+            final Runnable onRestart,
+            final Runnable onMainMenu
+    ) {
         super(assetFactory.createImage("gameover.png"), onRestart, onMainMenu);
     }
 }

@@ -10,7 +10,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-
+/**
+ * A health progress bar UI component that displays the health
+ * of a {@link HealthObservable}.
+ */
 public class HealthProgressBar {
     private VBox container;
     private Rectangle backgroundBar;
@@ -24,7 +27,18 @@ public class HealthProgressBar {
     private static final Color BAR_BACKGROUND_COLOR = Color.BLACK;
     private static final Color BAR_PROGRESS_COLOR = Color.RED;
 
-    public HealthProgressBar(double width, HealthObservable actor, String labelText) {
+    /**
+     * Constructs a new {@code HealthProgressBar}.
+     *
+     * @param width     the width of the progress bar
+     * @param actor     the {@link HealthObservable} whose health is being displayed
+     * @param labelText the text to display above the progress bar. If {@code null}, no label is displayed.
+     */
+    public HealthProgressBar(
+            final double width,
+            final HealthObservable actor,
+            final String labelText
+    ) {
         initializeContainer();
         initializeBar(actor, width);
         if (labelText != null) {
@@ -40,7 +54,7 @@ public class HealthProgressBar {
         container.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
     }
 
-    private void initializeBar(HealthObservable actor, double width) {
+    private void initializeBar(final HealthObservable actor, final double width) {
         backgroundBar = new Rectangle(width, BAR_HEIGHT);
         backgroundBar.setFill(BAR_BACKGROUND_COLOR);
 
@@ -57,12 +71,15 @@ public class HealthProgressBar {
         container.getChildren().add(bar);
     }
 
-    private void initializeLabel(String labelText) {
+    private void initializeLabel(final String labelText) {
         label = new Label(labelText);
         label.setStyle(LABEL_STYLE);
-        container.getChildren().add(0, label);
+        container.getChildren().addFirst(label);
     }
 
+    /**
+     * @return a {@code Region} representing the health bar.
+     */
     public Region getView() {
         return container;
     }

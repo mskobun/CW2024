@@ -17,12 +17,12 @@ public class LevelHUD {
     private HealthProgressBar healthProgressBar;
     private PauseOverlay pauseOverlay;
 
-    public LevelHUD(StackPane root, AssetFactory assetFactory) {
+    public LevelHUD(final StackPane root, final AssetFactory assetFactory) {
         this.root = root;
         this.assetFactory = assetFactory;
     }
 
-    public void showHeartDisplay(HealthObservable healthObservable) {
+    public void showHeartDisplay(final HealthObservable healthObservable) {
         heartDisplay = new HeartDisplay(healthObservable);
         Region view = heartDisplay.getView();
         StackPane.setAlignment(view, Pos.TOP_LEFT);
@@ -35,17 +35,17 @@ public class LevelHUD {
         heartDisplay = null;
     }
 
-    public void showWinOverlay(Runnable onRestart, Runnable onMainMenu) {
+    public void showWinOverlay(final Runnable onRestart, final Runnable onMainMenu) {
         winOverlay = new WinOverlay(assetFactory, onRestart, onMainMenu);
         root.getChildren().add(winOverlay.getView());
     }
 
-    public void showLoseOverlay(Runnable onRestart, Runnable onMainMenu) {
+    public void showLoseOverlay(final Runnable onRestart, final Runnable onMainMenu) {
         loseOverlay = new LoseOverlay(assetFactory, onRestart, onMainMenu);
         root.getChildren().add(loseOverlay.getView());
     }
 
-    public void showHealthProgressBar(HealthObservable healthObservable, String labelText) {
+    public void showHealthProgressBar(final HealthObservable healthObservable, final String labelText) {
         this.healthProgressBar = new HealthProgressBar(HEALTH_PROGRESS_BAR_WIDTH, healthObservable, labelText);
         Region view = this.healthProgressBar.getView();
         StackPane.setAlignment(view, Pos.BOTTOM_CENTER);
@@ -58,7 +58,7 @@ public class LevelHUD {
         this.healthProgressBar = null;
     }
 
-    public void showPauseOverlay(Runnable onResume, Runnable onMainMenu) {
+    public void showPauseOverlay(final Runnable onResume, final Runnable onMainMenu) {
         pauseOverlay = new PauseOverlay(onResume, onMainMenu);
         StackPane.setAlignment(pauseOverlay.getView(), Pos.CENTER);
         root.getChildren().add(pauseOverlay.getView());

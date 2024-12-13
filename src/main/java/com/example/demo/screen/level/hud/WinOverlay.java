@@ -15,7 +15,11 @@ public class WinOverlay extends GameEndOverlay {
      * @param onRestart a {@link Runnable} to execute when the restart button is clicked.
      * @param onMainMenu a {@link Runnable} to execute when the main menu button is clicked.
      */
-    public WinOverlay(AssetFactory assetFactory, Runnable onRestart, Runnable onMainMenu) {
+    public WinOverlay(
+            final AssetFactory assetFactory,
+            final Runnable onRestart,
+            final Runnable onMainMenu
+    ) {
         super(assetFactory.createImage("youwin.png"), onRestart, onMainMenu);
     }
 }

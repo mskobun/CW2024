@@ -34,11 +34,12 @@ public class PauseOverlay {
      * Initializes the visual structure of the pause overlay, including its layout and buttons.
      */
     private void initializeView() {
+        final double BUTTON_BOX_SPACING = 5;
         // Half-transparent black background
         view.setBackground(new Background(new BackgroundFill(Color.rgb(0, 0, 0, 0.5), CornerRadii.EMPTY, null)));
 
         VBox buttonBox = new VBox();
-        buttonBox.setSpacing(5);
+        buttonBox.setSpacing(BUTTON_BOX_SPACING);
         buttonBox.setAlignment(Pos.CENTER);
         StackPane.setAlignment(buttonBox, Pos.CENTER);
         view.getChildren().add(buttonBox);
