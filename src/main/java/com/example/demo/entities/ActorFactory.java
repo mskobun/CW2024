@@ -2,10 +2,8 @@ package com.example.demo.entities;
 
 import com.example.demo.AssetFactory;
 import com.example.demo.controller.KeyInputHandler;
-import com.example.demo.entities.planes.Boss;
-import com.example.demo.entities.planes.EnemyPlane;
-import com.example.demo.entities.planes.ProjectileListener;
-import com.example.demo.entities.planes.UserPlane;
+import com.example.demo.entities.planes.*;
+import com.example.demo.entities.projectiles.BombProjectile;
 import com.example.demo.entities.projectiles.BossProjectile;
 import com.example.demo.entities.projectiles.EnemyProjectile;
 import com.example.demo.entities.projectiles.UserProjectile;
@@ -82,6 +80,25 @@ public class ActorFactory {
     }
 
     /**
+     * Creates a new zigzag plane.
+     *
+     * @param initialXPos the initial X position of the enemy plane
+     * @param initialYPos the initial Y position of the enemy plane
+     * @return the created {@link ZigZagPlane}
+     */
+    public ZigZagPlane createZigZagPlane(final double initialXPos, final double initialYPos, final double amplitude, final double frequency) {
+        return new ZigZagPlane(
+                createScaledImageView("enemyplane.png", 54),
+                initialXPos,
+                initialYPos,
+                this,
+                projectileListener,
+                amplitude,
+                frequency
+        );
+    }
+
+    /**
      * Creates a new user plane.
      *
      * @param initialHealth the initial health of the user plane
@@ -104,6 +121,13 @@ public class ActorFactory {
         return new BossProjectile(createScaledImageView("fireball.png", PROJECTILE_HEIGHT), initialYPos);
     }
 
+    public BombProjectile createBombProjectile(final double initialXPos, final double initialYPos) {
+        return new BombProjectile(createScaledImageView("bomb.png", 50), initialXPos, initialYPos);
+    }
+
+    public BomberPlane createBomberPlane(final double initialXPos, final double initialYPos) {
+        return new BomberPlane(createScaledImageView("bomber.png", 54), initialXPos, initialYPos, this, projectileListener);
+    }
 
     /**
      * Creates a new boss
