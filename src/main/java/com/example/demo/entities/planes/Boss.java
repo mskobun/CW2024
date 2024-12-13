@@ -9,7 +9,6 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 
 public class Boss extends FighterPlane {
-    // TODO: Move to factory
     private static final double INITIAL_X_POSITION = 1000.0;
     private static final double INITIAL_Y_POSITION = 400;
     private static final double SHIELD_X_OFFSET = -100;
