@@ -7,6 +7,9 @@ import com.example.demo.entities.planes.Boss;
 import com.example.demo.screen.ScreenNavigator;
 import com.example.demo.screen.ScreenType;
 
+/**
+ * The second level of the game.
+ */
 public class LevelTwo extends AbstractLevel {
 
     private static final String BACKGROUND_IMAGE_NAME = "background2.jpg";
