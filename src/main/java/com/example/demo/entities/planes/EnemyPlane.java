@@ -7,11 +7,11 @@ import com.example.demo.util.Probability;
 import javafx.scene.Node;
 
 public class EnemyPlane extends FighterPlane {
-    private static final int HORIZONTAL_VELOCITY = -120;
+    private static final int HORIZONTAL_VELOCITY = -250;
     private static final double PROJECTILE_X_POSITION_OFFSET = -100.0;
     private static final double PROJECTILE_Y_POSITION_OFFSET = 20.0;
     private static final int INITIAL_HEALTH = 1;
-    private final Probability fireProbability = new Probability(0.2);
+    private final Probability fireProbability = new Probability(0.3);
     private final ActorFactory actorFactory;
 
     public EnemyPlane(Node view, double initialXPos, double initialYPos, ActorFactory actorFactory, ProjectileListener projectileListener) {

@@ -9,7 +9,7 @@ import javafx.scene.Node;
  * Represents a projectile fired by the boss.
  */
 public class BossProjectile extends Projectile {
-    private static final int HORIZONTAL_VELOCITY = -300;
+    private static final int HORIZONTAL_VELOCITY = -450;
     private static final int INITIAL_X_POSITION = 950;
 
     /**

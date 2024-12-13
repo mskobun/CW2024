@@ -11,7 +11,7 @@ import javafx.scene.Node;
 public class UserPlane extends FighterPlane {
     private static final double INITIAL_X_POSITION = 5.0;
     private static final double INITIAL_Y_POSITION = 300.0;
-    private static final int VERTICAL_VELOCITY = 160;
+    private static final int VERTICAL_VELOCITY = 240;
     private static final double PROJECTILE_X_POSITION_OFFSET = INITIAL_X_POSITION + 156;
     private static final double PROJECTILE_Y_POSITION_OFFSET = 25;
     private final ActorFactory actorFactory;

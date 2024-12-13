@@ -67,7 +67,7 @@ public class ActorFactory {
      * @return the created {@link EnemyProjectile}
      */
     public EnemyProjectile createEnemyProjectile(final double initialXPos, final double initialYPos) {
-        return new EnemyProjectile(createScaledImageView("enemyFire.png", 32), initialXPos, initialYPos);
+        return new EnemyProjectile(createScaledImageView("enemyFire.png", 8), initialXPos, initialYPos);
     }
 
     /**

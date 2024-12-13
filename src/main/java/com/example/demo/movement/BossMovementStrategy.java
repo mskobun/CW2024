@@ -12,7 +12,7 @@ import java.util.List;
 public class BossMovementStrategy implements MovementStrategy {
     private static final int MOVE_FREQUENCY_PER_CYCLE = 5;
     private static final double ZERO = 0;
-    private static final double VERTICAL_VELOCITY = 160;
+    private static final double VERTICAL_VELOCITY = 280;
     private static final double MAX_DELTA_WITH_SAME_MOVE = 0.5;
     private final List<Double> movePattern;
     private double sameDirectionMoveDelta;

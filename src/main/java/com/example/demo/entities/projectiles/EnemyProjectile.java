@@ -9,7 +9,7 @@ import javafx.scene.Node;
  * Represents a projectile fired by the enemy.
  */
 public class EnemyProjectile extends Projectile {
-    private static final int HORIZONTAL_VELOCITY = -200;
+    private static final int HORIZONTAL_VELOCITY = -300;
 
     /**
      * Constructs a {@code EnemyProjectile}.
