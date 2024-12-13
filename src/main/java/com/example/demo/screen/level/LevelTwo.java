@@ -5,11 +5,13 @@ import com.example.demo.entities.backgrounds.Background;
 import com.example.demo.entities.backgrounds.StaticImageBackground;
 import com.example.demo.entities.planes.Boss;
 import com.example.demo.screen.ScreenNavigator;
+import com.example.demo.screen.ScreenType;
 
 public class LevelTwo extends AbstractLevel {
 
     private static final String BACKGROUND_IMAGE_NAME = "background2.jpg";
     private static final int PLAYER_INITIAL_HEALTH = 5;
+    private static ScreenType NEXT_LEVEL = ScreenType.LEVEL_THREE;
     private final Boss boss;
 
     /**
@@ -57,7 +59,7 @@ public class LevelTwo extends AbstractLevel {
             loseGame();
         } else if (boss.isDestroyed()) {
             getLevelHUD().hideHealthProgressBar();
-            winGame();
+            goToScreen(NEXT_LEVEL);
         }
     }
 

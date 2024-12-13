@@ -8,5 +8,6 @@ public enum ScreenType {
     MAIN_MENU,
     LEVEL_ONE,
     LEVEL_TWO,
+    LEVEL_THREE,
     LEVEL_ENDLESS_MODE
 }
