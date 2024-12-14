@@ -59,6 +59,7 @@ public class LevelTwo extends AbstractLevel {
     @Override
     protected void checkIfGameOver() {
         if (userIsDestroyed()) {
+            getLevelHUD().hideHealthProgressBar();
             loseGame();
         } else if (boss.isDestroyed()) {
             getLevelHUD().hideHealthProgressBar();
