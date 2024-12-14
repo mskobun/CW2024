@@ -7,6 +7,7 @@ import com.example.demo.entities.projectiles.BombProjectile;
 import com.example.demo.entities.projectiles.BossProjectile;
 import com.example.demo.entities.projectiles.EnemyProjectile;
 import com.example.demo.entities.projectiles.UserProjectile;
+import com.example.demo.util.ScaledImageView;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
