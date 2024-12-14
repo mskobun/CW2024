@@ -8,7 +8,13 @@ import javafx.stage.Stage;
  * This class sets up the window, and creates {@link Controller}.
  */
 public final class Main extends Application {
+    /**
+     * Width of the game screen
+     */
     public static final int SCREEN_WIDTH = 1300;
+    /**
+     * Height of the game screen
+     */
     public static final int SCREEN_HEIGHT = 750;
     private static final String TITLE = "Sky Battle";
 
