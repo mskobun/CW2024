@@ -67,6 +67,8 @@ I have fixed this by introducing `LayerManager` which splits the scene into 3 la
 ### Made the game scale to different screen resolutions by using letterboxing
 The game used to only work at 1300x700 and not allow resizing of the window. I have introduced letterboxing, meaning that if a game window is scaled, the content will be scaled as well. And if the new aspect ratio is different, black bars will be added to the sides.
 
+### Made projectiles smaller and speed higher
+The game used to feel slow paced to me, but if you added more enemies it just became unberable due to projectiles being difficult to avoid. So looking a smilar games, I figured downsizing the enemy projectiles and making everything move faster would make it more fun, which it did.
 ### Fixed the boss shield
 The original implementation was broken.
 
